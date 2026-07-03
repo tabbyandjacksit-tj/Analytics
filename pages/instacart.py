@@ -3,6 +3,74 @@ from pathlib import Path
 
 from utils.instacart import create_instacart_files, upload_files_to_instacart
 
+st.markdown("""
+<style>
+
+/* PAGE WIDTH */
+.block-container {
+    max-width: 1050px;
+}
+
+/* HEADINGS */
+.section-label {
+    color: #C97822;
+    font-weight: 800;
+    font-size: 13px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.section-title {
+    color: #1D5A3E;
+    font-size: 31px;
+    font-weight: 800;
+    margin-bottom: 4px;
+}
+
+.section-subtitle {
+    color: #5C7A58;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+/* FILE UPLOADER */
+section[data-testid="stFileUploader"] {
+    background-color: #FFF9EF;
+    padding: 22px;
+    border-radius: 22px;
+    border: 1px solid #D7C8A4;
+    box-shadow: 0px 4px 14px rgba(47,55,45,0.07);
+}
+
+/* BUTTONS */
+.stButton button {
+    background-color: #1D5A3E;
+    color: white;
+    border-radius: 12px;
+    border: none;
+    font-weight: 700;
+}
+
+.stButton button:hover {
+    background-color: #15442F;
+}
+
+/* PASSWORD BOX */
+div[data-testid="stTextInput"] input {
+    background-color: #FFF9EF;
+    border: 1px solid #D7C8A4;
+    border-radius: 12px;
+}
+
+/* CAPTIONS */
+[data-testid="stCaptionContainer"] {
+    color: #5C7A58;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
 
 st.markdown("""
 <div class="section-label">Instacart</div>
@@ -13,20 +81,6 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-st.markdown("""
-<div style="text-align:center; margin-bottom:20px;">
-    <a href="https://lightspeedanalytics.net/category/1/reports/99341"
-       target="_blank"
-       style="
-            font-size:18px;
-            font-weight:800;
-            color:#C97822;
-            text-decoration:none;
-       ">
-       Analytics Report →
-    </a>
-</div>
-""", unsafe_allow_html=True)
 
 
 report_file = st.file_uploader(
