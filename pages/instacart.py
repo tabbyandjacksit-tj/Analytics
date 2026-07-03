@@ -8,7 +8,7 @@ st.markdown("""
 <div class="section-label">Instacart</div>
 <div class="section-title">Instacart File Upload</div>
 <div class="section-subtitle">
-    Upload your Lightspeed report and sales file, then send the store files to Instacart.
+    Upload your Lightspeed report, then send the store files to Instacart.
 </div>
 """, unsafe_allow_html=True)
 
@@ -34,20 +34,17 @@ report_file = st.file_uploader(
     type=["csv"]
 )
 
-sales_file = st.file_uploader(
-    "Upload Sales CSV",
-    type=["csv"]
-)
-
 password = st.text_input(
     "Instacart SFTP Password",
     type="password"
 )
 
+sales_file = Path("utils/data/sales.csv")
 
-if report_file and sales_file and password:
+
+if report_file and password:
     st.caption(
-        "Both files uploaded. Click below to create the store files and send them to Instacart."
+        "Report uploaded. Click below to create the store files and send them to Instacart."
     )
 
     if st.button("Create Files & Upload to Instacart", use_container_width=True):
@@ -64,17 +61,11 @@ if report_file and sales_file and password:
 
         st.success(f"Successfully uploaded {len(uploaded)} store files to Instacart.")
 
-
-elif report_file and not sales_file:
-    st.warning("Please upload the Sales CSV before sending files to Instacart.")
-
-elif sales_file and not report_file:
-    st.warning("Please upload the Lightspeed Instacart Report before sending files to Instacart.")
-elif report_file and sales_file and not password:
+elif report_file and not password:
     st.warning("Please enter the Instacart SFTP password before uploading.")
 
 else:
-    st.caption("Upload both CSV files to begin.")
+    st.caption("Upload the Lightspeed report to begin.")
 
 
 st.markdown("""
