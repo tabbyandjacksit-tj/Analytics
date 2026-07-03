@@ -113,8 +113,6 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-
-
 report_file = st.file_uploader(
     "Upload Lightspeed Instacart Report",
     type=["csv"]
@@ -129,10 +127,6 @@ sales_file = Path("utils/data/sales.csv")
 
 
 if report_file and password:
-    st.caption(
-        "Your report has been successfully uploaded."
-    )
-
     if st.button("Configure Data & Upload to Instacart", use_container_width=True):
         output_folder = Path("temp_instacart_files")
         output_folder.mkdir(exist_ok=True)
