@@ -179,8 +179,8 @@ st.markdown("""
 
 st.markdown("""
 <div class="report-help-card">
-<div class="report-help-label">Required Report</div>
-<div class="report-help-title">Inventory → Item Search</div>
+<div class="report-help-label">Upload Lightspeed Item Report CSV</div>
+<div class="report-help-title">Go to: Inventory → Item Search</div>
 
 <div class="report-help-grid">
 <div>
