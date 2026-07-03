@@ -3,6 +3,27 @@ from pathlib import Path
 
 from utils.instacart import create_instacart_files, upload_files_to_instacart
 
+
+PASSWORD = "sunny"
+
+if "instacart_authenticated" not in st.session_state:
+    st.session_state.instacart_authenticated = False
+
+if not st.session_state.instacart_authenticated:
+    password = st.text_input(
+        "Enter password to access this page",
+        type="password"
+    )
+
+    if st.button("Unlock"):
+        if password == PASSWORD:
+            st.session_state.instacart_authenticated = True
+            st.rerun()
+        else:
+            st.error("Incorrect password.")
+
+    st.stop()
+
 st.markdown("""
 <style>
 
@@ -119,7 +140,7 @@ elif report_file and not password:
     st.warning("Please enter the Instacart SFTP password before uploading.")
 
 else:
-    st.caption("Upload the Lightspeed report to begin.")
+    pass
 
 
 st.markdown("""
@@ -132,7 +153,7 @@ st.markdown("""
             color:#1D5A3E;
             text-decoration:none;
        ">
-       Open Instacart Uploads →
+       Access Instacart Uploads Here →
     </a>
 </div>
 """, unsafe_allow_html=True)
