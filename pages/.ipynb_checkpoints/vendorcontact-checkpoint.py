@@ -133,28 +133,51 @@ if search:
         lambda row: row.str.contains(search, case=False, na=False).any(),
         axis=1
     )
-    filtered = df[mask]
+    filtered = df[mask].copy()
 else:
-    filtered = df
+    filtered = df.copy()
 
 st.write(f"**Showing {len(filtered)} of {len(df)} vendors**")
+
+checkbox_cols = [
+    "Credit back?",
+    "Replacements?",
+    "Case-by-Case Basis?"
+]
+
+for col in checkbox_cols:
+    if col in filtered.columns:
+        filtered[col] = (
+            filtered[col]
+            .astype(str)
+            .str.strip()
+            .str.lower()
+            .isin(["true", "yes", "1", "checked"])
+        )
 
 st.dataframe(
     filtered,
     hide_index=True,
     use_container_width=True,
     height=550,
+    column_config={
+        "Credit back?": st.column_config.CheckboxColumn("Credit back?"),
+        "Replacements?": st.column_config.CheckboxColumn("Replacements?"),
+        "Case-by-Case Basis?": st.column_config.CheckboxColumn("Case-by-Case Basis?"),
+    }
 )
 
-st.markdown("""
+st.markdown(
+    """
 <div class="edit-box">
     <h4>✎ Looking to add or update a vendor contact?</h4>
-    <p>This page is search-only. Use the button below to open the editable Vendor Contact Sheet.</p>
+    <p>
+        This page is search-only.
+        <a href="https://docs.google.com/spreadsheets/d/18dn2ojjVdkF8QU1qTURwm3GmqOR2-eYvIn2IjGpUg4k/edit?usp=sharing" target="_blank">
+            Click here to edit the Vendor Contact Sheet.
+        </a>
+    </p>
 </div>
-""", unsafe_allow_html=True)
-
-st.link_button(
-    "✎ Open Vendor Contact Sheet",
-    SHEET_URL,
-    use_container_width=True,
+""",
+    unsafe_allow_html=True
 )
