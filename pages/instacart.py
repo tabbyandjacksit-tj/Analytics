@@ -139,11 +139,11 @@ div[data-testid="stTextInput"] input {
     font-weight: 700;
 }
 
-.report-help-grid span {
-    color: #C97822;
-    font-weight: 900;
-    margin-right: 6px;
-}
+.report-help-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-top: 18px;
 
 .report-help-footer {
     margin-top: 16px;
@@ -167,15 +167,25 @@ st.markdown("""
 <div class="report-help-card">
 <div class="report-help-label">Required Report</div>
 <div class="report-help-title">Inventory → Item Search</div>
+
 <div class="report-help-grid">
-<div><span>✓</span> Show All Locations</div>
-<div><span>✓</span> Items w/ Inventory</div>
-<div><span>✓</span> Shop = All Shops</div>
-<div><span>✓</span> Download CSV</div>
+<div>
+<span>✓</span>
+Check <b>Show All Locations</b>
+</div>
+<div>
+<span>✓</span>
+Check <b>Items w/ Inventory</b>
+</div>
+<div>
+<span>✓</span>
+Set <b>Shop = All Shops</b>
+</div>
 </div>
 <div class="report-help-footer">
 Click <b>Search</b>, download the CSV, then upload it below.
 </div>
+
 </div>
 """, unsafe_allow_html=True)
 
