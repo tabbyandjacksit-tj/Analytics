@@ -104,7 +104,7 @@ div[data-testid="stTextInput"] input {
     background: #FFF9EF;
     border: 1px solid #D7C8A4;
     border-radius: 18px;
-    padding: 20px 22px;
+    padding: 18px 20px;
     margin: 22px 0 24px 0;
     box-shadow: 0px 4px 14px rgba(47,55,45,0.07);
 }
@@ -122,28 +122,42 @@ div[data-testid="stTextInput"] input {
     color: #1D5A3E;
     font-size: 20px;
     font-weight: 800;
-}
-
-.report-help-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px 18px;
-    margin-top: 18px;
-}
-
-.report-help-grid div {
-    background: #F6EEDC;
-    border-radius: 12px;
-    padding: 12px 14px;
-    color: #1D5A3E;
-    font-weight: 700;
+    margin-bottom: 16px;
 }
 
 .report-help-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 14px;
-    margin-top: 18px;
+}
+
+.report-help-grid div {
+    background: #F6EEDC;
+    border-radius: 14px;
+    padding: 14px 16px;
+    color: #1D5A3E;
+    font-weight: 700;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 56px;
+}
+
+.report-help-check {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #C97822;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    margin-right: 10px;
+    flex-shrink: 0;
+}
 
 .report-help-footer {
     margin-top: 16px;
@@ -170,22 +184,24 @@ st.markdown("""
 
 <div class="report-help-grid">
 <div>
-<span>✓</span>
-Check <b>Show All Locations</b>
-</div>
-<div>
-<span>✓</span>
-Check <b>Items w/ Inventory</b>
-</div>
-<div>
-<span>✓</span>
-Set <b>Shop = All Shops</b>
-</div>
-</div>
-<div class="report-help-footer">
-Click <b>Search</b>, download the CSV, then upload it below.
+<span class="report-help-check">✓</span>
+<b>Show All Locations</b>
 </div>
 
+<div>
+<span class="report-help-check">✓</span>
+<b>Items w/ Inventory</b>
+</div>
+
+<div>
+<span class="report-help-check">✓</span>
+<b>Shop = All Shops</b>
+</div>
+</div>
+
+<div class="report-help-footer">
+After running the search, download the CSV and upload it below.
+</div>
 </div>
 """, unsafe_allow_html=True)
 
