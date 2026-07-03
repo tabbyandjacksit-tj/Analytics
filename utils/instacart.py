@@ -41,6 +41,7 @@ def create_instacart_files(report_file, sales_file, output_folder):
     )
 
     store_data.columns = [clean_col(c) for c in store_data.columns]
+    print(store_data.columns.tolist())
 
     store_numbers = {
         "Verona - Tabby & Jack's": 9,
