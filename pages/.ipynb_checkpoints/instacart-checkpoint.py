@@ -12,7 +12,8 @@ if "instacart_authenticated" not in st.session_state:
 if not st.session_state.instacart_authenticated:
     password = st.text_input(
         "Enter password to access this page",
-        type="password"
+        type="password",
+        help="If you do not yet have a password, please reach out to Maria."
     )
 
     if st.button("Unlock"):
