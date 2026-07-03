@@ -165,12 +165,8 @@ st.markdown("""
 
 st.markdown("""
 <div class="report-help-card">
-    <div class="report-help-header">
-        <div>
-            <div class="report-help-label">Required Report</div>
-            <div class="report-help-title">Inventory → Item Search</div>
-        </div>
-    </div>
+    <div class="report-help-label">Required Report</div>
+    <div class="report-help-title">Inventory → Item Search</div>
 
     <div class="report-help-grid">
         <div><span>✓</span> Show All Locations</div>
