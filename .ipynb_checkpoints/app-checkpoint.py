@@ -39,6 +39,11 @@ pages = {
         title="Helpful Links",
         icon=":material/link:"
     ),
+    "Instacart Upload": st.Page(
+    "pages/instacart.py",
+    title="Instacart Upload",
+    icon=":material/upload_file:"
+    ),
 }
 
 report_links = {
@@ -46,7 +51,8 @@ report_links = {
     "Small Vendor Order": "pages/SVO.py",
     "Dusty Report Transfer": "pages/dusty.py",
     "Sales by Brand": "pages/brandsale.py",
-    "Helpful Links": "pages/links.py"
+    "Helpful Links": "pages/links.py",
+    "Instacart Upload": "pages/instacart.py"
 }
 
 st.markdown(
@@ -140,9 +146,9 @@ footer {
 )
 
 
-def sidebar_nav_button(label, page):
-    if st.button(label, use_container_width=True):
-        st.switch_page(page)
+def sidebar_nav_button(label, page_path):
+    if st.button(label, use_container_width=True, key=f"nav_{page_path}"):
+        st.switch_page(page_path)
 
 
 with st.sidebar:
@@ -197,7 +203,7 @@ with st.sidebar:
     sidebar_nav_button(":material/move_item: Dusty Report Transfer", "pages/dusty.py")
     sidebar_nav_button(":material/filter_list: Sales by Brand", "pages/brandsale.py")
     sidebar_nav_button(":material/link: Helpful Links", "pages/links.py")
-    sidebar_nav_button(":material/link: Helpful Links", "pages/instacart.py")
+    sidebar_nav_button(":material/upload_file: Instacart Upload", "pages/instacart.py")
 
 
 
