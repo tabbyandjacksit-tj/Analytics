@@ -112,7 +112,20 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
+with st.expander("📄 Where do I find this report?", expanded=False):
 
+    st.info("""
+**Navigate to**
+
+Inventory → Item Search
+
+**Report Filter Settings:**
+   • Check "Show All Locations" 
+   • Check "Items w/ Inventory"
+   • Set Shop = All Shops
+
+Then click **Search**, download the CSV, and upload it below.
+""")
 
 
 report_file = st.file_uploader(
