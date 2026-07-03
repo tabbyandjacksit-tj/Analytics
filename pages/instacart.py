@@ -185,28 +185,26 @@ st.markdown("""
 <div class="report-help-grid">
 <div>
 <span class="report-help-check">✓</span>
-<b>Show All Locations</b>
+<b>Check Show All Locations</b>
 </div>
 
 <div>
 <span class="report-help-check">✓</span>
-<b>Items w/ Inventory</b>
+<b>Check Items w/ Inventory</b>
 </div>
 
 <div>
 <span class="report-help-check">✓</span>
-<b>Shop = All Shops</b>
+<b>Set Shop = All Shops</b>
 </div>
 </div>
 
 <div class="report-help-footer">
-After running the search, download the CSV and upload it below.
-</div>
+After running the search, export the CSV and upload it below.
 </div>
 """, unsafe_allow_html=True)
 
 report_file = st.file_uploader(
-    "Upload Lightspeed Instacart Report",
     type=["csv"]
 )
 
