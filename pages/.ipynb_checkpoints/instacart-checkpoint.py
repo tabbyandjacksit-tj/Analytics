@@ -6,22 +6,34 @@ from utils.instacart import create_instacart_files, upload_files_to_instacart
 
 PASSWORD = "sunny"
 
-if "instacart_authenticated" not in st.session_state:
-    st.session_state.instacart_authenticated = False
+@st.dialog("Need Access?")
+def access_help():
+    st.write("""
+    This page is restricted to specific employees for specific tasks.
+    If you find that you need access, please contact:
+    **Maria Swenson** for password!
+    """)
 
 if not st.session_state.instacart_authenticated:
+
     password = st.text_input(
-        "Enter password to access this page",
-        type="password",
-        help="If you do not yet have a password, please reach out to Maria."
+        "Password",
+        type="password"
     )
 
-    if st.button("Unlock"):
-        if password == PASSWORD:
-            st.session_state.instacart_authenticated = True
-            st.rerun()
-        else:
-            st.error("Incorrect password.")
+    col1, col2 = st.columns([3,1])
+
+    with col1:
+        if st.button("Unlock", use_container_width=True):
+            if password == PASSWORD:
+                st.session_state.instacart_authenticated = True
+                st.rerun()
+            else:
+                st.error("Incorrect password.")
+
+    with col2:
+        if st.button("Need Help?"):
+            access_help()
 
     st.stop()
 
