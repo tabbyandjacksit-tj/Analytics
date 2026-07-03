@@ -86,7 +86,7 @@ st.dataframe(
     filtered,
     hide_index=True,
     use_container_width=True,
-    height=700,
+    height=550,
 )
 
 st.markdown(
@@ -94,7 +94,7 @@ st.markdown(
 <div class="edit-box">
     <h4>✏️ Looking to add or update a vendor contact?</h4>
     <p>
-        This page is read-only.
+        This page is search-only.
         <a href="https://docs.google.com/spreadsheets/d/18dn2ojjVdkF8QU1qTURwm3GmqOR2-eYvIn2IjGpUg4k/edit?usp=sharing" target="_blank">
             Click here to edit the Vendor Contact Sheet.
         </a>
