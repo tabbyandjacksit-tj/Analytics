@@ -3,6 +3,16 @@ import pandas as pd
 
 
 st.markdown("""
+
+<style>
+/* Reduce the top padding of the page */
+.block-container {
+    padding-top: 2rem;
+}
+/* Optional: slightly reduce bottom padding too */
+.block-container {
+    padding-bottom: 2rem;
+}
 <style>
 .edit-box {
     margin-top: 1.5rem;
