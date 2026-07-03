@@ -100,6 +100,50 @@ div[data-testid="stTextInput"] input {
     color: #5C7A58;
 }
 
+.report-guide {
+    background: #FFF9EF;
+    border: 1px solid #D7C8A4;
+    border-radius: 18px;
+    padding: 18px 22px;
+    margin-top: 8px;
+    margin-bottom: 10px;
+}
+
+.guide-row {
+    display: flex;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid #E4D8BC;
+}
+
+.guide-row:last-child {
+    border-bottom: none;
+}
+
+.guide-number {
+    background: #C97822;
+    color: white;
+    font-weight: 800;
+    min-width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 30px;
+}
+
+.guide-title {
+    color: #1D5A3E;
+    font-size: 16px;
+    font-weight: 800;
+    margin-bottom: 4px;
+}
+
+.guide-text {
+    color: #5C7A58;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -112,21 +156,42 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-with st.expander("📄 Where do I find this report?", expanded=False):
+with st.expander("📄 Where do I find this report?", expanded=True):
+    st.markdown("""
+    <div class="report-guide">
 
-    st.info("""
-**Navigate to**
+        <div class="guide-row">
+            <div class="guide-number">1</div>
+            <div>
+                <div class="guide-title">Navigate to</div>
+                <div class="guide-text">Inventory → Item Search</div>
+            </div>
+        </div>
 
-Inventory → Item Search
+        <div class="guide-row">
+            <div class="guide-number">2</div>
+            <div>
+                <div class="guide-title">Report Filter Settings</div>
+                <div class="guide-text">
+                    Check <b>Show All Locations</b><br>
+                    Check <b>Items w/ Inventory</b><br>
+                    Set <b>Shop = All Shops</b>
+                </div>
+            </div>
+        </div>
 
-**Report Filter Settings:**
-   • Check "Show All Locations" 
-   • Check "Items w/ Inventory"
-   • Set Shop = All Shops
+        <div class="guide-row">
+            <div class="guide-number">3</div>
+            <div>
+                <div class="guide-title">Download File</div>
+                <div class="guide-text">
+                    Click <b>Search</b>, download the <b>CSV</b>, and upload it below.
+                </div>
+            </div>
+        </div>
 
-Then click **Search**, download the CSV, and upload it below.
-""")
-
+    </div>
+    """, unsafe_allow_html=True)
 
 report_file = st.file_uploader(
     "Upload Lightspeed Instacart Report",
