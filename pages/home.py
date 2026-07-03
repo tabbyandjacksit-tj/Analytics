@@ -56,11 +56,11 @@ tools = [
     {
         "title": "Vendor Contact Sheet",
         "description": "Link to Google Sheet containing information about how to contact vendors/reps.",
-        "status": "Coming Soon",
+        "status": "Available",
         "category": "Office Hour Tools",
         "icon": icons["brand"],
-        "page": None,
-        "enabled": False,
+        "page": "pages/vendorcontact.py",
+        "enabled": True,
     },
     {
         "title": "Office Hour Tracker",
