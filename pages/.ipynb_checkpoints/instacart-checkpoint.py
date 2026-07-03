@@ -165,19 +165,17 @@ st.markdown("""
 
 st.markdown("""
 <div class="report-help-card">
-    <div class="report-help-label">Required Report</div>
-    <div class="report-help-title">Inventory → Item Search</div>
-
-    <div class="report-help-grid">
-        <div><span>✓</span> Show All Locations</div>
-        <div><span>✓</span> Items w/ Inventory</div>
-        <div><span>✓</span> Shop = All Shops</div>
-        <div><span>✓</span> Export as CSV</div>
-    </div>
-
-    <div class="report-help-footer">
-        Click <b>Search</b>, download the CSV, then upload it below.
-    </div>
+<div class="report-help-label">Required Report</div>
+<div class="report-help-title">Inventory → Item Search</div>
+<div class="report-help-grid">
+<div><span>✓</span> Show All Locations</div>
+<div><span>✓</span> Items w/ Inventory</div>
+<div><span>✓</span> Shop = All Shops</div>
+<div><span>✓</span> Download CSV</div>
+</div>
+<div class="report-help-footer">
+Click <b>Search</b>, download the CSV, then upload it below.
+</div>
 </div>
 """, unsafe_allow_html=True)
 
