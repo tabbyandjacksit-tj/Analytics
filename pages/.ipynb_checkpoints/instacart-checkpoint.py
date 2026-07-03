@@ -100,48 +100,55 @@ div[data-testid="stTextInput"] input {
     color: #5C7A58;
 }
 
-.report-guide {
+.report-help-card {
     background: #FFF9EF;
     border: 1px solid #D7C8A4;
     border-radius: 18px;
-    padding: 18px 22px;
-    margin-top: 8px;
-    margin-bottom: 10px;
+    padding: 20px 22px;
+    margin: 22px 0 24px 0;
+    box-shadow: 0px 4px 14px rgba(47,55,45,0.07);
 }
 
-.guide-row {
-    display: flex;
-    gap: 16px;
-    padding: 14px 0;
-    border-bottom: 1px solid #E4D8BC;
-}
-
-.guide-row:last-child {
-    border-bottom: none;
-}
-
-.guide-number {
-    background: #C97822;
-    color: white;
+.report-help-label {
+    color: #C97822;
+    font-size: 12px;
     font-weight: 800;
-    min-width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    text-align: center;
-    line-height: 30px;
-}
-
-.guide-title {
-    color: #1D5A3E;
-    font-size: 16px;
-    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
     margin-bottom: 4px;
 }
 
-.guide-text {
+.report-help-title {
+    color: #1D5A3E;
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.report-help-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px 18px;
+    margin-top: 18px;
+}
+
+.report-help-grid div {
+    background: #F6EEDC;
+    border-radius: 12px;
+    padding: 12px 14px;
+    color: #1D5A3E;
+    font-weight: 700;
+}
+
+.report-help-grid span {
+    color: #C97822;
+    font-weight: 900;
+    margin-right: 6px;
+}
+
+.report-help-footer {
+    margin-top: 16px;
     color: #5C7A58;
     font-size: 15px;
-    line-height: 1.5;
 }
 
 </style>
@@ -156,42 +163,27 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-with st.expander("📄 Where do I find this report?", expanded=True):
-    st.markdown("""
-    <div class="report-guide">
-
-        <div class="guide-row">
-            <div class="guide-number">1</div>
-            <div>
-                <div class="guide-title">Navigate to</div>
-                <div class="guide-text">Inventory → Item Search</div>
-            </div>
+st.markdown("""
+<div class="report-help-card">
+    <div class="report-help-header">
+        <div>
+            <div class="report-help-label">Required Report</div>
+            <div class="report-help-title">Inventory → Item Search</div>
         </div>
-
-        <div class="guide-row">
-            <div class="guide-number">2</div>
-            <div>
-                <div class="guide-title">Report Filter Settings</div>
-                <div class="guide-text">
-                    Check <b>Show All Locations</b><br>
-                    Check <b>Items w/ Inventory</b><br>
-                    Set <b>Shop = All Shops</b>
-                </div>
-            </div>
-        </div>
-
-        <div class="guide-row">
-            <div class="guide-number">3</div>
-            <div>
-                <div class="guide-title">Download File</div>
-                <div class="guide-text">
-                    Click <b>Search</b>, download the <b>CSV</b>, and upload it below.
-                </div>
-            </div>
-        </div>
-
     </div>
-    """, unsafe_allow_html=True)
+
+    <div class="report-help-grid">
+        <div><span>✓</span> Show All Locations</div>
+        <div><span>✓</span> Items w/ Inventory</div>
+        <div><span>✓</span> Shop = All Shops</div>
+        <div><span>✓</span> Export as CSV</div>
+    </div>
+
+    <div class="report-help-footer">
+        Click <b>Search</b>, download the CSV, then upload it below.
+    </div>
+</div>
+""", unsafe_allow_html=True)
 
 report_file = st.file_uploader(
     "Upload Lightspeed Instacart Report",
