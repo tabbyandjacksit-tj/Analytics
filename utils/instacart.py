@@ -1,6 +1,7 @@
 import os
 import re
 import pandas as pd
+import paramiko
 
 
 def extract_size(text):
@@ -20,10 +21,16 @@ def extract_size(text):
         return "1 ct"
 
     size = match.group(0).strip()
-
     size = re.sub(r"(?<=\d)(?=[a-zA-Z])", " ", size)
 
     return size
+
+
+def clean_col(col):
+    col = str(col).strip()
+    col = re.sub(r"\s+", " ", col)
+    col = col.replace(" -", "-").replace("- ", "-")
+    return col
 
 
 def create_instacart_files(report_file, sales_file, output_folder):
@@ -33,15 +40,10 @@ def create_instacart_files(report_file, sales_file, output_folder):
         keep_default_na=False
     )
 
-    # Clean column names
-    store_data.columns = (
-        store_data.columns
-        .str.strip()
-        .str.replace(r"\s+", " ", regex=True)
-    )
+    store_data.columns = [clean_col(c) for c in store_data.columns]
 
     store_numbers = {
-        "Verona -Tabby & Jack's": 9,
+        "Verona - Tabby & Jack's": 9,
         "Sun Prairie - Tabby & Jack's": 5,
         "Stoughton - Tabby & Jack's": 3,
         "Oregon - Tabby & Jack's": 6,
@@ -49,22 +51,21 @@ def create_instacart_files(report_file, sales_file, output_folder):
         "Middleton - Tabby & Jack's": 2,
         "Fitchburg - Tabby & Jack's": 1,
         "East Washington - Tabby & Jack's": 7,
-        "Cross Plains- Tabby & Jack's": 8
+        "Cross Plains - Tabby & Jack's": 8
     }
 
     store_columns = {
-        "Verona -Tabby & Jack's": "Verona -Tabby & Jack's",
-        "Sun Prairie - Tabby & Jack's": "Sun Prairie - Tabby & Jack's",
-        "Stoughton - Tabby & Jack's": "Stoughton - Tabby & Jack's",
-        "Oregon - Tabby & Jack's": "Oregon - Tabby & Jack's",
-        "Monona Drive - Tabby & Jack's": "Monona Drive - Tabby & Jack's",
-        "Middleton - Tabby & Jack's": "Middleton - Tabby & Jack's",
-        "Fitchburg - Tabby & Jack's": "Fitchburg - Tabby & Jack's",
-        "East Washington - Tabby & Jack's": "East Washington - Tabby & Jack's",
-        "Cross Plains- Tabby & Jack's": "Cross Plains- Tabby & Jack's"
+        "Verona - Tabby & Jack's": "Verona-Tabby & Jack's",
+        "Sun Prairie - Tabby & Jack's": "Sun Prairie-Tabby & Jack's",
+        "Stoughton - Tabby & Jack's": "Stoughton-Tabby & Jack's",
+        "Oregon - Tabby & Jack's": "Oregon-Tabby & Jack's",
+        "Monona Drive - Tabby & Jack's": "Monona Drive-Tabby & Jack's",
+        "Middleton - Tabby & Jack's": "Middleton-Tabby & Jack's",
+        "Fitchburg - Tabby & Jack's": "Fitchburg-Tabby & Jack's",
+        "East Washington - Tabby & Jack's": "East Washington-Tabby & Jack's",
+        "Cross Plains - Tabby & Jack's": "Cross Plains-Tabby & Jack's"
     }
 
-    # Build text to search for size
     size_search_cols = [
         "Item",
         "Category",
@@ -79,7 +80,10 @@ def create_instacart_files(report_file, sales_file, output_folder):
         "Subcategory 9"
     ]
 
-    existing_size_cols = [c for c in size_search_cols if c in store_data.columns]
+    existing_size_cols = [
+        c for c in size_search_cols
+        if c in store_data.columns
+    ]
 
     store_data["size_search_text"] = (
         store_data[existing_size_cols]
@@ -89,7 +93,11 @@ def create_instacart_files(report_file, sales_file, output_folder):
 
     store_data["size"] = store_data["size_search_text"].apply(extract_size)
 
-    sales = pd.read_csv(sales_file, dtype=str, keep_default_na=False)
+    sales = pd.read_csv(
+        sales_file,
+        dtype=str,
+        keep_default_na=False
+    )
 
     sales = sales[
         [
@@ -104,6 +112,7 @@ def create_instacart_files(report_file, sales_file, output_folder):
 
     for store, qty_col in store_columns.items():
         if qty_col not in store_data.columns:
+            print(f"Skipping {store}: column not found -> {qty_col}")
             continue
 
         store_data[qty_col] = pd.to_numeric(
@@ -111,8 +120,11 @@ def create_instacart_files(report_file, sales_file, output_folder):
             errors="coerce"
         ).fillna(0)
 
-        # This clears out 0s per store
         filtered = store_data[store_data[qty_col] > 0].copy()
+
+        if filtered.empty:
+            print(f"Skipping {store}: no items with quantity over 0")
+            continue
 
         filtered = filtered[
             [
@@ -176,3 +188,50 @@ def create_instacart_files(report_file, sales_file, output_folder):
         created_files.append(output_path)
 
     return created_files
+
+
+def upload_files_to_instacart(files, password):
+    host = "sftp-partners.instacart.com"
+    username = "tabbyjack-catalog"
+
+    remote_base = "/inventory-files"
+
+    remote_folders = {
+        "1": "339872-tabby_jacks-1",
+        "2": "339871-tabby_jacks-2",
+        "3": "339862-tabby_jacks-3",
+        "4": "339865-tabby_jacks-4",
+        "5": "339864-tabby_jacks-5",
+        "6": "339870-tabby_jacks-6",
+        "7": "339863-tabby_jacks-7",
+        "8": "339869-tabby_jacks-8",
+        "9": "339868-tabby_jacks-9",
+    }
+
+    transport = paramiko.Transport((host, 22))
+    transport.connect(username=username, password=password)
+
+    sftp = paramiko.SFTPClient.from_transport(transport)
+
+    uploaded = []
+
+    try:
+        for file_path in files:
+            file_name = os.path.basename(file_path)
+            store_number = file_name.split("_")[0]
+
+            remote_folder = remote_folders.get(store_number)
+
+            if not remote_folder:
+                continue
+
+            remote_path = f"{remote_base}/{remote_folder}/{file_name}"
+
+            sftp.put(str(file_path), remote_path)
+            uploaded.append(file_name)
+
+    finally:
+        sftp.close()
+        transport.close()
+
+    return uploaded
