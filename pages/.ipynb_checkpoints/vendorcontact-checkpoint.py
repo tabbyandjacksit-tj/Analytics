@@ -1,19 +1,16 @@
 import streamlit as st
 import pandas as pd
-from streamlit_gsheets import GSheetsConnection
 
 st.title("📞 Vendor Contacts")
 st.caption("Search for vendor representatives and contact information.")
 
-conn = st.connection("gsheets", type=GSheetsConnection)
+SHEET_ID = "18dn2ojjVdkF8QU1qTURwm3GmqOR2-eYvIn2IjGpUg4k"
+GID = "980561560"
 
 @st.cache_data(ttl=300)
 def load_contacts():
-    df = conn.read(
-        spreadsheet="https://docs.google.com/spreadsheets/d/18dn2ojjVdkF8QU1qTURwm3GmqOR2-eYvIn2IjGpUg4k/edit?gid=980561560#gid=980561560",
-        worksheet="VENDOR CONTACT",
-        usecols=list(range(20))
-    )
+    url = f"https://docs.google.com/spreadsheets/d/{SHEET_ID}/export?format=csv&gid={GID}"
+    df = pd.read_csv(url)
     return df.dropna(how="all")
 
 df = load_contacts()
