@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 
 st.set_page_config(
-    page_title="Vendor Contact Information",
+    page_title="Vendor Contacts",
     page_icon="images/logo.png",
     layout="wide"
 )
@@ -24,21 +24,55 @@ footer {
 }
 
 .block-container {
-    padding-top: 1.2rem;
-    padding-bottom: 1rem;
-    max-width: 95rem;
+    padding-top: 2rem;
+    padding-bottom: 3rem;
+    max-width: 1050px;
 }
 
-h1 {
+.hero {
+    background-color: #1D5A3E;
+    padding: 28px 28px;
+    border-radius: 26px;
+    margin-bottom: 28px;
+    box-shadow: 0px 8px 22px rgba(29,90,62,.18);
+}
+
+.hero h1 {
+    text-align: center;
+    color: #FFF9EF;
+    font-size: 44px;
+    font-weight: 800;
+    margin: 0;
+}
+
+.hero p {
+    text-align: center;
+    color: rgba(255,249,239,0.88);
+    font-size: 17px;
+    margin-top: 12px;
+    margin-bottom: 0;
+}
+
+h3 {
     color: #1D5A3E;
+    font-size: 28px;
+    font-weight: 800;
+}
+
+div[data-testid="stTextInput"] input {
+    background-color: #FFF9EF;
+    border: 1px solid #D7C8A4;
+    border-radius: 12px;
+    color: #2F372D;
 }
 
 .edit-box {
     margin-top: 1.5rem;
     padding: 18px 22px;
-    background-color: rgba(92, 128, 103, 0.10);
-    border: 2px solid #5C8067;
-    border-radius: 16px;
+    background-color: #FDF7EA;
+    border: 1px solid #D7C8A4;
+    border-radius: 18px;
+    box-shadow: 0px 3px 10px rgba(47,55,45,0.04);
 }
 
 .edit-box h4 {
@@ -48,13 +82,29 @@ h1 {
 
 .edit-box p {
     margin: 0;
-    color: #555;
+    color: #5C7A58;
+}
+
+.stLinkButton a {
+    background-color: #1D5A3E;
+    color: white;
+    border-radius: 12px;
+    font-weight: 700;
+}
+
+.stLinkButton a:hover {
+    background-color: #15442F;
+    color: white;
 }
 </style>
 """, unsafe_allow_html=True)
 
-st.title("☏ Vendor Contacts")
-st.caption("Search vendor representatives, emails, phone numbers, and brand policies.")
+st.markdown("""
+<div class="hero">
+    <h1>☏ Vendor Contacts</h1>
+    <p>Search vendor representatives, emails, phone numbers, and brand policies.</p>
+</div>
+""", unsafe_allow_html=True)
 
 SHEET_ID = "18dn2ojjVdkF8QU1qTURwm3GmqOR2-eYvIn2IjGpUg4k"
 GID = "980561560"
@@ -70,9 +120,12 @@ def load_contacts():
 
 df = load_contacts()
 
+st.markdown("### Search Vendor Contacts")
+
 search = st.text_input(
-    "🔍︎ Search",
+    "Search",
     placeholder="Search by brand, vendor, email, phone, notes...",
+    label_visibility="collapsed"
 )
 
 if search:
@@ -93,17 +146,15 @@ st.dataframe(
     height=550,
 )
 
-st.markdown(
-    """
+st.markdown("""
 <div class="edit-box">
     <h4>✎ Looking to add or update a vendor contact?</h4>
-    <p>
-        This page is search-only.
-        <a href="https://docs.google.com/spreadsheets/d/18dn2ojjVdkF8QU1qTURwm3GmqOR2-eYvIn2IjGpUg4k/edit?usp=sharing" target="_blank">
-            Click here to edit the Vendor Contact Sheet.
-        </a>
-    </p>
+    <p>This page is search-only. Use the button below to open the editable Vendor Contact Sheet.</p>
 </div>
-""",
-    unsafe_allow_html=True
+""", unsafe_allow_html=True)
+
+st.link_button(
+    "✎ Open Vendor Contact Sheet",
+    SHEET_URL,
+    use_container_width=True,
 )
