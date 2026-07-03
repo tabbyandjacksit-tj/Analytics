@@ -4,7 +4,7 @@ from pathlib import Path
 from utils.instacart import create_instacart_files, upload_files_to_instacart
 
 
-PASSWORD = "sunny"
+PASSWORD = "Ella!"
 
 if "instacart_authenticated" not in st.session_state:
     st.session_state.instacart_authenticated = False
@@ -13,16 +13,15 @@ if "instacart_authenticated" not in st.session_state:
 @st.dialog("Need Access?")
 def access_help():
     st.write("""
-    This page is restricted.
+    This page is restricted to specific authorized employees. 
 
-    If you need access, please contact Maria.
+    If you need access or have any questions, please contact:
+    **Maria Swenson** 
     """)
 
 
 if not st.session_state.instacart_authenticated:
-    st.info("🔒︎ This page is password protected.")
-
-    password = st.text_input("Password", type="password")
+    password = st.text_input("Enter password to access this page", type="password")
 
     if st.button("Unlock", use_container_width=True):
         if password == PASSWORD:
@@ -31,7 +30,7 @@ if not st.session_state.instacart_authenticated:
         else:
             st.error("Incorrect password.")
 
-    if st.button("Need Help?", use_container_width=True):
+    if st.button("Need Access?", use_container_width=True):
         access_help()
 
     st.stop()
@@ -109,7 +108,7 @@ st.markdown("""
 <div class="section-label">Instacart</div>
 <div class="section-title">Instacart File Upload</div>
 <div class="section-subtitle">
-    Upload your Lightspeed report, then send the store files to Instacart.
+    Process your inventory report and send the generated store files to Instacart.
 </div>
 """, unsafe_allow_html=True)
 
@@ -122,7 +121,7 @@ report_file = st.file_uploader(
 )
 
 password = st.text_input(
-    "Instacart SFTP Password",
+    "Enter Instacart SFTP Password",
     type="password"
 )
 
@@ -131,10 +130,10 @@ sales_file = Path("utils/data/sales.csv")
 
 if report_file and password:
     st.caption(
-        "Report uploaded. Click below to create the store files and send them to Instacart."
+        "Your report has been successfully uploaded."
     )
 
-    if st.button("Create Files & Upload to Instacart", use_container_width=True):
+    if st.button("Configure Data & Upload to Instacart", use_container_width=True):
         output_folder = Path("temp_instacart_files")
         output_folder.mkdir(exist_ok=True)
 
@@ -146,7 +145,7 @@ if report_file and password:
 
         uploaded = upload_files_to_instacart(created_files, password)
 
-        st.success(f"Successfully uploaded {len(uploaded)} store files to Instacart.")
+        st.success(f"Successfully uploaded all {len(uploaded)} store files to Instacart.")
 
 elif report_file and not password:
     st.warning("Please enter the Instacart SFTP password before uploading.")
