@@ -45,7 +45,7 @@ pages = {
     icon=":material/upload_file:"
     ),
     "Vendor Contact": st.Page(
-    "pages/vendorcontactt.py",
+    "pages/vendorcontact.py",
     title="Vendor Contact",
     icon=":material/contact_page:"
     ),
