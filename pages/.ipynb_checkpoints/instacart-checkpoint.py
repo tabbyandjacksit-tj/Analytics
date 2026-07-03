@@ -202,6 +202,7 @@ st.markdown("""
 <div class="report-help-footer">
 After running the search, export the CSV and upload it below.
 </div>
+</div>
 """, unsafe_allow_html=True)
 
 report_file = st.file_uploader(
