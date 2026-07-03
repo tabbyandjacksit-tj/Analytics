@@ -253,7 +253,7 @@ logo = image_to_base64("images/logo.png")
 st.markdown("""
 <div class="hero">
     <h1>Major Vendor Order Report</h1>
-    <p>Generate a vendor order from a Lightspeed 56-day item sales report.</p>
+    <p>Generate a vendor order from a Lightspeed item sales report.</p>
 </div>
 """, unsafe_allow_html=True)
 
@@ -344,7 +344,7 @@ st.markdown("""
 
 
 uploaded_file = st.file_uploader( # Creates the file uploader button 
-    "Upload 56-day Lightspeed CSV",
+    "Upload Lightspeed CSV",
     type=["csv"],
     label_visibility="collapsed"
 )
@@ -451,7 +451,7 @@ if uploaded_file:
                 order_template_warning()
 
         st.markdown(
-            "ⓘ **Heads Up!** Before importing into Lightspeed, remove any discontinued items and any items with a blank Vendor ID."
+            "ⓘ **Heads Up!** After importing into Lightspeed, remove any discontinued items and any items with a blank Vendor ID."
         )
 
 else:

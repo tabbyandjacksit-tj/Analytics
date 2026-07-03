@@ -197,6 +197,7 @@ with st.sidebar:
     sidebar_nav_button(":material/move_item: Dusty Report Transfer", "pages/dusty.py")
     sidebar_nav_button(":material/filter_list: Sales by Brand", "pages/brandsale.py")
     sidebar_nav_button(":material/link: Helpful Links", "pages/links.py")
+    sidebar_nav_button(":material/link: Helpful Links", "pages/instacart.py")
 
 
 
