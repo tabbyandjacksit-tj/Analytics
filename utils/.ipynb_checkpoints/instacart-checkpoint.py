@@ -44,27 +44,21 @@ def create_instacart_files(report_file, sales_file, output_folder):
     print(store_data.columns.tolist())
 
     store_numbers = {
-        "Verona - Tabby & Jack's": 9,
-        "Sun Prairie - Tabby & Jack's": 5,
-        "Stoughton - Tabby & Jack's": 3,
-        "Oregon - Tabby & Jack's": 6,
-        "Monona Drive - Tabby & Jack's": 4,
-        "Middleton - Tabby & Jack's": 2,
-        "Fitchburg - Tabby & Jack's": 1,
-        "East Washington - Tabby & Jack's": 7,
-        "Cross Plains - Tabby & Jack's": 8
+        "Fitchburg-Tabby & Jack's": 1,
+        "Middleton-Tabby & Jack's": 2,
+        "Stoughton-Tabby & Jack's": 3,
+        "Monona Drive-Tabby & Jack's": 4,
+        "Sun Prairie-Tabby & Jack's": 5,
+        "Oregon-Tabby & Jack's": 6,
+        "East Washington-Tabby & Jack's": 7,
+        "Cross Plains-Tabby & Jack's": 8,
+        "Verona-Tabby & Jack's": 9
     }
 
     store_columns = {
-        "Verona - Tabby & Jack's": "Verona-Tabby & Jack's",
-        "Sun Prairie - Tabby & Jack's": "Sun Prairie-Tabby & Jack's",
-        "Stoughton - Tabby & Jack's": "Stoughton-Tabby & Jack's",
-        "Oregon - Tabby & Jack's": "Oregon-Tabby & Jack's",
-        "Monona Drive - Tabby & Jack's": "Monona Drive-Tabby & Jack's",
-        "Middleton - Tabby & Jack's": "Middleton-Tabby & Jack's",
-        "Fitchburg - Tabby & Jack's": "Fitchburg-Tabby & Jack's",
-        "East Washington - Tabby & Jack's": "East Washington-Tabby & Jack's",
-        "Cross Plains - Tabby & Jack's": "Cross Plains-Tabby & Jack's"
+        col: col
+        for col in store_data.columns
+        if "Tabby & Jack's" in col
     }
 
     size_search_cols = [
@@ -174,7 +168,13 @@ def create_instacart_files(report_file, sales_file, output_folder):
 
         safe_name = store.replace(" - ", "_").replace(" ", "_").replace("'", "")
         safe_name = safe_name.replace("-", "_")
-        safe_name = f"{store_numbers[store]}_{safe_name}.csv"
+        store_number = store_numbers.get(qty_col)
+
+        if not store_number:
+            print(f"Skipping {store}: store number not found")
+            continue
+
+        safe_name = f"{store_number}_{safe_name}.csv"
 
         output_path = output_folder / safe_name
 
