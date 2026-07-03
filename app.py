@@ -44,6 +44,11 @@ pages = {
     title="Instacart Upload",
     icon=":material/upload_file:"
     ),
+    "Vendor Contact": st.Page(
+    "pages/vendorcontactt.py",
+    title="Vendor Contact",
+    icon=":material/contact_page:"
+    ),
 }
 
 report_links = {
@@ -52,7 +57,8 @@ report_links = {
     "Dusty Report Transfer": "pages/dusty.py",
     "Sales by Brand": "pages/brandsale.py",
     "Helpful Links": "pages/links.py",
-    "Instacart Upload": "pages/instacart.py"
+    "Instacart Upload": "pages/instacart.py",
+    "Vendor Contact": "pages/vendorcontact.py"
 }
 
 st.markdown(
@@ -204,6 +210,7 @@ with st.sidebar:
     sidebar_nav_button(":material/filter_list: Sales by Brand", "pages/brandsale.py")
     sidebar_nav_button(":material/link: Helpful Links", "pages/links.py")
     sidebar_nav_button(":material/upload_file: Instacart Upload", "pages/instacart.py")
+    sidebar_nav_button(":material/contact_page: Vendor Contact", "pages/vendorcontact.py")
 
 
 
