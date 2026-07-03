@@ -206,9 +206,9 @@ After running the search, export the CSV and upload it below.
 """, unsafe_allow_html=True)
 
 report_file = st.file_uploader(
-    "Upload Report",
+    label="Upload CSV Here",
     type=["csv"],
-    label_visibility="hidden"
+    label_visibility="collapsed"
 )
 
 password = st.text_input(
