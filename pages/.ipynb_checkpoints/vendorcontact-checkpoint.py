@@ -10,7 +10,7 @@ conn = st.connection("gsheets", type=GSheetsConnection)
 @st.cache_data(ttl=300)
 def load_contacts():
     df = conn.read(
-        spreadsheet="https://docs.google.com/spreadsheets/d/18dn2ojjVdkF8QU1qTURwm3GmqOR2-eYvIn2IjGpUg4k/edit?usp=sharing",
+        spreadsheet="https://docs.google.com/spreadsheets/d/18dn2ojjVdkF8QU1qTURwm3GmqOR2-eYvIn2IjGpUg4k/edit?gid=980561560#gid=980561560",
         worksheet="VENDOR CONTACT",
         usecols=list(range(20))
     )
