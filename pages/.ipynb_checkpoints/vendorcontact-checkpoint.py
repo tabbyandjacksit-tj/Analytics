@@ -1,19 +1,26 @@
 import streamlit as st
 import pandas as pd
 
+# ---------------------------------------
+# Page Styling
+# ---------------------------------------
 
 st.markdown("""
+<style>
+.block-container {
+    padding-top: 1.2rem;
+    padding-bottom: 1rem;
+    max-width: 95rem;
+}
 
-<style>
-/* Reduce the top padding of the page */
-.block-container {
-    padding-top: 2rem;
+.table-card {
+    margin-top: 1rem;
+    padding: 14px;
+    background-color: rgba(92, 128, 103, 0.10);
+    border: 2px solid #5C8067;
+    border-radius: 16px;
 }
-/* Optional: slightly reduce bottom padding too */
-.block-container {
-    padding-bottom: 2rem;
-}
-<style>
+
 .edit-box {
     margin-top: 1.5rem;
     padding: 18px 22px;
@@ -38,7 +45,7 @@ st.markdown("""
 # Page Header
 # ---------------------------------------
 
-st.title("📞 Vendor Contacts")
+st.title("☏ Vendor Contacts")
 st.caption("Search vendor representatives, emails, phone numbers, and brand policies.")
 
 # ---------------------------------------
@@ -48,17 +55,13 @@ st.caption("Search vendor representatives, emails, phone numbers, and brand poli
 SHEET_ID = "18dn2ojjVdkF8QU1qTURwm3GmqOR2-eYvIn2IjGpUg4k"
 GID = "980561560"
 
-
 @st.cache_data(ttl=60)
 def load_contacts():
     url = f"https://docs.google.com/spreadsheets/d/{SHEET_ID}/export?format=csv&gid={GID}"
     df = pd.read_csv(url)
-
     df = df.dropna(how="all")
     df = df.fillna("")
-
     return df
-
 
 df = load_contacts()
 
@@ -67,7 +70,7 @@ df = load_contacts()
 # ---------------------------------------
 
 search = st.text_input(
-    "🔍 Search",
+    "🔍︎ Search",
     placeholder="Search by brand, vendor, email, phone, notes...",
 )
 
@@ -76,13 +79,11 @@ search = st.text_input(
 # ---------------------------------------
 
 if search:
-    mask = (
-        df.astype(str)
-        .apply(lambda row: row.str.contains(search, case=False, na=False).any(), axis=1)
+    mask = df.astype(str).apply(
+        lambda row: row.str.contains(search, case=False, na=False).any(),
+        axis=1
     )
-
     filtered = df[mask]
-
 else:
     filtered = df
 
@@ -92,6 +93,8 @@ else:
 
 st.write(f"**Showing {len(filtered)} of {len(df)} vendors**")
 
+st.markdown('<div class="table-card">', unsafe_allow_html=True)
+
 st.dataframe(
     filtered,
     hide_index=True,
@@ -99,10 +102,16 @@ st.dataframe(
     height=550,
 )
 
+st.markdown("</div>", unsafe_allow_html=True)
+
+# ---------------------------------------
+# Edit Sheet Box
+# ---------------------------------------
+
 st.markdown(
-    f"""
+    """
 <div class="edit-box">
-    <h4>✏️ Looking to add or update a vendor contact?</h4>
+    <h4>✎ Looking to add or update a vendor contact?</h4>
     <p>
         This page is search-only.
         <a href="https://docs.google.com/spreadsheets/d/18dn2ojjVdkF8QU1qTURwm3GmqOR2-eYvIn2IjGpUg4k/edit?usp=sharing" target="_blank">
