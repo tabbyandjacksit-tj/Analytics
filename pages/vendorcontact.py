@@ -86,7 +86,7 @@ st.dataframe(
     filtered,
     hide_index=True,
     use_container_width=True,
-    height=850,
+    height=700,
 )
 
 st.markdown(
