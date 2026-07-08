@@ -4,7 +4,7 @@ from pathlib import Path
 from utils.instacart import create_instacart_files, upload_files_to_instacart
 
 
-PASSWORD = "Ella!"
+PASSWORD = st.secrets["INSTACART_PASSWORD"]
 
 if "instacart_authenticated" not in st.session_state:
     st.session_state.instacart_authenticated = False
@@ -216,7 +216,7 @@ password = st.text_input(
     type="password"
 )
 
-sales_file = Path("utils/data/sales.csv")
+sales_file = Path("data/sales.csv")
 
 
 if report_file and password:
