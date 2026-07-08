@@ -1,4 +1,5 @@
 import streamlit as st
+from utils.images import image_to_base64
 
 
 def apply_base_styles(max_width: int = 1050) -> None:
@@ -260,5 +261,21 @@ def mini_step(number: int, title: str, description: str) -> None:
     <p>{description}</p>
 </div>
 """,
+        unsafe_allow_html=True,
+    )
+
+def render_instruction_card(number: int, image_path: str, title: str, desc: str) -> None:
+    image = image_to_base64(image_path)
+
+    st.markdown(
+        f"""
+        <div class="mini-step">
+            <div class="mini-number">{number}</div>
+            <br>
+            <img src="data:image/png;base64,{image}" width="42" style="margin:0 auto 5px auto;">
+            <h4>{title}</h4>
+            <p>{desc}</p>
+        </div>
+        """,
         unsafe_allow_html=True,
     )
