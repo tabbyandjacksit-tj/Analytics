@@ -1,14 +1,11 @@
-import streamlit as st
-import pandas as pd
-import numpy as np
-import base64
 from datetime import datetime, timedelta
 
+import numpy as np
+import pandas as pd
+import streamlit as st
 
-def image_to_base64(image_path):
-    with open(image_path, "rb") as image_file:
-        return base64.b64encode(image_file.read()).decode()
-
+from utils.images import image_to_base64
+from utils.styling import apply_base_styles, apply_mvo_styles, render_hero, section_header
 
 st.set_page_config(
     page_title="Major Vendor Order",
@@ -16,93 +13,10 @@ st.set_page_config(
     layout="wide"
 )
 
+apply_base_styles()
 
-##############################################################################
-#### Here sets all of the features to how this specific page appears. 
-###  
-### To see how the primary app appearances look, check out app.py
-##############################################################################
-
-st.markdown("""
-<style>
-
-/* HIDES STREAMLIT'S BUILT-IN ACCESSORIES */
-footer {
-    visibility: hidden;
-}
-
-[data-testid="stToolbar"],
-[data-testid="stDecoration"] {
-    display: none;
-}
-
-
-/* MAIN APPEARANCE */
-.stApp {
-    background-color: #F6F1E5; /* Sets the main background color */
-    color: #2F372D; /* Sets the text color */
-}
-
-/* SETS THE SPACING AND WIDTH OF THE PAGE */
-.block-container {
-    padding-top: 2rem;
-    padding-bottom: 3rem;
-    max-width: 1050px;
-}
-
-/* HEADER APPEARANCE */
-.hero {
-    background-color: #1D5A3E;
-    padding: 28px 28px;
-    border-radius: 26px;
-    margin-bottom: 28px;
-    box-shadow: 0px 8px 22px rgba(29,90,62,.18);
-}
-
-/* TITLE APPEARANCE */
-.hero h1 {
-    text-align: center;
-    color: #FFF9EF;
-    font-size: 44px;
-    font-weight: 800;
-    margin: 0;
-}
-
-/* SUBTITLE APPEARANCE */
-.hero p {
-    text-align: center;
-    color: rgba(255,249,239,0.88);
-    font-size: 17px;
-    margin-top: 12px;
-    margin-bottom: 0;
-}
-
-/* ORANGE STEP LABEL APPEARANCE */
-.section-label {
-    color: #C97822;
-    font-weight: 800;
-    font-size: 13px;
-    letter-spacing: 1.2px;
-    text-transform: uppercase;
-    margin-bottom: 4px;
-}
-
-/* GREEN STEP HEADING APPEARANCE */
-.section-title {
-    color: #1D5A3E;
-    font-size: 31px;
-    font-weight: 800;
-    margin-bottom: 4px;
-}
-
-/* SUBTITLE WITHIN STEP APPEARANCE */
-.section-subtitle {
-    color: #5C7A58;
-    font-size: 16px;
-    margin-bottom: 20px;
-}
-
-/* INSTRUCTION CARD'S APPEARANCE */
+apply_extra_css(
+    """
 .mini-step {
     background-color: #FDF7EA;
     border: 1px solid #D7C8A4;
@@ -113,7 +27,6 @@ footer {
     box-shadow: 0px 3px 10px rgba(47,55,45,0.04);
 }
 
-/* INSTRUCTION CARD NUMBER'S APPEARANCE */
 .mini-number {
     background-color: #C97822;
     color: white;
@@ -128,14 +41,12 @@ footer {
     margin-bottom: 6px;
 }
 
-/* INSTRUCTION CARD HEADING APPEARANCE */
 .mini-step h4 {
     color: #1D5A3E;
     font-size: 16px;
     margin: 5px 0 3px 0;
 }
 
-/* INSTRUCTION CARD DESCRIPTION */
 .mini-step p {
     color: #5C7A58;
     font-size: 12px;
@@ -143,7 +54,6 @@ footer {
     line-height: 1.35;
 }
 
-/* BUTTON APPEARANCE */
 .stButton button {
     background-color: #C97822;
     color: white;
@@ -153,13 +63,11 @@ footer {
     font-weight: 700;
 }
 
-/* BUTTON HOVER APPEARANCE */
 .stButton button:hover {
     background-color: #B4671C;
     color: white;
 }
 
-/* DOWNLOAD BUTTON APPEARANCE */
 .stDownloadButton button {
     background-color: #1D5A3E;
     color: white;
@@ -169,13 +77,11 @@ footer {
     font-weight: 700;
 }
 
-/* DOWNLOAD BUTTON HOVER APPEARANCE */
 .stDownloadButton button:hover {
     background-color: #15442F;
     color: white;
 }
 
-/* FILE UPLOAD APPEARANCE */
 section[data-testid="stFileUploader"] {
     background-color: #FFF9EF;
     padding: 22px;
@@ -184,17 +90,12 @@ section[data-testid="stFileUploader"] {
     box-shadow: 0px 4px 14px rgba(47,55,45,0.07);
 }
 
-
-/* DIVIDING LINE APPEARANCE */
 hr {
     border: none;
     border-top: 1px solid #D7C8A4;
     margin: 2rem 0;
 }
 
-/* DATE INFO BOX */
-
-/* DATE INFO CARD */
 .date-card {
     background-color: #FDF7EA;
     border: 1px solid #D7C8A4;
@@ -234,36 +135,27 @@ hr {
     color: #1D5A3E;
 }
 
-/* SETS HEADERS TO GREEN */
 h2, h3 {
     color: #1D5A3E;
 }
-</style>
-""", unsafe_allow_html=True)
+"""
+)
 
-##########################################################
-### END OF MAIN APPEARANCE CSS 
-##########################################################
-
-
-logo = image_to_base64("images/logo.png")
 
 
 # Written information for the title 
-st.markdown("""
-<div class="hero">
-    <h1>Major Vendor Order Report</h1>
-    <p>Generate a vendor order from a Lightspeed item sales report.</p>
-</div>
-""", unsafe_allow_html=True)
+render_hero(
+    "Major Vendor Order Report",
+    "Generate a vendor order from a Lightspeed item sales report.",
+)
 
 
 # Written information for step 1 (orange heading starts)  
-st.markdown("""
-<div class="section-label">Step 1</div>
-<div class="section-title">Export Report from Lightspeed</div>
-<div class="section-subtitle">Follow these steps to export the correct CSV report.</div>
-""", unsafe_allow_html=True)
+section_header(
+    "Step 1",
+    "Export Report from Lightspeed",
+    "Follow these steps to export the correct CSV report.",
+)
 
 ##############################################################################
 #### This is where the code for the instruction cards and appearance lives 
@@ -337,10 +229,10 @@ st.markdown(f"""
 
 
 # Written information for step 2 
-st.markdown("""
-<div class="section-label">Step 2</div>
-<div class="section-title">Upload Item Sale Report</div>
-""", unsafe_allow_html=True)
+section_header(
+    "Step 2",
+    "Upload Item Sale Report",
+)
 
 
 uploaded_file = st.file_uploader( # Creates the file uploader button 
@@ -395,11 +287,11 @@ if uploaded_file:
         output_df = output_df.sort_values("Order Qty", ascending=False) # Sort largest to smallest
 
         # Written informnation for step 3 
-        st.markdown("""
-        <div class="section-label">Step 3</div>
-        <div class="section-title">Order Results</div>
-        <div class="section-subtitle">Review the recommended order quantities below, and download your CSV.</div>
-        """, unsafe_allow_html=True)
+        section_header(
+            "Step 3",
+            "Order Results",
+            "Review the recommended order quantities below, and download your CSV.",
+        )
         
         # Creates the preview box for seeing the potential output 
         st.markdown(""" 
