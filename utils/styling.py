@@ -98,6 +98,27 @@ def apply_extra_css(css: str) -> None:
 def apply_mvo_styles() -> None:
     apply_extra_css(
         """
+.section-label {
+    color: #C97822;
+    font-size: 14px;
+    font-weight: 800;
+    margin-top: 24px;
+    margin-bottom: 4px;
+}
+
+.section-title {
+    color: #1D5A3E;
+    font-size: 20px;
+    font-weight: 800;
+    margin-bottom: 4px;
+}
+
+.section-subtitle {
+    color: #2F372D;
+    font-size: 15px;
+    margin-bottom: 14px;
+}
+
 .mini-step {
     background-color: #FDF7EA;
     border: 1px solid #D7C8A4;
@@ -218,6 +239,7 @@ hr {
 """
     )
 
+
 def section_header(label: str, title: str, subtitle: str = "") -> None:
     st.markdown(
         f"""
@@ -228,3 +250,15 @@ def section_header(label: str, title: str, subtitle: str = "") -> None:
         unsafe_allow_html=True,
     )
 
+
+def mini_step(number: int, title: str, description: str) -> None:
+    st.markdown(
+        f"""
+<div class="mini-step">
+    <div class="mini-number">{number}</div>
+    <h4>{title}</h4>
+    <p>{description}</p>
+</div>
+""",
+        unsafe_allow_html=True,
+    )
