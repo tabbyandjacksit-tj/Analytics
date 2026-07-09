@@ -49,6 +49,11 @@ pages = {
     title="Vendor Contact",
     icon=":material/contact_page:"
     ),
+        "MAP Information": st.Page(
+    "pages/MAP.py",
+    title="MAP Information",
+    icon=":material/price_check:"
+    ),
 }
 
 report_links = {
@@ -211,6 +216,7 @@ with st.sidebar:
     sidebar_nav_button(":material/link: Helpful Links", "pages/links.py")
     sidebar_nav_button(":material/upload_file: Instacart Upload", "pages/instacart.py")
     sidebar_nav_button(":material/contact_page: Vendor Contact", "pages/vendorcontact.py")
+    sidebar_nav_button(":material/price_check: MAP Information", "pages/MAP.py")
 
 
 
