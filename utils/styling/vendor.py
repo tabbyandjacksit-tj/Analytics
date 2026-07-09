@@ -49,3 +49,13 @@ def render_edit_box(sheet_url: str) -> None:
 """,
         unsafe_allow_html=True,
     )
+
+
+def section_header(label: str, title: str, subtitle: str = "") -> None:
+    st.markdown(
+        f"""
+<div class="section-title">{title}</div>
+<div class="section-subtitle">{subtitle}</div>
+""",
+        unsafe_allow_html=True,
+    )
