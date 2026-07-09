@@ -40,6 +40,7 @@ search = st.text_input(
     "Search",
     placeholder="Search by brand, vendor, email, phone, notes...",
     label_visibility="collapsed",
+    key = "brand_search",
 )
 if search:
     mask = BRAND_DF.astype(str).apply(
@@ -63,6 +64,7 @@ search = st.text_input(
     "Search",
     placeholder="Search by brand, vendor, email, phone, notes...",
     label_visibility="collapsed",
+    key = "total_search",
 )
 if search:
     mask = TOTAL_DF.astype(str).apply(
