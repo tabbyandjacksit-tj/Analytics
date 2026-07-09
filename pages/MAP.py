@@ -58,7 +58,7 @@ st.dataframe(
     brand_filtered,
     hide_index=True,
     use_container_width=True,
-    height=550,
+    height=200,
 )
 
 
@@ -84,5 +84,5 @@ st.dataframe(
     total_filtered,
     hide_index=True,
     use_container_width=True,
-    height=550,
+    height=750,
 ) 
