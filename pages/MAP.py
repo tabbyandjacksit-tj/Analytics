@@ -36,7 +36,7 @@ TOTAL_DF = load_sheet(SHEET_ID, TOTAL_GID)
 
 
 st.markdown("### Search For Details About MAP Pricing")
-st.markdown("# See when the MAP pricing is in effect, and what the policy is for each brand.")
+st.caption("See when the MAP pricing is in effect, and what the policy is for each brand.")
 search = st.text_input(
     "Search",
     placeholder="Search brands....",
@@ -60,7 +60,7 @@ st.dataframe(
 )
 
 st.markdown("### Search Product Pricing Details")
-st.markdown("# See what the MAP pricing is for each product, and when it is in effect.")
+st.caption("See what the MAP pricing is for each product, and when it is in effect.")
 search = st.text_input(
     "Search",
     placeholder="Search by brand, UPC, or item name....",
