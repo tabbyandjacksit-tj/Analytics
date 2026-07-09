@@ -51,7 +51,7 @@ if search:
 else:
     brand_filtered = BRAND_DF.copy()
 st.write(f"**Showing {len(brand_filtered)} of {len(BRAND_DF)} vendors**")
-
+brand_filtered = brand_filtered.drop(columns=["Hide"])
 st.dataframe(
     brand_filtered,
     hide_index=True,
