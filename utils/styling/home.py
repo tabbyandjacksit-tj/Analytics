@@ -1,7 +1,5 @@
 import streamlit as st
-
 from utils.styling.base import apply_extra_css
-
 
 def apply_home_styles() -> None:
     apply_extra_css(

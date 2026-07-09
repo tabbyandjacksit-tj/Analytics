@@ -1,10 +1,7 @@
 from datetime import datetime
-
 import streamlit as st
-
 from utils.images import image_to_base64
 from utils.styling.base import apply_extra_css
-
 
 def apply_mvo_styles() -> None:
     apply_extra_css(
@@ -150,7 +147,6 @@ hr {
 """
     )
 
-
 def section_header(label: str, title: str, subtitle: str = "") -> None:
     st.markdown(
         f"""
@@ -160,7 +156,6 @@ def section_header(label: str, title: str, subtitle: str = "") -> None:
 """,
         unsafe_allow_html=True,
     )
-
 
 def render_instruction_card(
     number: int,
@@ -182,7 +177,6 @@ def render_instruction_card(
 """,
         unsafe_allow_html=True,
     )
-
 
 def render_date_card(
     bi_report_start: datetime,
@@ -209,7 +203,6 @@ def render_date_card(
 """,
         unsafe_allow_html=True,
     )
-
 
 def render_preview_title(title: str = "Major Order Preview") -> None:
     st.markdown(

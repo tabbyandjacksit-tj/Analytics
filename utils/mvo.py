@@ -11,7 +11,6 @@ def find_missing_columns(df: pd.DataFrame) -> list[str]:
     """
     return [col for col in REQUIRED_COLUMNS if col not in df.columns]
 
-
 def calculate_order_quantities(df: pd.DataFrame) -> pd.DataFrame:
     """
     Calculates the order quantities based on the following rules:

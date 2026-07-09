@@ -1,5 +1,4 @@
 import streamlit as st
-
 from utils.styling.base import apply_extra_css
 
 

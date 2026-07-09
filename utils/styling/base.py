@@ -1,6 +1,5 @@
 import streamlit as st
 
-
 def apply_extra_css(css: str) -> None:
     st.markdown(f"<style>{css}</style>", unsafe_allow_html=True)
 
