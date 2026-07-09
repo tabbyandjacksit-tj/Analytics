@@ -3,10 +3,13 @@ import re
 import pandas as pd
 import paramiko
 
-
 def extract_size(text):
+    """
+    Extracts the size from a given text string using regex patterns.
+    If no size is found, returns "1 ct" as a default value.
+    """
     text = str(text)
-
+    # ! HERE IS WHERE NEW SIZE PATTERNS CAN BE ADDED IF NEEDED USING REGEX !
     size_patterns = (
         r"(\d+(?:\.\d+)?\s?(?:oz|ounce|ounces|lb|lbs|pound|pounds|kg|g|gram|grams|count|ct|pk|pack|#))"
         r"|(\b(?:xxxs|xxs|xs|xsm|sm|small|sml|m|med|medium|l|lg|large|lrg|xl|xxl|xxxl|2xs|3xs|2xl|3xl)\b)"
@@ -14,15 +17,11 @@ def extract_size(text):
         r"|(\d+(?:\.\d+)?\s?(?:\'|ft|feet))"
         r"|(\b(?:pint|pt|qt|quart|ml|liter|litre|gal|gallon|cup|single)\b)"
     )
-
     match = re.search(size_patterns, text, flags=re.IGNORECASE)
-
     if not match:
         return "1 ct"
-
     size = match.group(0).strip()
     size = re.sub(r"(?<=\d)(?=[a-zA-Z])", " ", size)
-
     return size
 
 
@@ -34,15 +33,18 @@ def clean_col(col):
 
 
 def create_instacart_files(report_file, sales_file, output_folder):
+    """
+    Creates the Instacart files for each store based on the provided LS report. 
+    Instacart requires a specific format for the files, which is handled in this function.
+    """
     store_data = pd.read_csv(
         report_file,
         dtype=str,
         keep_default_na=False
     )
-
     store_data.columns = [clean_col(c) for c in store_data.columns]
     print(store_data.columns.tolist())
-
+    # Instacart has assigned numbers to each store, this assigns those numbers to those stores for the file naming convention
     store_numbers = {
         "Fitchburg-Tabby & Jack's": 1,
         "Middleton-Tabby & Jack's": 2,
@@ -54,13 +56,11 @@ def create_instacart_files(report_file, sales_file, output_folder):
         "Cross Plains-Tabby & Jack's": 8,
         "Verona-Tabby & Jack's": 9
     }
-
     store_columns = {
         col: col
         for col in store_data.columns
         if "Tabby & Jack's" in col
     }
-
     size_search_cols = [
         "Item",
         "Category",
@@ -74,26 +74,21 @@ def create_instacart_files(report_file, sales_file, output_folder):
         "Subcategory 8",
         "Subcategory 9"
     ]
-
     existing_size_cols = [
         c for c in size_search_cols
         if c in store_data.columns
     ]
-
     store_data["size_search_text"] = (
         store_data[existing_size_cols]
         .fillna("")
         .agg(" ".join, axis=1)
     )
-
     store_data["size"] = store_data["size_search_text"].apply(extract_size)
-
     sales = pd.read_csv(
         sales_file,
         dtype=str,
         keep_default_na=False
     )
-
     sales = sales[
         [
             "lookup_code",
@@ -102,25 +97,19 @@ def create_instacart_files(report_file, sales_file, output_folder):
             "sale_end_at"
         ]
     ].drop_duplicates(subset="lookup_code")
-
     created_files = []
-
     for store, qty_col in store_columns.items():
         if qty_col not in store_data.columns:
             print(f"Skipping {store}: column not found -> {qty_col}")
             continue
-
         store_data[qty_col] = pd.to_numeric(
             store_data[qty_col],
             errors="coerce"
         ).fillna(0)
-
         filtered = store_data[store_data[qty_col] > 0].copy()
-
         if filtered.empty:
             print(f"Skipping {store}: no items with quantity over 0")
             continue
-
         filtered = filtered[
             [
                 "UPC",
@@ -131,7 +120,6 @@ def create_instacart_files(report_file, sales_file, output_folder):
                 qty_col
             ]
         ]
-
         filtered.rename(columns={
             "UPC": "lookup_code",
             "Item": "item_name",
@@ -139,18 +127,14 @@ def create_instacart_files(report_file, sales_file, output_folder):
             "Price": "price",
             qty_col: "quantity"
         }, inplace=True)
-
         filtered = filtered.merge(
             sales,
             on="lookup_code",
             how="left"
         )
-
-        filtered["cost_unit"] = "each"
-        filtered["alcoholic"] = "FALSE"
-
+        filtered["cost_unit"] = "each" # Needed for instacart
+        filtered["alcoholic"] = "FALSE" # Needed for instacart upload 
         filtered.drop(columns=["quantity"], inplace=True)
-
         filtered = filtered[
             [
                 "lookup_code",
@@ -165,19 +149,14 @@ def create_instacart_files(report_file, sales_file, output_folder):
                 "alcoholic"
             ]
         ]
-
         safe_name = store.replace(" - ", "_").replace(" ", "_").replace("'", "")
         safe_name = safe_name.replace("-", "_")
         store_number = store_numbers.get(qty_col)
-
         if not store_number:
             print(f"Skipping {store}: store number not found")
             continue
-
         safe_name = f"{store_number}_{safe_name}.csv"
-
         output_path = output_folder / safe_name
-
         filtered.to_csv(
             output_path,
             index=False,
@@ -185,18 +164,17 @@ def create_instacart_files(report_file, sales_file, output_folder):
             encoding="utf-8-sig",
             lineterminator="\n"
         )
-
         created_files.append(output_path)
-
     return created_files
 
 
 def upload_files_to_instacart(files, password):
+    """
+    Accesses Instacart's SFTP server and uploads the files created in create_instacart_files()
+    """
     host = "sftp-partners.instacart.com"
     username = "tabbyjack-catalog"
-
     remote_base = "/inventory-files"
-
     remote_folders = {
         "1": "339872-tabby_jacks-1",
         "2": "339871-tabby_jacks-2",
@@ -208,31 +186,21 @@ def upload_files_to_instacart(files, password):
         "8": "339869-tabby_jacks-8",
         "9": "339868-tabby_jacks-9",
     }
-
     transport = paramiko.Transport((host, 22))
     transport.connect(username=username, password=password)
-
     sftp = paramiko.SFTPClient.from_transport(transport)
-
     uploaded = []
-
     try:
         for file_path in files:
             file_name = os.path.basename(file_path)
             store_number = file_name.split("_")[0]
-
             remote_folder = remote_folders.get(store_number)
-
             if not remote_folder:
                 continue
-
             remote_path = f"{remote_base}/{remote_folder}/{file_name}"
-
             sftp.put(str(file_path), remote_path)
             uploaded.append(file_name)
-
     finally:
         sftp.close()
         transport.close()
-
     return uploaded
