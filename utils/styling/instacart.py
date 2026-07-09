@@ -193,7 +193,6 @@ def render_report_help_card() -> None:
         unsafe_allow_html=True,
     )
 
-
 def render_instacart_link() -> None:
     st.markdown(
         """
