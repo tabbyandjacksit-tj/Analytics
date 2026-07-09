@@ -36,7 +36,7 @@ BRAND_DF = load_sheet(SHEET_ID, BRAND_GID)
 TOTAL_DF = load_sheet(SHEET_ID, TOTAL_GID)
 
 
-utils.base.page_section(
+page_section(
     "Search For Details About MAP Pricing",
     "See when the MAP pricing is in effect, and what the policy is for each brand.",
 )
@@ -63,7 +63,7 @@ st.dataframe(
 )
 
 
-utils.base.page_section(
+page_section(
     "Search Product Pricing Details",
     "See what the MAP pricing is for each product, and when it is in effect."
 )
