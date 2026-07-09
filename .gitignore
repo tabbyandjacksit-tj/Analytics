@@ -28,6 +28,7 @@ ENV/
 # Keep config.toml
 # Ignore secrets
 .streamlit/secrets.toml
+streamlit/secrets.toml
 
 # ==========================================
 # VS Code
