@@ -35,10 +35,11 @@ BRAND_DF = load_sheet(SHEET_ID, BRAND_GID)
 TOTAL_DF = load_sheet(SHEET_ID, TOTAL_GID)
 
 
-st.markdown("### Search MAP Information")
+st.markdown("### Search For Details About MAP Pricing")
+st.markdown("# See when the MAP pricing is in effect, and what the policy is for each brand.")
 search = st.text_input(
     "Search",
-    placeholder="Search by brand, vendor, email, phone, notes...",
+    placeholder="Search brands....",
     label_visibility="collapsed",
     key = "brand_search",
 )
@@ -50,7 +51,6 @@ if search:
     brand_filtered = BRAND_DF[mask].copy()
 else:
     brand_filtered = BRAND_DF.copy()
-st.write(f"**Showing {len(brand_filtered)} of {len(BRAND_DF)} vendors**")
 brand_filtered = brand_filtered.drop(columns=["Hide"])
 st.dataframe(
     brand_filtered,
@@ -59,10 +59,11 @@ st.dataframe(
     height=550,
 )
 
-st.markdown("### Search for a products MAP price")
+st.markdown("### Search Product Pricing Details")
+st.markdown("# See what the MAP pricing is for each product, and when it is in effect.")
 search = st.text_input(
     "Search",
-    placeholder="Search by brand, vendor, email, phone, notes...",
+    placeholder="Search by brand, UPC, or item name....",
     label_visibility="collapsed",
     key = "total_search",
 )
@@ -74,8 +75,6 @@ if search:
     total_filtered = TOTAL_DF[mask].copy()
 else:
     total_filtered = TOTAL_DF.copy()
-st.write(f"**Showing {len(total_filtered)} of {len(TOTAL_DF)} vendors**")
-
 st.dataframe(
     total_filtered,
     hide_index=True,
