@@ -37,7 +37,7 @@ TOTAL_DF = load_sheet(SHEET_ID, TOTAL_GID)
 
 render_map_section(
     "Search For Details About MAP Pricing",
-    "See if a brand follows the MAP pricing, when it was last updated on Lightspeed, and what the policy is for each brand.",
+    "See if a brand follows MAP pricing, when it was last updated on Lightspeed, and what the policy is for each brand.",
 )
 search = st.text_input(
     "Search",
