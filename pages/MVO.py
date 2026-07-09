@@ -5,14 +5,14 @@ import streamlit as st
 
 from utils.images import image_to_base64
 from utils.mvo import calculate_order_quantities, find_missing_columns
-from utils.styling import (
-    apply_base_styles,
+from utils.styling.base import apply_base_styles, render_hero
+from utils.styling.mvo import (
     apply_mvo_styles,
-    render_hero,
+    render_date_card,
     render_instruction_card,
+    render_preview_title,
     section_header,
 )
-
 
 st.set_page_config(
     page_title="Major Vendor Order",
@@ -59,24 +59,7 @@ bi_report_start = datetime.today() - timedelta(days=56)
 weekly_report_start = datetime.today() - timedelta(days=28)
 calendar_icon = image_to_base64("images/calendar.png")
 
-st.markdown(
-    f"""
-    <div class="date-card">
-        <div class="date-card-inner">
-            <img src="data:image/png;base64,{calendar_icon}" class="date-icon">
-            <div>
-                <div class="date-title">Report Date Range</div>
-                <div class="date-text">
-                    <strong>Bi-Weekly Orders:</strong> {bi_report_start.strftime("%B %d, %Y")}
-                    <br>
-                    <strong>Weekly Orders:</strong> {weekly_report_start.strftime("%B %d, %Y")}
-                </div>
-            </div>
-        </div>
-    </div>
-    """,
-    unsafe_allow_html=True,
-)
+render_date_card(bi_report_start, weekly_report_start)
 
 section_header(
     "Step 2",
@@ -114,14 +97,7 @@ section_header(
     "Review the recommended order quantities below, and download your CSV.",
 )
 
-st.markdown(
-    """
-    <h3 style="color:#1D5A3E; font-size:24px; font-weight:800; margin-bottom:10px;">
-        Major Order Preview
-    </h3>
-    """,
-    unsafe_allow_html=True,
-)
+render_preview_title()
 
 st.dataframe(output_df.head(50), use_container_width=True)
 
