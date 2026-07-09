@@ -1,3 +1,6 @@
+#  {forestGreen,14} =====================================================================
+# Imports
+# =======================================================================================
 import streamlit as st
 
 from utils.images import image_to_base64
@@ -10,19 +13,27 @@ from utils.styling.home import (
     render_home_banner,
     render_tool_card,
 )
-
-
+#  {yellowgreen,16} =====================================================================
+# Page Configuration (sets title, icon, and layout of page)
+# =======================================================================================
 st.set_page_config(
     page_title="Tabby & Jack's Analytics Hub",
     page_icon="images/logo.png",
     layout="wide",
 )
-
-apply_base_styles(max_width=1160)
-apply_home_styles()
-
 logo = image_to_base64("images/logo.png")
+# =======================================================================================
+# Apply CSS Styles
+# =======================================================================================
+render_home_banner(logo) # from utils.styling.home 
+render_dashboard_header() # from utils.styling.home
+apply_base_styles(max_width=1160) # from utils.styling.base
+apply_home_styles() # from utils.styling.base
 
+# =======================================================================================
+# Load in different images and icons for the page
+# image_to_base64 function converts the image to a base64 string so it can be used in HTML/CSS
+# =======================================================================================
 icons = {
     "ordering": image_to_base64("images/ordering.png"),
     "transfer": image_to_base64("images/item_report.png"),
@@ -30,6 +41,11 @@ icons = {
     "brand": image_to_base64("images/brand.png"),
 }
 
+# =======================================================================================
+# Define the different tool cards that will be displayed on the home page. 
+# Each tool has a title, description, status, category, icon, page link, and enabled status and 
+# and represents one card on the home page. 
+# =======================================================================================
 tools = [
     {
         "title": "Major Vendor Order",
@@ -86,12 +102,13 @@ tools = [
         "enabled": False,
     },
 ]
+# ---- Can set different categories to assign to homepage here!  ------------------------------------------------------
+categories = ["Ordering Tools", "Inventory Tools", "Office Hour Tools"] 
 
-categories = ["Ordering Tools", "Inventory Tools", "Office Hour Tools"]
-
-render_home_banner(logo)
-render_dashboard_header()
-
+# =======================================================================================
+# Initializes each dashboard tool card and renders them on the home page. 
+# Each tool card is displayed in a 2-column layout with the information listed above
+# =======================================================================================
 for category in categories:
     category_tools = [tool for tool in tools if tool["category"] == category]
 

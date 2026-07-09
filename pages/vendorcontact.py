@@ -1,9 +1,7 @@
 import pandas as pd
 import streamlit as st
-
 from utils.styling.base import apply_base_styles, render_hero
 from utils.styling.vendor import apply_vendor_styles, render_edit_box
-
 
 st.set_page_config(
     page_title="Vendor Contacts",
@@ -23,8 +21,6 @@ CHECKBOX_COLUMNS = [
     "Replacements?",
     "Case-by-Case Basis?",
 ]
-
-
 apply_base_styles()
 apply_vendor_styles()
 
@@ -82,8 +78,7 @@ st.dataframe(
     column_config={
         "Credit back?": st.column_config.CheckboxColumn("Credit back?"),
         "Replacements?": st.column_config.CheckboxColumn("Replacements?"),
-        "Case-by-Case Basis?": st.column_config.CheckboxColumn("Case-by-Case Basis?"),
+        "Case-by-Case Basis?": st.column_config.CheckboxColumn("Case-by-Case?"),
     },
 )
-
 render_edit_box(SHEET_EDIT_URL)
