@@ -165,29 +165,29 @@ def render_report_help_card() -> None:
     st.markdown(
         """
 <div class="report-help-card">
-    <div class="report-help-label">Upload Lightspeed Item Report CSV</div>
-    <div class="report-help-title">Go to: Inventory → Item Search</div>
+<div class="report-help-label">Upload Lightspeed Item Report CSV</div>
+<div class="report-help-title">Go to: Inventory → Item Search</div>
 
-    <div class="report-help-grid">
-        <div>
-            <span class="report-help-check">✓</span>
-            <b>Check Show All Locations</b>
-        </div>
+<div class="report-help-grid">
+<div>
+<span class="report-help-check">✓</span>
+<b>Check Show All Locations</b>
+</div>
 
-        <div>
-            <span class="report-help-check">✓</span>
-            <b>Check Items w/ Inventory</b>
-        </div>
+<div>
+<span class="report-help-check">✓</span>
+<b>Check Items w/ Inventory</b>
+</div>
 
-        <div>
-            <span class="report-help-check">✓</span>
-            <b>Set Shop = All Shops</b>
-        </div>
-    </div>
+<div>
+<span class="report-help-check">✓</span>
+<b>Set Shop = All Shops</b>
+</div>
+</div>
 
-    <div class="report-help-footer">
-        After running the search, export the CSV and upload it below.
-    </div>
+<div class="report-help-footer">
+After running the search, export the CSV and upload it below.
+</div>
 </div>
 """,
         unsafe_allow_html=True,
