@@ -13,7 +13,7 @@ from utils.styling.home import (
     render_home_banner,
     render_tool_card,
 )
-#  {yellowgreen,16} =====================================================================
+#  {yellowgreen,15} =====================================================================
 # Page Configuration (sets title, icon, and layout of page)
 # =======================================================================================
 st.set_page_config(
