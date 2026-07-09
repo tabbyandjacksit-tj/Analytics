@@ -1,12 +1,11 @@
-#  {forestGreen,9} =====================================================================
+#  {forestGreen,8} =====================================================================
 # Imports
 # =======================================================================================
 import pandas as pd
 import streamlit as st
 from utils.styling.base import apply_base_styles, render_hero
 from utils.sheet_reader import load_sheet
-from utils.styling.vendor import apply_vendor_styles, render_edit_box
-from utils.styling.base import page_section
+from utils.styling.vendor import apply_vendor_styles, render_edit_box, page_section, render_map_section
 #  {yellowgreen,7} =====================================================================
 # Page Configuration (sets title, icon, and layout of page)
 # =======================================================================================
@@ -36,7 +35,7 @@ BRAND_DF = load_sheet(SHEET_ID, BRAND_GID)
 TOTAL_DF = load_sheet(SHEET_ID, TOTAL_GID)
 
 
-page_section(
+render_map_section(
     "Search For Details About MAP Pricing",
     "See when the MAP pricing is in effect, and what the policy is for each brand.",
 )
@@ -63,7 +62,7 @@ st.dataframe(
 )
 
 
-page_section(
+render_map_section(
     "Search Product Pricing Details",
     "See what the MAP pricing is for each product, and when it is in effect."
 )

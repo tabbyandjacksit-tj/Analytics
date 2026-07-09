@@ -30,6 +30,20 @@ def apply_vendor_styles() -> None:
     font-weight: 800;
     text-decoration: none;
 }
+.map-section-title {
+    color: #1D5A3E;
+    font-size: 24px;
+    font-weight: 800;
+    margin-top: 28px;
+    margin-bottom: 6px;
+}
+
+.map-section-subtitle {
+    color: #2F372D;
+    font-size: 16px;
+    margin-bottom: 14px;
+    line-height: 1.45;
+}
 """
     )
 
@@ -56,6 +70,14 @@ def section_header(label: str, title: str, subtitle: str = "") -> None:
         f"""
 <div class="section-title">{title}</div>
 <div class="section-subtitle">{subtitle}</div>
+""",
+        unsafe_allow_html=True,
+    )
+def render_map_section(title: str, subtitle: str = "") -> None:
+    st.markdown(
+        f"""
+<div class="map-section-title">{title}</div>
+<div class="map-section-subtitle">{subtitle}</div>
 """,
         unsafe_allow_html=True,
     )
