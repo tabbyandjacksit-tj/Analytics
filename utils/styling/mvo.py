@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import streamlit as st
 
 from utils.images import image_to_base64
@@ -160,7 +162,12 @@ def section_header(label: str, title: str, subtitle: str = "") -> None:
     )
 
 
-def render_instruction_card(number: int, image_path: str, title: str, desc: str) -> None:
+def render_instruction_card(
+    number: int,
+    image_path: str,
+    title: str,
+    desc: str,
+) -> None:
     image = image_to_base64(image_path)
 
     st.markdown(
@@ -172,6 +179,44 @@ def render_instruction_card(number: int, image_path: str, title: str, desc: str)
     <h4>{title}</h4>
     <p>{desc}</p>
 </div>
+""",
+        unsafe_allow_html=True,
+    )
+
+
+def render_date_card(
+    bi_report_start: datetime,
+    weekly_report_start: datetime,
+    icon_path: str = "images/calendar.png",
+) -> None:
+    calendar_icon = image_to_base64(icon_path)
+
+    st.markdown(
+        f"""
+<div class="date-card">
+    <div class="date-card-inner">
+        <img src="data:image/png;base64,{calendar_icon}" class="date-icon">
+        <div>
+            <div class="date-title">Report Date Range</div>
+            <div class="date-text">
+                <strong>Bi-Weekly Orders:</strong> {bi_report_start.strftime("%B %d, %Y")}
+                <br>
+                <strong>Weekly Orders:</strong> {weekly_report_start.strftime("%B %d, %Y")}
+            </div>
+        </div>
+    </div>
+</div>
+""",
+        unsafe_allow_html=True,
+    )
+
+
+def render_preview_title(title: str = "Major Order Preview") -> None:
+    st.markdown(
+        f"""
+<h3 style="color:#1D5A3E; font-size:24px; font-weight:800; margin-bottom:10px;">
+    {title}
+</h3>
 """,
         unsafe_allow_html=True,
     )
