@@ -36,7 +36,7 @@ TOTAL_DF = load_sheet(SHEET_ID, TOTAL_GID)
 
 
 st.markdown("### Search MAP Information")
-st.dataframe(BRAND_DF, use_container_width=True, hidden_index = True)
+st.dataframe(BRAND_DF, use_container_width=True, hide_index = True)
 
 st.markdown("### Search for a products MAP price")
-st.dataframe(TOTAL_DF, use_container_width=True, hidden_index = True)   
+st.dataframe(TOTAL_DF, use_container_width=True, hide_index = True)   

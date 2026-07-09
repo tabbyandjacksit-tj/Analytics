@@ -44,7 +44,7 @@ CHECKBOX_COLUMNS = [
 # =======================================================================================
 # Loads in the vendor contacts from the google sheet as a df and refreshes every 60 seconds.
 # =======================================================================================
-df = utils.sheet_reader.load_sheet(SHEET_ID, GID)
+df = load_sheet(SHEET_ID, GID)
 
 # =======================================================================================
 # Creates the search bar function for the dataframe, and displays the filtered results in a table.
