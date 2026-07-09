@@ -1,11 +1,12 @@
-#  {forestGreen,8} =====================================================================
+#  {forestGreen,9} =====================================================================
 # Imports
 # =======================================================================================
 import pandas as pd
 import streamlit as st
 from utils.styling.base import apply_base_styles, render_hero
-from utils.styling.vendor import apply_vendor_styles, render_edit_box, section_header
 from utils.sheet_reader import load_sheet
+from utils.styling.vendor import apply_vendor_styles, render_edit_box
+from utils.styling.mvo import section_header
 #  {yellowgreen,7} =====================================================================
 # Page Configuration (sets title, icon, and layout of page)
 # =======================================================================================
