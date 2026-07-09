@@ -1,10 +1,13 @@
-#  {forestGreen,6} =====================================================================
+#  {forestGreen,10} =====================================================================
 # Imports
 # =======================================================================================
+from email import utils
+
 import pandas as pd
 import streamlit as st
 from utils.styling.base import apply_base_styles, render_hero
 from utils.styling.vendor import apply_vendor_styles, render_edit_box
+from utils.sheet_reader import load_sheet
 #  {yellowgreen,7} =====================================================================
 # Page Configuration (sets title, icon, and layout of page)
 # =======================================================================================
@@ -41,14 +44,7 @@ CHECKBOX_COLUMNS = [
 # =======================================================================================
 # Loads in the vendor contacts from the google sheet as a df and refreshes every 60 seconds.
 # =======================================================================================
-@st.cache_data(ttl=60) # ttl sets the tick time/ how often it refreshes the cache, in seconds. 60 seconds = 1 minute. If complaints, lower
-def load_contacts() -> pd.DataFrame:
-    url = f"https://docs.google.com/spreadsheets/d/{SHEET_ID}/export?format=csv&gid={GID}"
-    df = pd.read_csv(url)
-    df = df.dropna(how="all")
-    df = df.fillna("")
-    return df
-df = load_contacts()
+df = utils.sheet_reader.load_sheet(SHEET_ID, GID)
 
 # =======================================================================================
 # Creates the search bar function for the dataframe, and displays the filtered results in a table.
