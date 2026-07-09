@@ -20,7 +20,7 @@ st.set_page_config(
 apply_base_styles()
 apply_vendor_styles()
 render_hero(
-    "☏ MAP Information",
+    "˗ˋˏ$ˎˊ˗ MAP Information",
     "Search for which vendors follow MAP pricing, and what their pricing might be!",
 )
 
