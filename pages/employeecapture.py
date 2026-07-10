@@ -27,16 +27,6 @@ render_hero(
     "Review how often an employee attaches a customer to completed sales.",
 )
 
-
-section_header(
-    "Step 1",
-    "Export the Employee Capture Report",
-    "Follow these steps to prepare the correct CSV file.",
-)
-
-
-
-
 # =============================================================================
 # FILE UPLOAD
 # =============================================================================
