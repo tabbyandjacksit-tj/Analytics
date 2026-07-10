@@ -7,6 +7,7 @@ from utils.employee_capture import (
     summarize_employee_capture,
 )
 from utils.styling.base import apply_base_styles, render_hero
+from utils.styling.mvo import render_instruction_card
 
 
 st.set_page_config(
@@ -21,6 +22,29 @@ render_hero(
     "Employee Customer Capture",
     "Review how often an employee attaches a customer to completed sales.",
 )
+
+steps = [
+    ("images/reports.png", "Reports", "Open REPORTS from the sidebar."),
+    ("images/grouped_sales.png", "Grouped Sales", "Scroll to OTHER TRANSACTIONS."),
+    ("images/item_report.png", "All Transactions", "Select ALL TRANSACTIONS as the report type."),
+    ("images/calendar.png", "Date Filter", "Set DATE RANGE to what you hope to review."),
+    ("images/export.png", "Export CSV", "Press EXPORT and save the CSV."),
+    ("images/upload.png", "Upload CSV", "Upload the exported CSV file below."),
+]
+
+row1 = st.columns(3)
+
+for i, step in enumerate(steps[:3]):
+    with row1[i]:
+        render_instruction_card(i + 1, *step)
+
+st.markdown("<div style='height:12px;'></div>", unsafe_allow_html=True)
+
+row2 = st.columns(3)
+
+for i, step in enumerate(steps[3:]):
+    with row2[i]:
+        render_instruction_card(i + 4, *step)
 
 
 # =============================================================================
