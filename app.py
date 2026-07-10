@@ -40,19 +40,24 @@ pages = {
         icon=":material/link:"
     ),
     "Instacart Upload": st.Page(
-    "pages/instacart.py",
-    title="Instacart Upload",
-    icon=":material/upload_file:"
+        "pages/instacart.py",
+        title="Instacart Upload",
+        icon=":material/upload_file:"
     ),
     "Vendor Contact": st.Page(
-    "pages/vendorcontact.py",
-    title="Vendor Contact",
-    icon=":material/contact_page:"
+        "pages/vendorcontact.py",
+        title="Vendor Contact",
+        icon=":material/contact_page:"
     ),
-        "MAP Information": st.Page(
-    "pages/MAP.py",
-    title="MAP Information",
-    icon=":material/price_check:"
+    "MAP Information": st.Page(
+        "pages/MAP.py",
+        title="MAP Information",
+        icon=":material/price_check:"
+    ),
+    "Employee Customer Capture": st.Page(
+        "pages/employeecapture.py",
+        title="Employee Customer Capture",
+        icon=":material/person:"
     ),
 }
 
@@ -63,7 +68,9 @@ report_links = {
     "Sales by Brand": "pages/brandsale.py",
     "Helpful Links": "pages/links.py",
     "Instacart Upload": "pages/instacart.py",
-    "Vendor Contact": "pages/vendorcontact.py"
+    "Vendor Contact": "pages/vendorcontact.py",
+    "Employee Customer Capture": "pages/employeecapture.py",
+    "MAP Information": "pages/MAP.py",
 }
 
 st.markdown(
