@@ -1,10 +1,10 @@
 import pandas as pd
 import streamlit as st
-
 from utils.employee_capture import (
     find_missing_columns,
     prepare_employee_report,
     summarize_employee_capture,
+    employee_leaderboard,
 )
 from utils.styling.base import apply_base_styles, render_hero
 from utils.styling.mvo import (
@@ -167,3 +167,38 @@ st.dataframe(
     hide_index=True,
     use_container_width=True,
 )
+
+# =============================================================================
+# EMPLOYEE LEADERBOARD
+# =============================================================================
+
+leaderboard_df = employee_leaderboard(cleaned_df)
+
+leaderboard_df = leaderboard_df[
+    leaderboard_df["Completed Sales"] >= 10
+].head(10)
+
+section_header(
+    "Top 10",
+    "Employee Customer Capture Rates",
+    "Employees must have at least 10 completed sales to qualify.",
+)
+
+if leaderboard_df.empty:
+    st.info(
+        "No employees had at least 10 completed sales in this report."
+    )
+else:
+    st.dataframe(
+        leaderboard_df,
+        hide_index=True,
+        use_container_width=True,
+        column_config={
+            "Capture Rate": st.column_config.ProgressColumn(
+                "Capture Rate",
+                format="%.1f%%",
+                min_value=0,
+                max_value=1,
+            ),
+        },
+    )
