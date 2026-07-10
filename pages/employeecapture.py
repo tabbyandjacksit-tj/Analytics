@@ -11,7 +11,6 @@ from utils.styling.mvo import (
     apply_mvo_styles,
     render_instruction_card,
     section_header,
-    render_instruction_grid,
 )
 
 st.set_page_config(
@@ -77,7 +76,7 @@ if uploaded_file is None:
         "Follow these steps to generate the correct CSV report.",
     )
 
-    render_instruction_grid(steps)
+    render_instruction_card(steps)
 
     st.divider()
     st.stop()
