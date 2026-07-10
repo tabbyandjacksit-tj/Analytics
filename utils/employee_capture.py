@@ -15,6 +15,11 @@ REQUIRED_COLUMNS = [
     "Source",
 ]
 
+EXCLUDED_EMPLOYEES = [
+    "Ken Lonetree",
+    "eCom",
+]
+
 
 def find_missing_columns(df: pd.DataFrame) -> list[str]:
     """Return required columns that are missing from the uploaded report."""
@@ -112,6 +117,10 @@ def employee_leaderboard(df: pd.DataFrame) -> pd.DataFrame:
             Customers_Attached=("Customer Attached", "sum"),
         )
     )
+    
+    leaderboard = leaderboard[
+        ~leaderboard["Employee"].isin(EXCLUDED_EMPLOYEES)
+    ]
 
     leaderboard["Missing_Customers"] = (
         leaderboard["Completed_Sales"]

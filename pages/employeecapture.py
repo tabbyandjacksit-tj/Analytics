@@ -189,16 +189,18 @@ if leaderboard_df.empty:
         "No employees had at least 10 completed sales in this report."
     )
 else:
-    st.dataframe(
-        leaderboard_df,
-        hide_index=True,
-        use_container_width=True,
-        column_config={
-            "Capture Rate": st.column_config.ProgressColumn(
-                "Capture Rate",
-                format="%.1f%%",
-                min_value=0,
-                max_value=1,
-            ),
-        },
-    )
+    leaderboard_df["Capture Rate"] = (
+    leaderboard_df["Capture Rate"] * 100
+).round(1)
+
+st.dataframe(
+    leaderboard_df,
+    hide_index=True,
+    use_container_width=True,
+    column_config={
+        "Capture Rate": st.column_config.NumberColumn(
+            "Capture Rate",
+            format="%.1f%%",
+        ),
+    },
+)
