@@ -7,8 +7,11 @@ from utils.employee_capture import (
     summarize_employee_capture,
 )
 from utils.styling.base import apply_base_styles, render_hero
-from utils.styling.mvo import render_instruction_card
-
+from utils.styling.mvo import (
+    apply_mvo_styles,
+    render_instruction_card,
+    section_header,
+)
 
 st.set_page_config(
     page_title="Employee Customer Capture",
@@ -17,6 +20,7 @@ st.set_page_config(
 )
 
 apply_base_styles()
+apply_mvo_styles()
 
 render_hero(
     "Employee Customer Capture",
@@ -32,19 +36,28 @@ steps = [
     ("images/upload.png", "Upload CSV", "Upload the exported CSV file below."),
 ]
 
+section_header(
+    "Step 1",
+    "Export the Employee Capture Report",
+    "Follow these steps to prepare the correct CSV file.",
+)
+
 row1 = st.columns(3)
 
-for i, step in enumerate(steps[:3]):
-    with row1[i]:
-        render_instruction_card(i + 1, *step)
+for index, step in enumerate(steps[:3]):
+    with row1[index]:
+        render_instruction_card(index + 1, *step)
 
-st.markdown("<div style='height:12px;'></div>", unsafe_allow_html=True)
+st.markdown(
+    "<div style='height:12px;'></div>",
+    unsafe_allow_html=True,
+)
 
 row2 = st.columns(3)
 
-for i, step in enumerate(steps[3:]):
-    with row2[i]:
-        render_instruction_card(i + 4, *step)
+for index, step in enumerate(steps[3:]):
+    with row2[index]:
+        render_instruction_card(index + 4, *step)
 
 
 # =============================================================================
