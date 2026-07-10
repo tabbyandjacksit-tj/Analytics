@@ -47,7 +47,7 @@ if uploaded_file is None:
 
     steps = [
         ("images/reports.png", "Reports", "Open REPORTS from the sidebar."),
-        ("images/grouped_sales.png", "Grouped Sales", "Scroll to OTHER TRANSACTIONS."),
+        ("images/grouped_sales.png", "Other Transactions", "Scroll to OTHER TRANSACTIONS."),
         ("images/item_report.png", "All Transactions", "Select ALL TRANSACTIONS as the report type."),
         ("images/calendar.png", "Date Filter", "Set DATE RANGE to what you hope to review."),
         ("images/export.png", "Export CSV", "Press EXPORT and save the CSV."),
