@@ -27,14 +27,6 @@ render_hero(
     "Review how often an employee attaches a customer to completed sales.",
 )
 
-steps = [
-    ("images/reports.png", "Reports", "Open REPORTS from the sidebar."),
-    ("images/grouped_sales.png", "Grouped Sales", "Scroll to OTHER TRANSACTIONS."),
-    ("images/item_report.png", "All Transactions", "Select ALL TRANSACTIONS as the report type."),
-    ("images/calendar.png", "Date Filter", "Set DATE RANGE to what you hope to review."),
-    ("images/export.png", "Export CSV", "Press EXPORT and save the CSV."),
-    ("images/upload.png", "Upload CSV", "Upload the exported CSV file below."),
-]
 
 section_header(
     "Step 1",
@@ -42,43 +34,48 @@ section_header(
     "Follow these steps to prepare the correct CSV file.",
 )
 
-row1 = st.columns(3)
 
-for index, step in enumerate(steps[:3]):
-    with row1[index]:
-        render_instruction_card(index + 1, *step)
-
-st.markdown(
-    "<div style='height:12px;'></div>",
-    unsafe_allow_html=True,
-)
-
-row2 = st.columns(3)
-
-for index, step in enumerate(steps[3:]):
-    with row2[index]:
-        render_instruction_card(index + 4, *step)
 
 
 # =============================================================================
 # FILE UPLOAD
 # =============================================================================
 
+section_header(
+    "Step 1",
+    "Upload Employee Capture Report",
+    "Upload the completed transaction report exported from Lightspeed.",
+)
+
 uploaded_file = st.file_uploader(
     "Upload Employee Report",
     type=["csv"],
+    label_visibility="collapsed",
 )
 
 if uploaded_file is None:
-    section_header(
-        "Step 1",
-        "Export Employee Capture Report",
-        "Follow these steps to generate the correct CSV report.",
-    )
 
-    render_instruction_card(steps)
+    steps = [
+        ("images/reports.png", "Reports", "Open REPORTS from the sidebar."),
+        ("images/grouped_sales.png", "Grouped Sales", "Scroll to OTHER TRANSACTIONS."),
+        ("images/item_report.png", "All Transactions", "Select ALL TRANSACTIONS as the report type."),
+        ("images/calendar.png", "Date Filter", "Set DATE RANGE to what you hope to review."),
+        ("images/export.png", "Export CSV", "Press EXPORT and save the CSV."),
+        ("images/upload.png", "Upload CSV", "Upload the exported CSV file below."),
+    ]
 
-    st.divider()
+    row1 = st.columns(3)
+    for i, step in enumerate(steps[:3]):
+        with row1[i]:
+            render_instruction_card(i + 1, *step)
+
+    st.markdown("<div style='height:12px;'></div>", unsafe_allow_html=True)
+
+    row2 = st.columns(3)
+    for i, step in enumerate(steps[3:]):
+        with row2[i]:
+            render_instruction_card(i + 4, *step)
+
     st.stop()
 
 # =============================================================================
