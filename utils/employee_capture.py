@@ -18,6 +18,16 @@ REQUIRED_COLUMNS = [
 EXCLUDED_EMPLOYEES = [
     "Ken Lonetree",
     "eCom",
+    "Celeste Veenstra",
+    "Leah Coyne",
+    "Ashley Byer",
+    "Michelle Lonergan",
+    "Ken Lonergan",
+    "Brianna Stearns",
+    "David Fidler",
+    "Krystal Siedschlag",
+    "Nicole LaBelle",
+    "Paula White",
 ]
 
 
