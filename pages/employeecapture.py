@@ -175,7 +175,7 @@ st.dataframe(
 leaderboard_df = employee_leaderboard(cleaned_df)
 
 leaderboard_df = leaderboard_df[
-    leaderboard_df["Completed Sales"] >= 10
+    leaderboard_df["Completed Sales"] >= 15
 ].head(10)
 
 section_header(
