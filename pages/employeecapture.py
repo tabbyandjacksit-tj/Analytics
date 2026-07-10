@@ -11,6 +11,7 @@ from utils.styling.mvo import (
     apply_mvo_styles,
     render_instruction_card,
     section_header,
+    render_instruction_grid,
 )
 
 st.set_page_config(
@@ -65,13 +66,21 @@ for index, step in enumerate(steps[3:]):
 # =============================================================================
 
 uploaded_file = st.file_uploader(
-    "Upload Transaction Report",
+    "Upload Employee Report",
     type=["csv"],
 )
 
 if uploaded_file is None:
-    st.stop()
+    section_header(
+        "Step 1",
+        "Export Employee Capture Report",
+        "Follow these steps to generate the correct CSV report.",
+    )
 
+    render_instruction_grid(steps)
+
+    st.divider()
+    st.stop()
 
 # =============================================================================
 # REPORT VALIDATION
