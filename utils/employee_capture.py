@@ -18,7 +18,11 @@ REQUIRED_COLUMNS = [
 
 def find_missing_columns(df: pd.DataFrame) -> list[str]:
     """Return required columns that are missing from the uploaded report."""
-    return [column for column in REQUIRED_COLUMNS if column not in df.columns]
+    return [
+        column
+        for column in REQUIRED_COLUMNS
+        if column not in df.columns
+    ]
 
 
 def normalize_boolean_column(series: pd.Series) -> pd.Series:
@@ -32,13 +36,18 @@ def normalize_boolean_column(series: pd.Series) -> pd.Series:
 
 
 def prepare_employee_report(df: pd.DataFrame) -> pd.DataFrame:
-    """Clean the transaction report and remove invalid transactions."""
+    """Clean the report and keep only valid completed transactions."""
     cleaned_df = df.copy()
 
-    # Convert Yes/No columns to booleans
-    cleaned_df["Completed"] = normalize_boolean_column(cleaned_df["Completed"])
-    cleaned_df["Cancelled"] = normalize_boolean_column(cleaned_df["Cancelled"])
-    cleaned_df["Voided"] = normalize_boolean_column(cleaned_df["Voided"])
+    cleaned_df["Completed"] = normalize_boolean_column(
+        cleaned_df["Completed"]
+    )
+    cleaned_df["Cancelled"] = normalize_boolean_column(
+        cleaned_df["Cancelled"]
+    )
+    cleaned_df["Voided"] = normalize_boolean_column(
+        cleaned_df["Voided"]
+    )
 
     cleaned_df["Employee"] = (
         cleaned_df["Employee"]
@@ -54,12 +63,16 @@ def prepare_employee_report(df: pd.DataFrame) -> pd.DataFrame:
         .str.strip()
     )
 
-    # Only keep completed, non-cancelled, non-voided transactions
     cleaned_df = cleaned_df[
-        (cleaned_df["Completed"])
-        & (~cleaned_df["Cancelled"])
-        & (~cleaned_df["Voided"])
+        cleaned_df["Completed"]
+        & ~cleaned_df["Cancelled"]
+        & ~cleaned_df["Voided"]
     ].copy()
+
+    cleaned_df["Customer Attached"] = (
+        cleaned_df["Customer"].ne("")
+        & cleaned_df["Customer"].str.lower().ne("nan")
+    )
 
     return cleaned_df
 
@@ -71,16 +84,15 @@ def summarize_employee_capture(
     """Calculate customer-capture totals for one employee."""
     employee_df = df[df["Employee"] == employee_name].copy()
 
-    employee_df["Customer Attached"] = (
-        employee_df["Customer"].ne("")
-        & employee_df["Customer"].str.lower().ne("nan")
-    )
-
     total_sales = len(employee_df)
     attached_sales = int(employee_df["Customer Attached"].sum())
     unattached_sales = total_sales - attached_sales
 
-    capture_rate = attached_sales / total_sales if total_sales else 0
+    capture_rate = (
+        attached_sales / total_sales
+        if total_sales
+        else 0
+    )
 
     return {
         "employee_df": employee_df,
@@ -89,3 +101,44 @@ def summarize_employee_capture(
         "unattached_sales": unattached_sales,
         "capture_rate": capture_rate,
     }
+
+
+def employee_leaderboard(df: pd.DataFrame) -> pd.DataFrame:
+    """Create an employee leaderboard ranked by customer-capture rate."""
+    leaderboard = (
+        df.groupby("Employee", as_index=False)
+        .agg(
+            Completed_Sales=("ID", "count"),
+            Customers_Attached=("Customer Attached", "sum"),
+        )
+    )
+
+    leaderboard["Missing_Customers"] = (
+        leaderboard["Completed_Sales"]
+        - leaderboard["Customers_Attached"]
+    )
+
+    leaderboard["Capture_Rate"] = (
+        leaderboard["Customers_Attached"]
+        / leaderboard["Completed_Sales"]
+    )
+
+    leaderboard = leaderboard.rename(
+        columns={
+            "Completed_Sales": "Completed Sales",
+            "Customers_Attached": "Customers Attached",
+            "Missing_Customers": "Missing Customers",
+            "Capture_Rate": "Capture Rate",
+        }
+    )
+
+    leaderboard = leaderboard.sort_values(
+        by=[
+            "Capture Rate",
+            "Customers Attached",
+            "Completed Sales",
+        ],
+        ascending=[False, False, False],
+    )
+
+    return leaderboard.reset_index(drop=True)
