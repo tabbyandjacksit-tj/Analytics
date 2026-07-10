@@ -32,17 +32,33 @@ def normalize_boolean_column(series: pd.Series) -> pd.Series:
 
 
 def prepare_employee_report(df: pd.DataFrame) -> pd.DataFrame:
-    """Clean the transaction report and remove cancelled or voided sales."""
+    """Clean the transaction report and remove invalid transactions."""
     cleaned_df = df.copy()
 
+    # Convert Yes/No columns to booleans
+    cleaned_df["Completed"] = normalize_boolean_column(cleaned_df["Completed"])
     cleaned_df["Cancelled"] = normalize_boolean_column(cleaned_df["Cancelled"])
     cleaned_df["Voided"] = normalize_boolean_column(cleaned_df["Voided"])
 
-    cleaned_df["Employee"] = cleaned_df["Employee"].fillna("").astype(str).str.strip()
-    cleaned_df["Customer"] = cleaned_df["Customer"].fillna("").astype(str).str.strip()
+    cleaned_df["Employee"] = (
+        cleaned_df["Employee"]
+        .fillna("")
+        .astype(str)
+        .str.strip()
+    )
 
+    cleaned_df["Customer"] = (
+        cleaned_df["Customer"]
+        .fillna("")
+        .astype(str)
+        .str.strip()
+    )
+
+    # Only keep completed, non-cancelled, non-voided transactions
     cleaned_df = cleaned_df[
-        (~cleaned_df["Cancelled"]) & (~cleaned_df["Voided"])
+        (cleaned_df["Completed"])
+        & (~cleaned_df["Cancelled"])
+        & (~cleaned_df["Voided"])
     ].copy()
 
     return cleaned_df
