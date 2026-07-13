@@ -68,7 +68,7 @@ pages = {
         "pages/officehours.py",
         title="Employee Office Hours",
         icon=":material/task_alt:",
-        visibility="hidden",
+        visibility="hidden"
     ),
     
 }
