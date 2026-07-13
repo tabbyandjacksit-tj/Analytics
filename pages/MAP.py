@@ -14,7 +14,7 @@ st.set_page_config(
     page_icon="images/logo.png",
     layout="wide",
 )
-# {yellowgreen, 8} =======================================================================================
+# {yellowgreen, 9} =======================================================================================
 # Apply CSS Styles
 # =======================================================================================
 apply_base_styles()
@@ -23,6 +23,7 @@ render_hero(
     "˗ˋˏ$ˎˊ˗ MAP Information",
     "Search for which vendors follow MAP pricing, and what their pricing might be!",
 )
+
 
 # =======================================================================================
 # Initialize variables for the google sheet & checkbox columns

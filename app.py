@@ -59,6 +59,18 @@ pages = {
         title="Employee Customer Capture",
         icon=":material/person:"
     ),
+    "Office Hour Tracker": st.Page(
+        "pages/officehours.py",
+        title="Office Hour Tracker",
+        icon=":material/schedule:"
+    ),
+    "Employee Office Hours": st.Page(
+        "pages/officehours.py",
+        title="Employee Office Hours",
+        icon=":material/task_alt:"
+        visibility="hidden",
+    ),
+    
 }
 
 report_links = {
