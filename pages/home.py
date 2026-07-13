@@ -98,7 +98,7 @@ tools = [
         "status": "Coming Soon",
         "category": "Office Hour Tools",
         "icon": icons["brand"],
-        "page": "pages/officehour.py",
+        "page": "pages/officehours.py",
         "enabled": False,
     },
 ]
