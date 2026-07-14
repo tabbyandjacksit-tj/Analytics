@@ -97,6 +97,34 @@ def apply_officehour_styles() -> None:
     color:#888;
     font-weight:700;
 }
+
+.task-card {
+    background: #FFF9EF;
+    border: 1px solid #D7C8A4;
+    border-radius: 16px;
+    padding: 16px 18px;
+    margin-bottom: 8px;
+}
+
+.task-project {
+    color: #C97822;
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.task-title {
+    color: #1D5A3E;
+    font-size: 17px;
+    font-weight: 750;
+    margin-top: 4px;
+}
+
+.task-notes {
+    color: #5C7A58;
+    font-size: 13px;
+    margin-top: 7px;
+}
 """
     )
 
@@ -206,4 +234,52 @@ def render_no_active_workers() -> None:
 
     st.info(
         "Nobody is currently tracking an active office-hour task."
+    )
+
+def render_active_task(
+    project: str,
+    task: str,
+    started: str,
+    elapsed: str,
+    notes: str = "",
+) -> None:
+    """Render the currently active task card."""
+    st.markdown(
+        f"""
+<div class="active-card">
+    <div class="active-project">{project}</div>
+    <div class="active-task">{task}</div>
+
+    <div class="active-meta">
+        Started: {started}<br>
+        Elapsed: {elapsed}
+    </div>
+
+    <div class="task-notes">{notes}</div>
+</div>
+""",
+        unsafe_allow_html=True,
+    )
+
+
+def render_no_active_task() -> None:
+    """Display a message when the employee has no active task."""
+    st.info("No task is currently active.")
+
+
+def render_task_card(
+    project: str,
+    task: str,
+    notes: str = "",
+) -> None:
+    """Render a task waiting to be started."""
+    st.markdown(
+        f"""
+<div class="task-card">
+    <div class="task-project">{project}</div>
+    <div class="task-title">{task}</div>
+    <div class="task-notes">{notes}</div>
+</div>
+""",
+        unsafe_allow_html=True,
     )
