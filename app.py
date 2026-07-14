@@ -83,6 +83,7 @@ report_links = {
     "Vendor Contact": "pages/vendorcontact.py",
     "Employee Customer Capture": "pages/employeecapture.py",
     "MAP Information": "pages/MAP.py",
+    "Employee Office Hours": "pages/officehours.py",
 }
 
 st.markdown(
