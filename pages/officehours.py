@@ -53,6 +53,14 @@ try:
         SHEET_ID,
         EMPLOYEES_TAB,
     )
+    employees_df.columns = (
+        employees_df.columns
+        .str.strip()
+        .str.replace("\ufeff", "", regex=False)
+    )
+    st.write(employees_df.columns.tolist())
+    st.dataframe(employees_df.head())
+    st.stop()
 
     tasks_df = prepare_tasks(
         load_private_sheet(
