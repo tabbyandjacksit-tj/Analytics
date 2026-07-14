@@ -35,7 +35,6 @@ def get_week_start(target_date: date | None = None) -> date:
 def create_task_record(
     employee: str,
     project: str,
-    task: str,
     notes: str = "",
 ) -> dict:
     """Create a new task record in To Do status."""
@@ -47,7 +46,6 @@ def create_task_record(
         "Week Start": get_week_start(today).isoformat(),
         "Created Date": today.isoformat(),
         "Project": project.strip(),
-        "Task": task.strip(),
         "Status": "To Do",
         "Start Time": "",
         "End Time": "",
