@@ -65,7 +65,7 @@ pages = {
         icon=":material/schedule:"
     ),
     "Employee Office Hours": st.Page(
-        "pages/officehours.py",
+        "pages/employeetasks.py",
         title="Employee Office Hours",
         icon=":material/task_alt:",
         visibility="hidden"
