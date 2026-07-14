@@ -179,18 +179,14 @@ with st.form(
     clear_on_submit=True,
 ):
     project = st.text_input(
-        "Project",
-        placeholder="Example: Analytics Hub",
+        "Task",
+        placeholder="Example: Balancing Verona Burlo",
     )
 
-    task_description = st.text_input(
-        "Task",
-        placeholder="Describe what needs to be completed.",
-    )
 
     notes = st.text_area(
         "Notes",
-        placeholder="Optional context or next steps.",
+        placeholder="Add additional task details here",
         height=90,
     )
 
@@ -206,14 +202,11 @@ if submitted:
     elif not project.strip():
         st.error("Enter a project name.")
 
-    elif not task_description.strip():
-        st.error("Enter a task description.")
 
     else:
         new_task = create_task_record(
             employee=employee,
             project=project,
-            task=task_description,
             notes=notes,
         )
 
