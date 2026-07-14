@@ -169,7 +169,7 @@ def render_employee_card(
 <div class="employee-card">
 
 <div class="employee-name">
-👤 {employee}
+≽ܫ≼ {employee}
 </div>
 
 <div class="employee-meta">
