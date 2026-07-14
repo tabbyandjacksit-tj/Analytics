@@ -15,6 +15,13 @@ from utils.officehours import (
 )
 from utils.sheet_reader import load_private_sheet
 from utils.styling.base import apply_base_styles, render_hero
+from utils.styling.officehours import (
+    apply_officehour_styles,
+    render_active_employee,
+    render_employee_card,
+    render_no_active_workers,
+    section_header,
+)
 
 
 # =============================================================================
@@ -28,6 +35,7 @@ st.set_page_config(
 )
 
 apply_base_styles(max_width=1160)
+apply_officehour_styles()
 
 render_hero(
     "Office Hour Tracker",
@@ -53,6 +61,7 @@ try:
         SHEET_ID,
         EMPLOYEES_TAB,
     )
+
     employees_df.columns = (
         employees_df.columns
         .map(str)
@@ -76,7 +85,10 @@ except Exception as error:
 # PREPARE EMPLOYEE LIST
 # =============================================================================
 
-required_employee_columns = {"Employee", "Active"}
+required_employee_columns = {
+    "Employee",
+    "Active",
+}
 
 if not required_employee_columns.issubset(employees_df.columns):
     st.error(
@@ -120,12 +132,15 @@ if not employees:
 # WHO'S WORKING NOW
 # =============================================================================
 
-st.markdown("## Who's Working Now?")
+section_header(
+    "Who's Working Now?",
+    "See which employees currently have an active office-hour task.",
+)
 
 active_tasks = get_active_tasks(tasks_df)
 
 if active_tasks.empty:
-    st.info("Nobody is currently tracking an active office-hour task.")
+    render_no_active_workers()
 
 else:
     active_tasks = active_tasks.sort_values(
@@ -135,7 +150,6 @@ else:
 
     for row_start in range(0, len(active_tasks), 3):
         columns = st.columns(3, gap="large")
-
         visible_tasks = active_tasks.iloc[row_start:row_start + 3]
 
         for column, (_, task) in zip(
@@ -149,7 +163,8 @@ else:
 
             if pd.notna(started_at):
                 elapsed_minutes = (
-                    datetime.now() - started_at.to_pydatetime()
+                    datetime.now()
+                    - started_at.to_pydatetime()
                 ).total_seconds() / 60
 
                 started_label = (
@@ -159,62 +174,21 @@ else:
                     .lstrip("0")
                 )
 
-                elapsed_label = format_minutes(elapsed_minutes)
+                elapsed_label = format_minutes(
+                    elapsed_minutes
+                )
 
             else:
                 started_label = "Unknown"
                 elapsed_label = "Unknown"
 
             with column:
-                st.markdown(
-                    f"""
-<div style="
-    background:#FFF9EF;
-    border:1px solid #D7C8A4;
-    border-radius:20px;
-    padding:20px;
-    min-height:190px;
-    box-shadow:0 4px 14px rgba(47,55,45,0.07);
-">
-    <div style="
-        color:#1D5A3E;
-        font-size:20px;
-        font-weight:800;
-        margin-bottom:8px;
-    ">
-        🟢 {task["Employee"]}
-    </div>
-
-    <div style="
-        color:#C97822;
-        font-size:13px;
-        font-weight:800;
-        text-transform:uppercase;
-        margin-bottom:6px;
-    ">
-        {task["Project"]}
-    </div>
-
-    <div style="
-        color:#2F372D;
-        font-size:16px;
-        font-weight:700;
-        margin-bottom:14px;
-    ">
-        {task["Task"]}
-    </div>
-
-    <div style="
-        color:#5C7A58;
-        font-size:14px;
-        line-height:1.6;
-    ">
-        Started: {started_label}<br>
-        Elapsed: {elapsed_label}
-    </div>
-</div>
-""",
-                    unsafe_allow_html=True,
+                render_active_employee(
+                    employee=task["Employee"],
+                    project=task["Project"],
+                    task=task["Task"],
+                    clock_in=started_label,
+                    elapsed=elapsed_label,
                 )
 
 
@@ -222,7 +196,10 @@ else:
 # EMPLOYEE TRACKERS
 # =============================================================================
 
-st.markdown("## Office Hour Employees")
+section_header(
+    "Office Hour Employees",
+    "Open any employee's tracker to view and manage weekly tasks.",
+)
 
 current_week = get_week_start()
 
@@ -235,7 +212,9 @@ for row_start in range(0, len(employees), 3):
     ):
         employee_week_tasks = tasks_df[
             tasks_df["Employee"].eq(employee)
-            & tasks_df["Week Start"].eq(current_week.isoformat())
+            & tasks_df["Week Start"].eq(
+                current_week.isoformat()
+            )
         ]
 
         completed_tasks = int(
@@ -255,50 +234,18 @@ for row_start in range(0, len(employees), 3):
             errors="coerce",
         ).fillna(0).sum()
 
-        status_label = (
-            "🟢 Working Now"
-            if active_count
-            else "⚪ Not Active"
+        employee_key = (
+            employee.lower()
+            .replace(" ", "_")
+            .replace("'", "")
         )
 
         with column:
-            st.markdown(
-                f"""
-<div style="
-    background:#FFFDF8;
-    border:1px solid #D7C8A4;
-    border-radius:20px 20px 0 0;
-    padding:24px;
-    min-height:180px;
-    box-shadow:0 5px 16px rgba(47,55,45,0.07);
-">
-    <div style="
-        color:#1D5A3E;
-        font-size:23px;
-        font-weight:800;
-        margin-bottom:8px;
-    ">
-        👤 {employee}
-    </div>
-
-    <div style="
-        color:#5C7A58;
-        font-size:14px;
-        line-height:1.7;
-    ">
-        {status_label}<br>
-        {completed_tasks} completed tasks this week<br>
-        {format_minutes(total_minutes)} recorded this week
-    </div>
-</div>
-""",
-                unsafe_allow_html=True,
-            )
-
-            employee_key = (
-                employee.lower()
-                .replace(" ", "_")
-                .replace("'", "")
+            render_employee_card(
+                employee=employee,
+                completed_tasks=completed_tasks,
+                total_minutes=format_minutes(total_minutes),
+                active=bool(active_count),
             )
 
             if st.button(
@@ -306,5 +253,10 @@ for row_start in range(0, len(employees), 3):
                 key=f"open_employee_{employee_key}",
                 use_container_width=True,
             ):
-                st.session_state["selected_office_employee"] = employee
-                st.switch_page("pages/employeetasks.py")
+                st.session_state[
+                    "selected_office_employee"
+                ] = employee
+
+                st.switch_page(
+                    "pages/employeetasks.py"
+                )
