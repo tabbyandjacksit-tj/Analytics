@@ -1,11 +1,7 @@
 from datetime import date, datetime, timedelta
 from uuid import uuid4
 
-from utils.sheet_reader import (
-    append_row,
-    load_private_sheet,
-    update_row_by_id,
-)
+
 
 import pandas as pd
 
@@ -35,6 +31,7 @@ def get_week_start(target_date: date | None = None) -> date:
 def create_task_record(
     employee: str,
     project: str,
+    task: str,
     notes: str = "",
 ) -> dict:
     """Create a new task record in To Do status."""
@@ -46,6 +43,7 @@ def create_task_record(
         "Week Start": get_week_start(today).isoformat(),
         "Created Date": today.isoformat(),
         "Project": project.strip(),
+        "Task": task.strip(),
         "Status": "To Do",
         "Start Time": "",
         "End Time": "",
