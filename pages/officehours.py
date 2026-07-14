@@ -7,7 +7,7 @@ from datetime import datetime
 import pandas as pd
 import streamlit as st
 
-from utils.office_hours import (
+from utils.officehours import (
     format_minutes,
     get_active_tasks,
     get_week_start,
