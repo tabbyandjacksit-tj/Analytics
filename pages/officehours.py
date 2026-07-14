@@ -55,6 +55,7 @@ try:
     )
     employees_df.columns = (
         employees_df.columns
+        .map(str)
         .str.strip()
         .str.replace("\ufeff", "", regex=False)
     )
