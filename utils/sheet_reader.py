@@ -53,11 +53,24 @@ def load_private_sheet(
     sheet_id: str,
     worksheet_name: str,
 ) -> pd.DataFrame:
-    """Load an authenticated worksheet as a DataFrame."""
+    """Load an authenticated Google Sheet tab as a DataFrame."""
     worksheet = get_worksheet(sheet_id, worksheet_name)
-    records = worksheet.get_all_records()
+    values = worksheet.get_all_values()
 
-    return pd.DataFrame(records)
+    if not values:
+        return pd.DataFrame()
+
+    headers = [
+        str(header).strip().replace("\ufeff", "")
+        for header in values[0]
+    ]
+
+    rows = values[1:]
+
+    return pd.DataFrame(
+        rows,
+        columns=headers,
+    )
 
 
 def append_row(

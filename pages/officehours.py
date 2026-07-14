@@ -61,17 +61,6 @@ try:
         SHEET_ID,
         EMPLOYEES_TAB,
     )
-
-    employees_df.columns = (
-        employees_df.columns
-        .map(str)
-        .str.strip()
-        .str.replace("\ufeff", "", regex=False)
-    )
-    st.write("Columns:", employees_df.columns.tolist())
-    st.dataframe(employees_df.head())
-    st.stop()
-
     tasks_df = prepare_tasks(
         load_private_sheet(
             SHEET_ID,
@@ -107,25 +96,30 @@ active_values = {
     "active",
 }
 
-employees = (
-    employees_df.loc[
-        employees_df["Active"]
-        .astype(str)
-        .str.strip()
-        .str.lower()
-        .isin(active_values),
-        "Employee",
-    ]
+employees_df["Employee"] = (
+    employees_df["Employee"]
     .fillna("")
     .astype(str)
-    .str.strip()
+    .map(str.strip)
+)
+
+employees_df["Active"] = (
+    employees_df["Active"]
+    .fillna("")
+    .astype(str)
+    .map(str.strip)
+    .map(str.lower)
 )
 
 employees = sorted(
-    employee
-    for employee in employees.unique()
-    if employee
+    employees_df.loc[
+        employees_df["Active"].isin(active_values),
+        "Employee",
+    ]
+    .loc[lambda values: values.ne("")]
+    .unique()
 )
+
 
 if not employees:
     st.warning("No active employees were found in the Employees sheet.")
