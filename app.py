@@ -1,4 +1,5 @@
 import streamlit as st
+from utils.auth import create_authenticator
 
 st.set_page_config(
     page_title="Tabby & Jack's Analytics",
@@ -6,6 +7,49 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded"
 )
+
+# ==========================================
+# Authentication
+# ==========================================
+
+try:
+    authenticator = create_authenticator()
+except Exception as exc:
+    st.error(
+        "The employee login system could not be loaded."
+    )
+    st.exception(exc)
+    st.stop()
+
+
+authenticator.login(
+    location="main",
+    max_login_attempts=5,
+    fields={
+        "Form name": "Employee Login",
+        "Username": "Tabby & Jack's Email",
+        "Password": "Password",
+        "Login": "Log In",
+    },
+)
+
+
+authentication_status = st.session_state.get(
+    "authentication_status"
+)
+
+if authentication_status is False:
+    st.error(
+        "The email or password you entered is incorrect."
+    )
+    st.stop()
+
+if authentication_status is None:
+    st.info(
+        "Enter your approved Tabby & Jack's email "
+        "and Analytics Hub password."
+    )
+    st.stop()
 
 pages = {
     "Home": st.Page(
@@ -238,7 +282,24 @@ with st.sidebar:
     sidebar_nav_button(":material/contact_page: Vendor Contact", "pages/vendorcontact.py")
     sidebar_nav_button(":material/price_check: MAP Information", "pages/MAP.py")
 
+# ==========================================
+# Signed-In Employee
+# ==========================================
 
+logged_in_name = (
+    st.session_state.get("name")
+    or st.session_state.get("username")
+)
+
+with st.sidebar:
+    st.caption(f"Signed in as {logged_in_name}")
+
+    authenticator.logout(
+        button_name="Log Out",
+        location="sidebar",
+        key="analytics_logout",
+        use_container_width=True,
+    )
 
 pg = st.navigation(
     list(pages.values()),

@@ -1,7 +1,26 @@
+import json
+import os
 
-def get_google_client() -> gspread.Client:
-    """Create an authenticated Google Sheets client."""
-    credentials = Credentials.from_service_account_info(
-        dict(st.secrets["google_service_account"]),
-        scopes=SCOPES,
-    )
+import streamlit as st
+
+
+def get_google_service_account():
+    """
+    Returns the Google service account credentials.
+
+    Uses Streamlit secrets locally and
+    Render environment variables when deployed.
+    """
+
+    if "google_service_account" in st.secrets:
+        return dict(st.secrets["google_service_account"])
+
+    return json.loads(os.environ["GOOGLE_SERVICE_ACCOUNT"])
+
+
+
+def get_secret(name):
+    if name in st.secrets:
+        return st.secrets[name]
+
+    return os.environ[name]

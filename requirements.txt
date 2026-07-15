@@ -5,3 +5,4 @@ paramiko
 st-gsheets-connection
 gspread
 google-auth
+streamlit-authenticator
