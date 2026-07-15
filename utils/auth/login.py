@@ -195,7 +195,7 @@ def show_password_help() -> None:
         """
         **Forgot your password?**
 
-        Contact Maria or a tabbyandjacksit@gmail.com to receive a temporary password.
+        Contact Maria or tabbyandjacksit@gmail.com to receive a temporary password.
 
         After signing in, open **Account Settings** to create a new password.
         """
