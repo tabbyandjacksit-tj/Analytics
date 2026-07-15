@@ -10,13 +10,17 @@ from utils.auth.users import (
 from utils.secrets import get_secret
 
 
+# ==========================================
+# Authenticator
+# ==========================================
+
 def create_authenticator() -> stauth.Authenticate:
-    """Create the authentication manager from active sheet users."""
+    """Create the authentication manager from active Google Sheet users."""
     credentials = load_authenticator_credentials()
 
     if not credentials["usernames"]:
         raise RuntimeError(
-            "No active authentication users were found."
+            "No activated users were found."
         )
 
     return stauth.Authenticate(
@@ -28,12 +32,226 @@ def create_authenticator() -> stauth.Authenticate:
     )
 
 
+# ==========================================
+# Login Page Styling
+# ==========================================
+
+def apply_login_styles() -> None:
+    """Apply Tabby & Jack's branding to the login screen."""
+    st.markdown(
+        """
+        <style>
+        header[data-testid="stHeader"] {
+            background: transparent;
+        }
+
+        [data-testid="stDecoration"] {
+            display: none;
+        }
+
+        #MainMenu,
+        footer {
+            visibility: hidden;
+        }
+
+        .stApp {
+            background:
+                radial-gradient(
+                    circle at top left,
+                    rgba(239, 139, 29, 0.12),
+                    transparent 35%
+                ),
+                linear-gradient(
+                    180deg,
+                    #F6F1E5 0%,
+                    #FFF9EF 100%
+                );
+        }
+
+        .block-container {
+            max-width: 540px;
+            padding-top: 3.25rem;
+            padding-bottom: 4rem;
+        }
+
+        .login-heading {
+            text-align: center;
+            margin-bottom: 1.4rem;
+        }
+
+        .login-heading h1 {
+            color: #1D5A3E;
+            font-size: 2.25rem;
+            font-weight: 900;
+            margin: 0.4rem 0 0;
+        }
+
+        .login-heading p {
+            color: #5C7A58;
+            font-size: 1rem;
+            margin-top: 0.35rem;
+        }
+
+        div[data-testid="stForm"] {
+            background: #FFF9EF;
+            border: 1px solid #D7C8A4;
+            border-radius: 24px;
+            padding: 1.9rem 2rem 2rem;
+            box-shadow: 0 16px 42px rgba(29, 90, 62, 0.14);
+        }
+
+        div[data-testid="stForm"] h2,
+        div[data-testid="stForm"] h3 {
+            color: #1D5A3E !important;
+            text-align: center;
+            font-weight: 900 !important;
+        }
+
+        div[data-testid="stTextInput"] label {
+            color: #2F372D !important;
+            font-weight: 750 !important;
+        }
+
+        div[data-testid="stTextInput"] input {
+            min-height: 46px;
+            background: #FFFFFF !important;
+            color: #2F372D !important;
+            border: 1px solid #D7C8A4 !important;
+            border-radius: 12px !important;
+        }
+
+        div[data-testid="stTextInput"] input:focus {
+            border-color: #1D5A3E !important;
+            box-shadow: 0 0 0 1px #1D5A3E !important;
+        }
+
+        div[data-testid="stFormSubmitButton"] button {
+            width: 100%;
+            min-height: 46px;
+            border: none !important;
+            border-radius: 12px !important;
+            background: #1D5A3E !important;
+            color: #FFF9EF !important;
+            font-size: 1rem;
+            font-weight: 850 !important;
+        }
+
+        div[data-testid="stFormSubmitButton"] button:hover {
+            background: #EF8B1D !important;
+            color: #1D5A3E !important;
+        }
+
+        div[data-testid="stButton"] button {
+            border-radius: 12px !important;
+        }
+
+        .login-note {
+            margin-top: 1rem;
+            padding: 1rem 1.1rem;
+            background: rgba(29, 90, 62, 0.07);
+            border: 1px solid rgba(29, 90, 62, 0.14);
+            border-radius: 14px;
+            text-align: center;
+            color: #5C7A58;
+            font-size: 0.9rem;
+        }
+
+        .login-note strong {
+            color: #1D5A3E;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def hide_sidebar_for_login() -> None:
+    """Hide the sidebar until the employee successfully logs in."""
+    st.markdown(
+        """
+        <style>
+        section[data-testid="stSidebar"] {
+            display: none;
+        }
+
+        button[data-testid="stSidebarCollapseButton"],
+        button[data-testid="stSidebarCollapsedControl"] {
+            display: none !important;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+# ==========================================
+# Password Help
+# ==========================================
+
+@st.dialog("Password Help")
+def show_password_help() -> None:
+    """Show instructions for employees who forgot their password."""
+    st.markdown(
+        """
+        **Forgot your password?**
+
+        Contact Maria or a tabbyandjacksit@gmail.com to receive a temporary password.
+
+        After signing in, open **Account Settings** to create a new password.
+        """
+    )
+
+
+def render_login_help() -> None:
+    """Render the password-help section below the login form."""
+    st.markdown(
+        """
+        <div class="login-note">
+            <strong>Need help signing in?</strong><br>
+            Use your approved Tabby &amp; Jack's email address.
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    if st.button(
+        "Forgot Password?",
+        use_container_width=True,
+        key="forgot_password_help",
+    ):
+        show_password_help()
+
+
+# ==========================================
+# Login Gate
+# ==========================================
+
 def render_login_gate() -> stauth.Authenticate:
     """
-    Render login and stop execution until the employee is authenticated.
+    Render the login page and stop execution until authentication succeeds.
 
-    Returns the authenticator after successful login.
+    Returns the authenticator after the employee is successfully signed in.
     """
+    apply_login_styles()
+
+    logo_left, logo_center, logo_right = st.columns([1, 1.25, 1])
+
+    with logo_center:
+        st.image(
+            "images/logo.png",
+            use_container_width=True,
+        )
+
+    st.markdown(
+        """
+        <div class="login-heading">
+            <h1>Tabby &amp; Jack's</h1>
+            <p>Employee Analytics Hub</p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
     authenticator = create_authenticator()
 
     authenticator.login(
@@ -52,16 +270,18 @@ def render_login_gate() -> stauth.Authenticate:
     )
 
     if authentication_status is False:
+        hide_sidebar_for_login()
+
         st.error(
             "The email or password you entered is incorrect."
         )
+
+        render_login_help()
         st.stop()
 
     if authentication_status is None:
-        st.info(
-            "Enter your approved Tabby & Jack's email "
-            "and Analytics Hub password."
-        )
+        hide_sidebar_for_login()
+        render_login_help()
         st.stop()
 
     username = str(
@@ -70,10 +290,9 @@ def render_login_gate() -> stauth.Authenticate:
 
     user = get_user_by_email(username)
 
-    # This rechecks the employee's current status from the cached sheet.
     if user is None or not user.active:
         st.error(
-            "This employee account is no longer active."
+            "This employee account is marked as inactive. If you believe this is a mistake, please contact: Maria Swenson, or tabbyandjacksit@gmail.com"
         )
 
         authenticator.logout(
@@ -91,8 +310,14 @@ def render_login_gate() -> stauth.Authenticate:
     return authenticator
 
 
-def render_logout(authenticator: stauth.Authenticate) -> None:
-    """Show signed-in employee information and a logout button."""
+# ==========================================
+# Logout
+# ==========================================
+
+def render_logout(
+    authenticator: stauth.Authenticate,
+) -> None:
+    """Show the signed-in employee and logout button in the sidebar."""
     display_name = (
         st.session_state.get("user_name")
         or st.session_state.get("username")

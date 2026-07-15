@@ -88,3 +88,20 @@ def update_user_password(
     )
 
     clear_user_cache()
+
+def set_temporary_password(
+    email: str,
+    temporary_password: str,
+) -> None:
+    """Set a temporary password for an employee."""
+    valid, message = validate_new_password(
+        temporary_password
+    )
+
+    if not valid:
+        raise ValueError(message)
+
+    update_user_password(
+        email=email,
+        new_password=temporary_password,
+    )
