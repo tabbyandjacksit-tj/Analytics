@@ -26,8 +26,6 @@ except Exception as exc:
     st.stop()
 
 
-render_logout(authenticator)
-
 pages = {
     "Home": st.Page(
         "pages/home.py",
@@ -263,11 +261,13 @@ with st.sidebar:
     sidebar_nav_button(":material/contact_page: Vendor Contact", "pages/vendorcontact.py")
     sidebar_nav_button(":material/price_check: MAP Information", "pages/MAP.py")
     st.divider()
+    render_logout(authenticator)
     sidebar_nav_button(":material/manage_accounts: Account Settings","pages/account.py")
 
 pg = st.navigation(
     list(pages.values()),
     position="hidden"
 )
+
 
 pg.run()
