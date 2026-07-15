@@ -1,5 +1,9 @@
 import streamlit as st
-from utils.auth import create_authenticator
+
+from utils.auth import (
+    render_login_gate,
+    render_logout,
+)
 
 st.set_page_config(
     page_title="Tabby & Jack's Analytics",
@@ -9,11 +13,11 @@ st.set_page_config(
 )
 
 # ==========================================
-# Authentication
+# Employee Authentication
 # ==========================================
 
 try:
-    authenticator = create_authenticator()
+    authenticator = render_login_gate()
 except Exception as exc:
     st.error(
         "The employee login system could not be loaded."
@@ -22,34 +26,7 @@ except Exception as exc:
     st.stop()
 
 
-authenticator.login(
-    location="main",
-    max_login_attempts=5,
-    fields={
-        "Form name": "Employee Login",
-        "Username": "Tabby & Jack's Email",
-        "Password": "Password",
-        "Login": "Log In",
-    },
-)
-
-
-authentication_status = st.session_state.get(
-    "authentication_status"
-)
-
-if authentication_status is False:
-    st.error(
-        "The email or password you entered is incorrect."
-    )
-    st.stop()
-
-if authentication_status is None:
-    st.info(
-        "Enter your approved Tabby & Jack's email "
-        "and Analytics Hub password."
-    )
-    st.stop()
+render_logout(authenticator)
 
 pages = {
     "Home": st.Page(
@@ -114,7 +91,11 @@ pages = {
         icon=":material/task_alt:",
         visibility="hidden"
     ),
-    
+    "Account" : st.Page(
+        "pages/account.py"
+        title = "Account Settings",
+        icon = ":material/manage_accounts:"
+    ),
 }
 
 report_links = {

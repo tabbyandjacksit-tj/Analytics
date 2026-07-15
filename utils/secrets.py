@@ -19,8 +19,13 @@ def get_google_service_account():
 
 
 
-def get_secret(name):
+def get_secret(name: str) -> str:
     if name in st.secrets:
-        return st.secrets[name]
+        return str(st.secrets[name])
 
-    return os.environ[name]
+    value = os.environ.get(name)
+
+    if value is None:
+        raise RuntimeError(f"Missing required secret: {name}")
+
+    return value
