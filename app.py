@@ -92,7 +92,7 @@ pages = {
         visibility="hidden"
     ),
     "Account" : st.Page(
-        "pages/account.py"
+        "pages/account.py",
         title = "Account Settings",
         icon = ":material/manage_accounts:"
     ),
@@ -262,25 +262,8 @@ with st.sidebar:
     sidebar_nav_button(":material/upload_file: Instacart Upload", "pages/instacart.py")
     sidebar_nav_button(":material/contact_page: Vendor Contact", "pages/vendorcontact.py")
     sidebar_nav_button(":material/price_check: MAP Information", "pages/MAP.py")
-
-# ==========================================
-# Signed-In Employee
-# ==========================================
-
-logged_in_name = (
-    st.session_state.get("name")
-    or st.session_state.get("username")
-)
-
-with st.sidebar:
-    st.caption(f"Signed in as {logged_in_name}")
-
-    authenticator.logout(
-        button_name="Log Out",
-        location="sidebar",
-        key="analytics_logout",
-        use_container_width=True,
-    )
+    st.divider()
+    sidebar_nav_button(":material/manage_accounts: Account Settings","pages/account.py")
 
 pg = st.navigation(
     list(pages.values()),
