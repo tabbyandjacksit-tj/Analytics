@@ -1,4 +1,4 @@
-#  {forestGreen,15} =====================================================================
+#  {forestGreen,16} =====================================================================
 # Imports
 # =======================================================================================
 from pathlib import Path
@@ -7,6 +7,7 @@ from utils.instacart import (
     create_instacart_files,
     upload_files_to_instacart,
 )
+from utils.secrets import get_secret
 from utils.styling.base import apply_base_styles
 from utils.styling.instacart import (
     apply_instacart_styles,
@@ -34,7 +35,7 @@ render_report_help_card()  #from utils.styling.instacart
 # Sets a password for the page and checks if the user is authenticated.
 # If not, it prompts for a password or provides my information on how to get access.
 # =======================================================================================
-PASSWORD = st.secrets["INSTACART_PASSWORD"] # ---- Load password from secret.toml -------
+PASSWORD = get_secret("INSTACART_PASSWORD")# ---- Load password from secret.toml -------
 if "instacart_authenticated" not in st.session_state:
     st.session_state.instacart_authenticated = False
 # *Creates & sets a help button for unauthenticated users  --------------------------
