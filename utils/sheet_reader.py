@@ -4,6 +4,8 @@ import gspread
 import pandas as pd
 import streamlit as st
 from google.oauth2.service_account import Credentials
+from utils.secrets import get_google_service_account
+
 
 
 SCOPES = [
@@ -34,7 +36,7 @@ def load_sheet(sheet_id: str, gid: str) -> pd.DataFrame:
 def get_google_client() -> gspread.Client:
     """Create an authenticated Google Sheets client."""
     credentials = Credentials.from_service_account_info(
-        dict(st.secrets["google_service_account"]),
+        get_google_service_account(),
         scopes=SCOPES,
     )
 

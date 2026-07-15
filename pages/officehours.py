@@ -23,6 +23,10 @@ from utils.styling.officehours import (
     section_header,
 )
 
+from utils.secrets import get_secret
+
+SHEET_ID = get_secret("OFFICE_HOURS_SHEET_ID")
+
 
 # =============================================================================
 # PAGE CONFIGURATION
@@ -47,7 +51,6 @@ render_hero(
 # GOOGLE SHEET SETTINGS
 # =============================================================================
 
-SHEET_ID = st.secrets["OFFICE_HOURS_SHEET_ID"]
 EMPLOYEES_TAB = "Employees"
 TASKS_TAB = "Tasks"
 
