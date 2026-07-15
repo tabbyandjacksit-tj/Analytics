@@ -18,10 +18,8 @@ def create_authenticator() -> stauth.Authenticate:
     """Create the authentication manager from active Google Sheet users."""
     credentials = load_authenticator_credentials()
 
-    if not credentials["usernames"]:
-        raise RuntimeError(
-            "No activated users were found."
-        )
+    if not credentials.get("usernames"):
+        raise RuntimeError("No active authentication users were found.")
 
     return stauth.Authenticate(
         credentials=credentials,
@@ -37,7 +35,7 @@ def create_authenticator() -> stauth.Authenticate:
 # ==========================================
 
 def apply_login_styles() -> None:
-    """Apply Tabby & Jack's branding to the login screen."""
+    """Apply Tabby & Jack's branding to the login page."""
     st.markdown(
         """
         <style>
@@ -70,7 +68,7 @@ def apply_login_styles() -> None:
 
         .block-container {
             max-width: 540px;
-            padding-top: 3.25rem;
+            padding-top: 3rem;
             padding-bottom: 4rem;
         }
 
@@ -109,7 +107,7 @@ def apply_login_styles() -> None:
 
         div[data-testid="stTextInput"] label {
             color: #2F372D !important;
-            font-weight: 750 !important;
+            font-weight: 700 !important;
         }
 
         div[data-testid="stTextInput"] input {
@@ -133,7 +131,7 @@ def apply_login_styles() -> None:
             background: #1D5A3E !important;
             color: #FFF9EF !important;
             font-size: 1rem;
-            font-weight: 850 !important;
+            font-weight: 800 !important;
         }
 
         div[data-testid="stFormSubmitButton"] button:hover {
@@ -143,6 +141,8 @@ def apply_login_styles() -> None:
 
         div[data-testid="stButton"] button {
             border-radius: 12px !important;
+            min-height: 42px;
+            font-weight: 700 !important;
         }
 
         .login-note {
@@ -171,7 +171,7 @@ def hide_sidebar_for_login() -> None:
         """
         <style>
         section[data-testid="stSidebar"] {
-            display: none;
+            display: none !important;
         }
 
         button[data-testid="stSidebarCollapseButton"],
@@ -193,22 +193,26 @@ def show_password_help() -> None:
     """Show instructions for employees who forgot their password."""
     st.markdown(
         """
-        **Forgot your password?**
+        ### Forgot your password?
 
-        Contact Maria or tabbyandjacksit@gmail.com to receive a temporary password.
+        Contact **Maria Swenson** or email
+        **tabbyandjacksit@gmail.com** to receive a temporary password.
 
         After signing in, open **Account Settings** to create a new password.
+
+        Do not use your email-account password for the Analytics Hub.
         """
     )
 
 
 def render_login_help() -> None:
-    """Render the password-help section below the login form."""
+    """Render password help beneath the login form."""
     st.markdown(
         """
         <div class="login-note">
             <strong>Need help signing in?</strong><br>
-            Use your approved Tabby &amp; Jack's email address.
+            Use your approved Tabby &amp; Jack's email address and
+            Analytics Hub password.
         </div>
         """,
         unsafe_allow_html=True,
@@ -228,30 +232,10 @@ def render_login_help() -> None:
 
 def render_login_gate() -> stauth.Authenticate:
     """
-    Render the login page and stop execution until authentication succeeds.
+    Render the login screen and stop execution until authentication succeeds.
 
-    Returns the authenticator after the employee is successfully signed in.
+    Returns the authenticator after the employee signs in.
     """
-    apply_login_styles()
-
-    logo_left, logo_center, logo_right = st.columns([1, 1.25, 1])
-
-    with logo_center:
-        st.image(
-            "images/logo.png",
-            use_container_width=True,
-        )
-
-    st.markdown(
-        """
-        <div class="login-heading">
-            <h1>Tabby &amp; Jack's</h1>
-            <p>Employee Analytics Hub</p>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
-
     authenticator = create_authenticator()
 
     authenticator.login(
@@ -265,22 +249,39 @@ def render_login_gate() -> stauth.Authenticate:
         },
     )
 
-    authentication_status = st.session_state.get(
-        "authentication_status"
-    )
+    authentication_status = st.session_state.get("authentication_status")
 
     if authentication_status is False:
+        apply_login_styles()
         hide_sidebar_for_login()
 
-        st.error(
-            "The email or password you entered is incorrect."
-        )
+        st.error("The email or password you entered is incorrect.")
 
         render_login_help()
         st.stop()
 
     if authentication_status is None:
+        apply_login_styles()
         hide_sidebar_for_login()
+
+        left, center, right = st.columns([1, 1.15, 1])
+
+        with center:
+            st.image(
+                "images/logo.png",
+                width=180,
+            )
+
+        st.markdown(
+            """
+            <div class="login-heading">
+                <h1>Tabby &amp; Jack's</h1>
+                <p>Employee Analytics Hub</p>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
         render_login_help()
         st.stop()
 
@@ -292,7 +293,9 @@ def render_login_gate() -> stauth.Authenticate:
 
     if user is None or not user.active:
         st.error(
-            "This employee account is marked as inactive. If you believe this is a mistake, please contact: Maria Swenson, or tabbyandjacksit@gmail.com"
+            "This employee account is marked as inactive. "
+            "If you believe this is a mistake, contact Maria Swenson "
+            "or tabbyandjacksit@gmail.com."
         )
 
         authenticator.logout(
