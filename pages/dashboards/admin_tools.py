@@ -100,7 +100,7 @@ tools = [
         "status": "Available",
         "category": "Admin Tools",
         "icon": icons["office_tasks"],
-        "page": "pages/admin/officehours/employeetasks.py",
+        "page": "pages/admin/officehours/officehours.py",
         "enabled": True,
     },
 ]
