@@ -27,72 +27,94 @@ except Exception as exc:
 
 
 pages = {
+    # Main dashboards
     "Home": st.Page(
         "pages/home.py",
         title="Home",
         icon=":material/home:",
-        default=True
+        default=True,
     ),
+    "Reporting": st.Page(
+        "pages/dashboards/reporting.py",
+        title="Reporting",
+        icon=":material/analytics:",
+    ),
+    "Employee Resources": st.Page(
+        "pages/dashboards/employee_resources.py",
+        title="Employee Resources",
+        icon=":material/groups:",
+    ),
+    "Ordering Tools": st.Page(
+        "pages/dashboards/ordering.py",
+        title="Ordering Tools",
+        icon=":material/shopping_cart:",
+    ),
+    "Admin Tools": st.Page(
+        "pages/dashboards/admin_tools.py",
+        title="Admin Tools",
+        icon=":material/admin_panel_settings:",
+    ),
+
+    # Individual tools
     "Major Vendor Order": st.Page(
         "pages/reports/MVO.py",
         title="Major Vendor Order",
-        icon=":material/shopping_cart:"
+        visibility="hidden",
     ),
     "Small Vendor Order": st.Page(
         "pages/reports/SVO.py",
         title="Small Vendor Order",
-        icon=":material/shopping_basket:"
+        visibility="hidden",
     ),
     "Dusty Report Transfer": st.Page(
         "pages/reports/dusty.py",
         title="Dusty Report Transfer",
-        icon=":material/move_item:"
+        visibility="hidden",
     ),
     "Sales by Brand": st.Page(
         "pages/reports/brandsale.py",
         title="Sales by Brand",
-        icon=":material/filter_list:"
+        visibility="hidden",
     ),
     "Helpful Links": st.Page(
         "pages/resources/links.py",
         title="Helpful Links",
-        icon=":material/link:"
-    ),
-    "Instacart Upload": st.Page(
-        "pages/admin/instacart.py",
-        title="Instacart Upload",
-        icon=":material/upload_file:"
+        visibility="hidden",
     ),
     "Vendor Contact": st.Page(
         "pages/resources/vendorcontact.py",
         title="Vendor Contact",
-        icon=":material/contact_page:"
+        visibility="hidden",
     ),
     "MAP Information": st.Page(
         "pages/resources/MAP.py",
         title="MAP Information",
-        icon=":material/price_check:"
+        visibility="hidden",
+    ),
+    "Instacart Upload": st.Page(
+        "pages/admin/instacart.py",
+        title="Instacart Upload",
+        visibility="hidden",
     ),
     "Employee Customer Capture": st.Page(
         "pages/admin/employeecapture.py",
         title="Employee Customer Capture",
-        icon=":material/person:"
+        visibility="hidden",
     ),
     "Office Hour Tracker": st.Page(
         "pages/admin/officehours/officehours.py",
         title="Office Hour Tracker",
-        icon=":material/schedule:"
+        visibility="hidden",
     ),
     "Employee Office Hours": st.Page(
         "pages/admin/officehours/employeetasks.py",
         title="Employee Office Hours",
-        icon=":material/task_alt:",
-        visibility="hidden"
+        visibility="hidden",
     ),
-    "Account" : st.Page(
+    "Account": st.Page(
         "pages/account.py",
-        title = "Account Settings",
-        icon = ":material/manage_accounts:"
+        title="Account Settings",
+        visibility="hidden",
     ),
 }
 
@@ -251,20 +273,43 @@ with st.sidebar:
 
     st.divider()
 
-    st.markdown("### Navigation")
+st.markdown("### Navigation")
 
-    sidebar_nav_button(":material/home: Home", "pages/home.py")
-    sidebar_nav_button(":material/shopping_cart: Major Vendor Order", "pages/reports/MVO.py")
-    sidebar_nav_button(":material/shopping_basket: Small Vendor Order", "pages/reports/SVO.py")
-    sidebar_nav_button(":material/move_item: Dusty Report Transfer", "pages/reports/dusty.py")
-    sidebar_nav_button(":material/filter_list: Sales by Brand", "pages/reports/brandsale.py")
-    sidebar_nav_button(":material/link: Helpful Links", "pages/resources/links.py")
-    sidebar_nav_button(":material/upload_file: Instacart Upload", "pages/admin/instacart.py")
-    sidebar_nav_button(":material/contact_page: Vendor Contact", "pages/resources/vendorcontact.py")
-    sidebar_nav_button(":material/price_check: MAP Information", "pages/resources/MAP.py")
-    st.divider()
-    render_logout(authenticator)
-    sidebar_nav_button(":material/manage_accounts: Account Settings","pages/account.py")
+sidebar_nav_button(
+    ":material/home: Home",
+    "pages/home.py",
+)
+
+sidebar_nav_button(
+    ":material/analytics: Reporting",
+    "pages/dashboards/reporting.py",
+)
+
+sidebar_nav_button(
+    ":material/groups: Employee Resources",
+    "pages/dashboards/employee_resources.py",
+)
+
+sidebar_nav_button(
+    ":material/shopping_cart: Ordering Tools",
+    "pages/dashboards/ordering.py",
+)
+
+sidebar_nav_button(
+    ":material/admin_panel_settings: Admin Tools",
+    "pages/dashboards/admin_tools.py",
+)
+
+st.divider()
+
+render_logout(authenticator)
+
+sidebar_nav_button(
+    ":material/manage_accounts: Account Settings",
+    "pages/account.py",
+)   
+
+
 
 pg = st.navigation(
     list(pages.values()),
