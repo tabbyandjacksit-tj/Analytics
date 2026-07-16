@@ -34,57 +34,57 @@ pages = {
         default=True
     ),
     "Major Vendor Order": st.Page(
-        "pages/MVO.py",
+        "pages/reports/MVO.py",
         title="Major Vendor Order",
         icon=":material/shopping_cart:"
     ),
     "Small Vendor Order": st.Page(
-        "pages/SVO.py",
+        "pages/reports/SVO.py",
         title="Small Vendor Order",
         icon=":material/shopping_basket:"
     ),
     "Dusty Report Transfer": st.Page(
-        "pages/dusty.py",
+        "pages/reports/dusty.py",
         title="Dusty Report Transfer",
         icon=":material/move_item:"
     ),
     "Sales by Brand": st.Page(
-        "pages/brandsale.py",
+        "pages/reports/brandsale.py",
         title="Sales by Brand",
         icon=":material/filter_list:"
     ),
     "Helpful Links": st.Page(
-        "pages/links.py",
+        "pages/resources/links.py",
         title="Helpful Links",
         icon=":material/link:"
     ),
     "Instacart Upload": st.Page(
-        "pages/instacart.py",
+        "pages/admin/instacart.py",
         title="Instacart Upload",
         icon=":material/upload_file:"
     ),
     "Vendor Contact": st.Page(
-        "pages/vendorcontact.py",
+        "pages/resources/vendorcontact.py",
         title="Vendor Contact",
         icon=":material/contact_page:"
     ),
     "MAP Information": st.Page(
-        "pages/MAP.py",
+        "pages/resources/MAP.py",
         title="MAP Information",
         icon=":material/price_check:"
     ),
     "Employee Customer Capture": st.Page(
-        "pages/employeecapture.py",
+        "pages/admin/employeecapture.py",
         title="Employee Customer Capture",
         icon=":material/person:"
     ),
     "Office Hour Tracker": st.Page(
-        "pages/officehours.py",
+        "pages/admin/officehours/officehours.py",
         title="Office Hour Tracker",
         icon=":material/schedule:"
     ),
     "Employee Office Hours": st.Page(
-        "pages/employeetasks.py",
+        "pages/admin/officehours/employeetasks.py",
         title="Employee Office Hours",
         icon=":material/task_alt:",
         visibility="hidden"
@@ -97,16 +97,16 @@ pages = {
 }
 
 report_links = {
-    "Major Vendor Order": "pages/MVO.py",
-    "Small Vendor Order": "pages/SVO.py",
-    "Dusty Report Transfer": "pages/dusty.py",
-    "Sales by Brand": "pages/brandsale.py",
-    "Helpful Links": "pages/links.py",
-    "Instacart Upload": "pages/instacart.py",
-    "Vendor Contact": "pages/vendorcontact.py",
-    "Employee Customer Capture": "pages/employeecapture.py",
-    "MAP Information": "pages/MAP.py",
-    "Employee Office Hours": "pages/officehours.py",
+    "Major Vendor Order": "pages/reports/MVO.py",
+    "Small Vendor Order": "pages/reports/SVO.py",
+    "Dusty Report Transfer": "pages/reports/dusty.py",
+    "Sales by Brand": "pages/reports/brandsale.py",
+    "Helpful Links": "pages/resources/links.py",
+    "Instacart Upload": "pages/admin/instacart.py",
+    "Vendor Contact": "pages/resources/vendorcontact.py",
+    "Employee Customer Capture": "pages/admin/employeecapture.py",
+    "MAP Information": "pages/resources/MAP.py",
+    "Employee Office Hours": "pages/admin/officehours/officehours.py",
 }
 
 st.markdown(
