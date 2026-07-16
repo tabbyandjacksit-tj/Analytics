@@ -1,4 +1,4 @@
-#  {forestGreen,14} =====================================================================
+#  {forestGreen,13} =====================================================================
 # Imports
 # =======================================================================================
 import streamlit as st
@@ -7,7 +7,6 @@ from utils.tools.images import image_to_base64
 from utils.styling.base import apply_base_styles
 from utils.styling.home import (
     apply_home_styles,
-    render_category_title,
     render_dashboard_header,
     render_footer,
     render_home_banner,
@@ -112,7 +111,6 @@ categories = ["Ordering Tools", "Inventory Tools", "Office Hour Tools"]
 for category in categories:
     category_tools = [tool for tool in tools if tool["category"] == category]
 
-    render_category_title(category)
 
     for i in range(0, len(category_tools), 2):
         cols = st.columns(2, gap="large")
