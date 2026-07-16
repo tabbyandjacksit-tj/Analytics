@@ -106,7 +106,8 @@ report_links = {
     "Vendor Contact": "pages/resources/vendorcontact.py",
     "Employee Customer Capture": "pages/admin/employeecapture.py",
     "MAP Information": "pages/resources/MAP.py",
-    "Employee Office Hours": "pages/admin/officehours/officehours.py",
+    "Office Hour Tracker": "pages/admin/officehours/officehours.py",
+    "Employee Office Hours": "pages/admin/officehours/employeetasks.py",
 }
 
 st.markdown(
