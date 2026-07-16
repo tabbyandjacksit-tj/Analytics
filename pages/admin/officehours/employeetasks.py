@@ -70,7 +70,7 @@ if not employee:
         "← Return to Office Hours",
         use_container_width=True,
     ):
-        st.switch_page("pages/officehours.py")
+        st.switch_page("pages/admin/officehours/officehours.py")
 
     st.stop()
 
@@ -451,4 +451,4 @@ if st.button(
     "← Return to Office Hours",
     use_container_width=True,
 ):
-    st.switch_page("pages/officehours.py")
+    st.switch_page("pages/admin/officehours/officehours.py")
