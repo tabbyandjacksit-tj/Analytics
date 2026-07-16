@@ -1,24 +1,24 @@
-# =======================================================================================
+# ======================================================================================
 # Imports
-# =======================================================================================
+# ======================================================================================
 
 import streamlit as st
 
 from utils.tools.images import image_to_base64
 from utils.styling.base import apply_base_styles
-from utils.styling.home import (
-    apply_home_styles,
-    render_category_title,
-    render_tool_card,
-)
 from utils.styling.dashboard import (
     apply_dashboard_styles,
-    render_dashboard_hero,
+    render_dashboard_banner,
+    render_dashboard_intro,
+)
+from utils.styling.home import (
+    apply_home_styles,
+    render_tool_card,
 )
 
-# =======================================================================================
+# ======================================================================================
 # Page Configuration
-# =======================================================================================
+# ======================================================================================
 
 st.set_page_config(
     page_title="Reporting",
@@ -27,23 +27,31 @@ st.set_page_config(
 )
 
 
-# =======================================================================================
+# ======================================================================================
 # Apply Styles
-# =======================================================================================
+# ======================================================================================
 
 apply_base_styles(max_width=1160)
 apply_home_styles()
-
-
-# =======================================================================================
-# Dashboard Header
-# =======================================================================================
-
 apply_dashboard_styles()
 
-render_dashboard_hero(
-    title="Reporting Tools",
-    subtitle="Create recommended orders and vendor order templates.",
+
+# ======================================================================================
+# Page Banner
+# ======================================================================================
+
+render_dashboard_banner(
+    title="Reporting Dashboard",
+    description=(
+        "Review sales, inventory, and operational information "
+        "from one central location."
+    ),
+)
+
+render_dashboard_intro(
+    eyebrow="Reporting Tools",
+    title="Choose a Report",
+    description="Select a reporting tool below to get started.",
 )
 
 

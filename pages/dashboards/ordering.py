@@ -6,17 +6,15 @@ import streamlit as st
 
 from utils.tools.images import image_to_base64
 from utils.styling.base import apply_base_styles
-from utils.styling.home import (
-    apply_home_styles,
-    render_category_title,
-    render_tool_card,
-)
 from utils.styling.dashboard import (
     apply_dashboard_styles,
-    render_dashboard_hero,
+    render_dashboard_banner,
+    render_dashboard_intro,
 )
-
-
+from utils.styling.home import (
+    apply_home_styles,
+    render_tool_card,
+)
 # =======================================================================================
 # Page Configuration
 # =======================================================================================
@@ -34,19 +32,25 @@ st.set_page_config(
 
 apply_base_styles(max_width=1160)
 apply_home_styles()
+apply_dashboard_styles()
 
 
 # =======================================================================================
 # Dashboard Header
 # =======================================================================================
-
-apply_dashboard_styles()
-
-render_dashboard_hero(
+render_dashboard_banner(
     title="Ordering Tools",
-    subtitle="Create recommended orders and vendor order templates.",
+    description=(
+        "Create recommended orders and prepare vendor order templates "
+        "using Lightspeed reports."
+    ),
 )
 
+render_dashboard_intro(
+    eyebrow="Ordering Tools",
+    title="Choose an Ordering Tool",
+    description="Select the order type you would like to prepare.",
+)
 
 # =======================================================================================
 # Load Card Icons
