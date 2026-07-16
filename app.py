@@ -27,34 +27,29 @@ except Exception as exc:
 
 
 pages = {
-    # Main dashboards
-    "Home": st.Page(
-        "pages/home.py",
-        title="Home",
-        icon=":material/home:",
-        default=True,
-    ),
-    "Reporting": st.Page(
-        "pages/dashboards/reporting.py",
-        title="Reporting",
-        icon=":material/analytics:",
-    ),
-    "Employee Resources": st.Page(
-        "pages/dashboards/employee_resources.py",
-        title="Employee Resources",
-        icon=":material/groups:",
-    ),
     "Ordering Tools": st.Page(
         "pages/dashboards/ordering.py",
         title="Ordering Tools",
         icon=":material/shopping_cart:",
     ),
+
+    "Reporting": st.Page(
+        "pages/dashboards/reporting.py",
+        title="Reporting",
+        icon=":material/analytics:",
+    ),
+
+    "Employee Resources": st.Page(
+        "pages/dashboards/employee_resources.py",
+        title="Employee Resources",
+        icon=":material/groups:",
+    ),
+
     "Admin Tools": st.Page(
         "pages/dashboards/admin_tools.py",
         title="Admin Tools",
         icon=":material/admin_panel_settings:",
     ),
-
     # Individual tools
     "Major Vendor Order": st.Page(
         "pages/reports/MVO.py",
