@@ -324,10 +324,6 @@ def sidebar_nav_button(
 
 with st.sidebar:
 
-    # ------------------------------------------------------------------
-    # Logo
-    # ------------------------------------------------------------------
-
     left_column, center_column, right_column = st.columns([1, 2, 1])
 
     with center_column:
@@ -339,27 +335,18 @@ with st.sidebar:
     st.markdown(
         """
         <div style="text-align: center;">
-            <div class="sidebar-title">
-                Tabby & Jack's
-            </div>
-
-            <div class="sidebar-subtitle">
-                Analytics Hub
-            </div>
+            <div class="sidebar-title">Tabby & Jack's</div>
+            <div class="sidebar-subtitle">Analytics Hub</div>
         </div>
         """,
         unsafe_allow_html=True,
     )
 
-    # ------------------------------------------------------------------
-    # Tool Search
-    # ------------------------------------------------------------------
-
-    st.markdown("### :material/search: Find a Tool")
+    st.markdown("### :material/search: Find a Report")
 
     search = st.text_input(
         "Search",
-        placeholder="Search tools...",
+        placeholder="Search reports...",
         label_visibility="collapsed",
     )
 
@@ -381,28 +368,18 @@ with st.sidebar:
                 sidebar_nav_button(
                     label=f"Open {name}",
                     page_path=page_path,
-                    key=f"search_result_{result_number}_{page_path}",
+                    key=f"search_{result_number}_{page_path}",
                 )
-
         else:
             st.caption("Sorry! That tool does not exist.")
 
     st.divider()
-
-    # ------------------------------------------------------------------
-    # Main Navigation
-    # ------------------------------------------------------------------
 
     st.markdown("### Navigation")
 
     sidebar_nav_button(
         ":material/home: Home",
         "pages/home.py",
-    )
-
-    sidebar_nav_button(
-        ":material/shopping_cart: Ordering Tools",
-        "pages/dashboards/ordering.py",
     )
 
     sidebar_nav_button(
@@ -416,15 +393,16 @@ with st.sidebar:
     )
 
     sidebar_nav_button(
+        ":material/shopping_cart: Ordering Tools",
+        "pages/dashboards/ordering.py",
+    )
+
+    sidebar_nav_button(
         ":material/admin_panel_settings: Admin Tools",
         "pages/dashboards/admin_tools.py",
     )
 
     st.divider()
-
-    # ------------------------------------------------------------------
-    # Account and Logout
-    # ------------------------------------------------------------------
 
     sidebar_nav_button(
         ":material/manage_accounts: Account Settings",

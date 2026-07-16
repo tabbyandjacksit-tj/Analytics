@@ -11,6 +11,10 @@ from utils.styling.home import (
     render_category_title,
     render_tool_card,
 )
+from utils.styling.dashboard import (
+    apply_dashboard_styles,
+    render_dashboard_hero,
+)
 
 
 # =======================================================================================
@@ -35,36 +39,11 @@ apply_home_styles()
 # =======================================================================================
 # Dashboard Header
 # =======================================================================================
+apply_dashboard_styles()
 
-st.markdown(
-    """
-    <div style="
-        background-color: #1D5A3E;
-        border-radius: 24px;
-        padding: 34px 30px;
-        margin-bottom: 30px;
-        text-align: center;
-        box-shadow: 0 8px 22px rgba(29, 90, 62, .18);
-    ">
-        <h1 style="
-            color: #FFF9EF;
-            margin: 0;
-            font-size: 42px;
-            font-weight: 900;
-        ">
-            Admin Tools
-        </h1>
-
-        <p style="
-            color: rgba(255, 249, 239, .88);
-            margin: 10px 0 0 0;
-            font-size: 17px;
-        ">
-            Access restricted tools for data uploads and employee administration.
-        </p>
-    </div>
-    """,
-    unsafe_allow_html=True,
+render_dashboard_hero(
+    title="Admin Tools",
+    subtitle="Create recommended orders and vendor order templates.",
 )
 
 
