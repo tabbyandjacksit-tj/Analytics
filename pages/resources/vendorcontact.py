@@ -7,7 +7,7 @@ import pandas as pd
 import streamlit as st
 from utils.styling.base import apply_base_styles, render_hero
 from utils.styling.vendor import apply_vendor_styles, render_edit_box
-from utils.sheet_reader import load_sheet
+from utils.tools.sheet_reader import load_sheet
 #  {yellowgreen,7} =====================================================================
 # Page Configuration (sets title, icon, and layout of page)
 # =======================================================================================

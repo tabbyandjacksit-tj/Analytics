@@ -7,7 +7,7 @@ from utils.auth.users import (
     get_user_by_email,
     load_authenticator_credentials,
 )
-from utils.secrets import get_secret
+from utils.tools.secrets import get_secret
 
 
 # ==========================================

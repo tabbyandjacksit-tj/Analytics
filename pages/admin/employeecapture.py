@@ -1,6 +1,6 @@
 import pandas as pd
 import streamlit as st
-from utils.employee_capture import (
+from utils.reporting.employee_capture import (
     find_missing_columns,
     prepare_employee_report,
     summarize_employee_capture,

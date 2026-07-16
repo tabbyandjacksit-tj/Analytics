@@ -4,7 +4,7 @@
 from datetime import datetime, timedelta
 import pandas as pd
 import streamlit as st
-from utils.mvo import calculate_order_quantities, find_missing_columns
+from utils.reporting.mvo import calculate_order_quantities, find_missing_columns
 from utils.styling.base import apply_base_styles, render_hero
 from utils.styling.mvo import (
     apply_mvo_styles,

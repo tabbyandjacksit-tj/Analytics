@@ -4,7 +4,7 @@ import gspread
 import streamlit as st
 from google.oauth2.service_account import Credentials
 
-from utils.secrets import get_google_service_account, get_secret
+from utils.tools.secrets import get_google_service_account, get_secret
 
 
 SCOPES = [

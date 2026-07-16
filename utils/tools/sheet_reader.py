@@ -4,7 +4,7 @@ import gspread
 import pandas as pd
 import streamlit as st
 from google.oauth2.service_account import Credentials
-from utils.secrets import get_google_service_account
+from utils.tools.secrets import get_google_service_account
 
 
 

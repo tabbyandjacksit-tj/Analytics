@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 import pandas as pd
 import streamlit as st
 
-from utils.officehours import (
+from utils.reporting.officehours import (
     TASK_COLUMNS,
     create_task_record,
     finish_task_record,
@@ -17,7 +17,7 @@ from utils.officehours import (
     prepare_tasks,
     start_task_record,
 )
-from utils.sheet_reader import (
+from utils.tools.sheet_reader import (
     append_row,
     load_private_sheet,
     update_row_by_id,
@@ -31,7 +31,7 @@ from utils.styling.officehours import (
     section_header,
 )
 
-from utils.secrets import get_secret
+from utils.tools.secrets import get_secret
 
 SHEET_ID = get_secret("OFFICE_HOURS_SHEET_ID")
 

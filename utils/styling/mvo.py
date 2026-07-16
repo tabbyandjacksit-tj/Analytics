@@ -1,6 +1,6 @@
 from datetime import datetime
 import streamlit as st
-from utils.images import image_to_base64
+from utils.tools.images import image_to_base64
 from utils.styling.base import apply_extra_css
 
 def apply_mvo_styles() -> None:

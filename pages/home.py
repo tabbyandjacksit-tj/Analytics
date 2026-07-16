@@ -3,7 +3,7 @@
 # =======================================================================================
 import streamlit as st
 
-from utils.images import image_to_base64
+from utils.tools.images import image_to_base64
 from utils.styling.base import apply_base_styles
 from utils.styling.home import (
     apply_home_styles,

@@ -3,11 +3,11 @@
 # =======================================================================================
 from pathlib import Path
 import streamlit as st
-from utils.instacart import (
+from utils.reporting.instacart import (
     create_instacart_files,
     upload_files_to_instacart,
 )
-from utils.secrets import get_secret
+from utils.tools.secrets import get_secret
 from utils.styling.base import apply_base_styles
 from utils.styling.instacart import (
     apply_instacart_styles,

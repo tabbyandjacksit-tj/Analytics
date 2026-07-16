@@ -7,13 +7,13 @@ from datetime import datetime
 import pandas as pd
 import streamlit as st
 
-from utils.officehours import (
+from utils.reporting.officehours import (
     format_minutes,
     get_active_tasks,
     get_week_start,
     prepare_tasks,
 )
-from utils.sheet_reader import load_private_sheet
+from utils.tools.sheet_reader import load_private_sheet
 from utils.styling.base import apply_base_styles, render_hero
 from utils.styling.officehours import (
     apply_officehour_styles,
@@ -23,7 +23,7 @@ from utils.styling.officehours import (
     section_header,
 )
 
-from utils.secrets import get_secret
+from utils.tools.secrets import get_secret
 
 SHEET_ID = get_secret("OFFICE_HOURS_SHEET_ID")
 
