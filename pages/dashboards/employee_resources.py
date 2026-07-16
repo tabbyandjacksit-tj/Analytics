@@ -123,7 +123,6 @@ tools = [
 # Render Dashboard Cards
 # =======================================================================================
 
-render_category_title("Select a Resource")
 
 for index in range(0, len(tools), 2):
     columns = st.columns(2, gap="large")

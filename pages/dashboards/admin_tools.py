@@ -110,7 +110,6 @@ tools = [
 # Render Dashboard Cards
 # =======================================================================================
 
-render_category_title("Select an Admin Tool")
 
 for index in range(0, len(tools), 2):
     columns = st.columns(2, gap="large")
