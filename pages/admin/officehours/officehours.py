@@ -125,7 +125,7 @@ employees = sorted(
 
 
 if not employees:
-    st.warning("No active employees were found in the Employees sheet.")
+    st.warning("There are currently no active employees!")
 
 
 # =============================================================================
@@ -258,5 +258,5 @@ for row_start in range(0, len(employees), 3):
                 ] = employee
 
                 st.switch_page(
-                    "pages/employeetasks.py"
+                    "pages/admin/officehours/employeetasks.py"
                 )
