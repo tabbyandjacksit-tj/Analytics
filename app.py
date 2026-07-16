@@ -108,6 +108,7 @@ report_links = {
     "MAP Information": "pages/resources/MAP.py",
     "Office Hour Tracker": "pages/admin/officehours/officehours.py",
     "Employee Office Hours": "pages/admin/officehours/employeetasks.py",
+    "Account Settings": "pages/account.py",
 }
 
 st.markdown(
