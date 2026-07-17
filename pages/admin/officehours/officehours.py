@@ -163,9 +163,16 @@ else:
             )
 
             if pd.notna(started_at):
+                started_datetime = started_at.to_pydatetime()
+
+                if started_datetime.tzinfo is None:
+                    started_datetime = started_datetime.replace(
+                        tzinfo=LOCAL_TIMEZONE
+                    )
+
                 elapsed_minutes = (
                     datetime.now(LOCAL_TIMEZONE)
-                    - started_at.to_pydatetime()
+                    - started_datetime
                 ).total_seconds() / 60
 
                 started_label = (

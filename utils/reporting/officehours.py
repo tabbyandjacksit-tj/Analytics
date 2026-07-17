@@ -71,9 +71,16 @@ def get_active_session_minutes(task: dict) -> float:
     if pd.isna(started_at):
         return 0.0
 
+    started_datetime = started_at.to_pydatetime()
+
+    if started_datetime.tzinfo is None:
+        started_datetime = started_datetime.replace(
+            tzinfo=LOCAL_TIMEZONE
+        )
+
     elapsed_minutes = (
         datetime.now(LOCAL_TIMEZONE)
-        - started_at.to_pydatetime()
+        - started_datetime
     ).total_seconds() / 60
 
     return max(elapsed_minutes, 0.0)
