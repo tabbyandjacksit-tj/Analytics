@@ -184,7 +184,7 @@ summary_5.metric(
 
 section_header(
     "Add New Project",
-    "Add a project for the current week. Notes are optional.",
+    "Add a project for the current week. Feel free to add notes to help yourself remember all items to complete!",
 )
 
 with st.form(
@@ -193,12 +193,12 @@ with st.form(
 ):
     project = st.text_input(
         "Project",
-        placeholder="Example: Analytics Hub",
+        placeholder="Example: Balancing Sun Prairie Burlo",
     )
 
     notes = st.text_area(
         "Notes",
-        placeholder="Optional context, updates, or next steps.",
+        placeholder="Optional description, updates, or next steps.",
         height=90,
     )
 
@@ -243,7 +243,7 @@ if submitted:
 # =============================================================================
 
 section_header(
-    "Currently Working",
+    "Currently Working On...",
     "Only one project can be actively timed at a time.",
 )
 
@@ -382,13 +382,7 @@ else:
 # IN-PROGRESS PROJECTS
 # =============================================================================
 
-section_header(
-    "In Progress",
-    (
-        "Projects that have been started but are not "
-        "currently being timed."
-    ),
-)
+section_header("In Progress",)
 
 in_progress_tasks = employee_tasks[
     employee_tasks["Status"].eq("In Progress")
@@ -458,10 +452,7 @@ else:
 # TO-DO TASKS
 # =============================================================================
 
-section_header(
-    "To Do",
-    "Start a project to begin tracking time.",
-)
+section_header("To Do")
 
 todo_tasks = employee_tasks[
     employee_tasks["Status"].eq("To Do")
@@ -527,10 +518,7 @@ else:
 # FINISHED TASKS
 # =============================================================================
 
-section_header(
-    "Finished",
-    "Completed projects for the selected week.",
-)
+section_header("Finished")
 
 finished_tasks = employee_tasks[
     employee_tasks["Status"].eq("Finished")
