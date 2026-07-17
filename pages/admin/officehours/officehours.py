@@ -186,7 +186,7 @@ else:
                 render_active_employee(
                     employee=task["Employee"],
                     project=task["Project"],
-                    task=task["Task"],
+                    task= "",
                     clock_in=started_label,
                     elapsed=elapsed_label,
                 )

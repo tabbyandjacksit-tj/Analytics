@@ -14,7 +14,9 @@ from utils.reporting.officehours import (
     format_minutes,
     get_employee_tasks,
     get_week_start,
+    pause_task_record,
     prepare_tasks,
+    resume_task_record,
     start_task_record,
 )
 from utils.tools.sheet_reader import (
@@ -148,6 +150,10 @@ active_count = int(
     employee_tasks["Status"].eq("Active").sum()
 )
 
+in_progress_count = int(
+    employee_tasks["Status"].eq("In Progress").sum()
+)
+
 finished_count = int(
     employee_tasks["Status"].eq("Finished").sum()
 )
@@ -157,28 +163,29 @@ total_minutes = pd.to_numeric(
     errors="coerce",
 ).fillna(0).sum()
 
-summary_1, summary_2, summary_3, summary_4 = st.columns(4)
+summary_1, summary_2, summary_3, summary_4, summary_5 = st.columns(5)
 
 summary_1.metric("To Do", todo_count)
-summary_2.metric("Active", active_count)
-summary_3.metric("Finished", finished_count)
-summary_4.metric(
+summary_2.metric("Working", active_count)
+summary_3.metric("In Progress", in_progress_count)
+summary_4.metric("Finished", finished_count)
+summary_5.metric(
     "Tracked Time",
     format_minutes(total_minutes),
 )
 
 
 # =============================================================================
-# ADD TASK
+# ADD PROJECT
 # =============================================================================
 
 section_header(
-    "Add New Task",
-    "Create a task for the current week before starting the timer.",
+    "Add New Project",
+    "Add a project for the current week. Notes are optional.",
 )
 
 with st.form(
-    "new_task",
+    "new_project",
     clear_on_submit=True,
 ):
     project = st.text_input(
@@ -186,38 +193,30 @@ with st.form(
         placeholder="Example: Analytics Hub",
     )
 
-    task_description = st.text_input(
-        "Task",
-        placeholder="Describe what needs to be completed.",
-    )
-
     notes = st.text_area(
         "Notes",
-        placeholder="Optional context or next steps.",
+        placeholder="Optional context, updates, or next steps.",
         height=90,
     )
 
     submitted = st.form_submit_button(
-        "Add Task",
+        "Add Project",
         use_container_width=True,
     )
 
 if submitted:
     if selected_week != current_week:
-        st.error("New tasks can only be added to the current week.")
+        st.error("New projects can only be added to the current week.")
 
     elif not project.strip():
         st.error("Enter a project name.")
 
-    elif not task_description.strip():
-        st.error("Enter a task description.")
-
     else:
         new_task = create_task_record(
             employee=employee,
-            project=project,
-            task=task_description,
-            notes=notes,
+            project=project.strip(),
+            task="",
+            notes=notes.strip(),
         )
 
         try:
@@ -229,20 +228,20 @@ if submitted:
             )
 
             st.cache_data.clear()
-            st.success("Task added.")
+            st.success("Project added.")
             st.rerun()
 
         except Exception as error:
-            st.error(f"Could not add the task: {error}")
+            st.error(f"Could not add the project: {error}")
 
 
 # =============================================================================
-# ACTIVE TASK
+# CURRENTLY WORKING
 # =============================================================================
 
 section_header(
     "Currently Working",
-    "Only one task can be active at a time.",
+    "Only one project can be actively timed at a time.",
 )
 
 active_tasks = employee_tasks[
@@ -261,7 +260,8 @@ else:
 
         if pd.notna(started_at):
             elapsed_minutes = (
-                datetime.now() - started_at.to_pydatetime()
+                datetime.now()
+                - started_at.to_pydatetime()
             ).total_seconds() / 60
 
             started_label = (
@@ -271,7 +271,9 @@ else:
                 .lstrip("0")
             )
 
-            elapsed_label = format_minutes(elapsed_minutes)
+            elapsed_label = format_minutes(
+                elapsed_minutes
+            )
 
         else:
             started_label = "Unknown"
@@ -279,17 +281,61 @@ else:
 
         render_active_task(
             project=active_task["Project"],
-            task=active_task["Task"],
+            task="",
             started=started_label,
             elapsed=elapsed_label,
             notes=active_task["Notes"],
         )
 
-        if st.button(
-            "Stop and Mark Finished",
-            key=f"finish_{active_task['Task ID']}",
-            use_container_width=True,
-        ):
+        pause_column, finish_column = st.columns(2)
+
+        with pause_column:
+            pause_clicked = st.button(
+                "Pause",
+                key=f"pause_{active_task['Task ID']}",
+                use_container_width=True,
+                disabled=selected_week != current_week,
+            )
+
+        with finish_column:
+            finish_clicked = st.button(
+                "Mark Finished",
+                key=f"finish_{active_task['Task ID']}",
+                use_container_width=True,
+                disabled=selected_week != current_week,
+            )
+
+        if pause_clicked:
+            paused_task = pause_task_record(
+                active_task.to_dict()
+            )
+
+            try:
+                updated = update_row_by_id(
+                    SHEET_ID,
+                    TASKS_TAB,
+                    active_task["Task ID"],
+                    paused_task,
+                    TASK_COLUMNS,
+                )
+
+                if updated:
+                    st.cache_data.clear()
+                    st.success("Project paused.")
+                    st.rerun()
+
+                else:
+                    st.error(
+                        "The project could not be found "
+                        "in the Google Sheet."
+                    )
+
+            except Exception as error:
+                st.error(
+                    f"Could not pause the project: {error}"
+                )
+
+        if finish_clicked:
             finished_task = finish_task_record(
                 active_task.to_dict()
             )
@@ -305,24 +351,106 @@ else:
 
                 if updated:
                     st.cache_data.clear()
-                    st.success("Task marked as finished.")
+                    st.success(
+                        "Project marked as finished."
+                    )
                     st.rerun()
+
                 else:
                     st.error(
-                        "The task could not be found in the Google Sheet."
+                        "The project could not be found "
+                        "in the Google Sheet."
                     )
 
             except Exception as error:
-                st.error(f"Could not finish the task: {error}")
+                st.error(
+                    f"Could not finish the project: {error}"
+                )
 
 
+# =============================================================================
+# IN-PROGRESS PROJECTS
+# =============================================================================
+
+section_header(
+    "In Progress",
+    (
+        "Projects that have been started but are not "
+        "currently being timed."
+    ),
+)
+
+in_progress_tasks = employee_tasks[
+    employee_tasks["Status"].eq("In Progress")
+].copy()
+
+if in_progress_tasks.empty:
+    st.caption("No projects are currently paused.")
+
+else:
+    for _, progress_task in in_progress_tasks.iterrows():
+        project_column, button_column = st.columns([5, 1])
+
+        with project_column:
+            render_task_card(
+                project=progress_task["Project"],
+                task="",
+                notes=progress_task["Notes"],
+            )
+
+        with button_column:
+            resume_disabled = (
+                not active_tasks.empty
+                or selected_week != current_week
+            )
+
+            if st.button(
+                "Resume",
+                key=f"resume_{progress_task['Task ID']}",
+                use_container_width=True,
+                disabled=resume_disabled,
+            ):
+                resumed_task = resume_task_record(
+                    progress_task.to_dict()
+                )
+
+                try:
+                    updated = update_row_by_id(
+                        SHEET_ID,
+                        TASKS_TAB,
+                        progress_task["Task ID"],
+                        resumed_task,
+                        TASK_COLUMNS,
+                    )
+
+                    if updated:
+                        st.cache_data.clear()
+                        st.success("Project resumed.")
+                        st.rerun()
+
+                    else:
+                        st.error(
+                            "The project could not be found "
+                            "in the Google Sheet."
+                        )
+
+                except Exception as error:
+                    st.error(
+                        f"Could not resume the project: {error}"
+                    )
+
+    if not active_tasks.empty:
+        st.caption(
+            "Pause or finish the current project before "
+            "resuming another."
+        )
 # =============================================================================
 # TO-DO TASKS
 # =============================================================================
 
 section_header(
     "To Do",
-    "Start a task to begin tracking time.",
+    "Start a project to begin tracking time.",
 )
 
 todo_tasks = employee_tasks[
@@ -330,7 +458,7 @@ todo_tasks = employee_tasks[
 ].copy()
 
 if todo_tasks.empty:
-    st.caption("No tasks are waiting to be started.")
+    st.caption("No projects are waiting to be started.")
 
 else:
     for _, todo_task in todo_tasks.iterrows():
@@ -339,7 +467,7 @@ else:
         with task_column:
             render_task_card(
                 project=todo_task["Project"],
-                task=todo_task["Task"],
+                task= "",
                 notes=todo_task["Notes"],
             )
 
@@ -391,7 +519,7 @@ else:
 
 section_header(
     "Finished",
-    "Completed tasks for the selected week.",
+    "Completed projects for the selected week.",
 )
 
 finished_tasks = employee_tasks[
@@ -422,7 +550,6 @@ else:
         [
             "Completed Date",
             "Project",
-            "Task",
             "Minutes",
             "Notes",
         ]
