@@ -66,7 +66,7 @@ tools = [
     },
     {
         "title": "Dusty Report Transfer",
-        "description": "See where Dusty Inventory can go!",
+        "description": "See the best place for your Dusty Inventory to go!",
         "status": "Coming Soon",
         "category": "Inventory Tools",
         "icon": icons["transfer"],
@@ -75,7 +75,7 @@ tools = [
     },
     {
         "title": "Sales by Brand",
-        "description": "See previous sales by brand and generate a report",
+        "description": "See previous months sales per brand and generate a report to see what should be reordered!",
         "status": "Coming Soon",
         "category": "Inventory Tools",
         "icon": icons["brand"],
@@ -94,7 +94,7 @@ tools = [
     {
         "title": "Office Hour Tracker",
         "description": "Exclusively for work-from-home employees to track their working office hours.",
-        "status": "Available",
+        "status": "Availiable",
         "category": "Office Hour Tools",
         "icon": icons["brand"],
         "page": "pages/admin/officehours/officehours.py",
