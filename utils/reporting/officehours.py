@@ -2,7 +2,7 @@
 # IMPORTS
 # =============================================================================
 
-from datetime import datetime, timedelta
+from datetime import datetime, date, timedelta
 from zoneinfo import ZoneInfo
 from uuid import uuid4
 
