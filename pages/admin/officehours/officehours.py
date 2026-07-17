@@ -163,7 +163,7 @@ else:
 
             if pd.notna(started_at):
                 elapsed_minutes = (
-                    datetime.now()
+                    datetime.now(LOCAL_TIMEZONE)
                     - started_at.to_pydatetime()
                 ).total_seconds() / 60
 

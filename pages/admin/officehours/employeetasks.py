@@ -2,7 +2,8 @@
 # IMPORTS
 # =============================================================================
 
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
+from zoneinfo import ZoneInfo
 
 import pandas as pd
 import streamlit as st
@@ -36,6 +37,7 @@ from utils.styling.officehours import (
 from utils.tools.secrets import get_secret
 
 SHEET_ID = get_secret("OFFICE_HOURS_SHEET_ID")
+LOCAL_TIMEZONE = ZoneInfo("America/Chicago")
 
 
 # =============================================================================
@@ -260,7 +262,7 @@ else:
 
         if pd.notna(started_at):
             elapsed_minutes = (
-                datetime.now()
+                datetime.now(LOCAL_TIMEZONE)
                 - started_at.to_pydatetime()
             ).total_seconds() / 60
 

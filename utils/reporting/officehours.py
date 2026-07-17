@@ -3,6 +3,7 @@
 # =============================================================================
 
 from datetime import date, datetime, timedelta
+from zoneinfo import ZoneInfo
 from uuid import uuid4
 
 import pandas as pd
@@ -26,6 +27,8 @@ TASK_COLUMNS = [
     "Completed Date",
     "Notes",
 ]
+
+LOCAL_TIMEZONE = ZoneInfo("America/Chicago")
 
 
 # =============================================================================
@@ -69,7 +72,7 @@ def get_active_session_minutes(task: dict) -> float:
         return 0.0
 
     elapsed_minutes = (
-        datetime.now()
+        datetime.now(LOCAL_TIMEZONE)
         - started_at.to_pydatetime()
     ).total_seconds() / 60
 
@@ -114,7 +117,7 @@ def start_task_record(task: dict) -> dict:
     updated_task = task.copy()
 
     updated_task["Status"] = "Active"
-    updated_task["Start Time"] = datetime.now().isoformat(
+    updated_task["Start Time"] = datetime.now(LOCAL_TIMEZONE).isoformat(
         timespec="seconds"
     )
     updated_task["End Time"] = ""
@@ -165,7 +168,7 @@ def resume_task_record(task: dict) -> dict:
     updated_task = task.copy()
 
     updated_task["Status"] = "Active"
-    updated_task["Start Time"] = datetime.now().isoformat(
+    updated_task["Start Time"] = datetime.now(LOCAL_TIMEZONE).isoformat(
         timespec="seconds"
     )
     updated_task["End Time"] = ""
@@ -181,7 +184,7 @@ def resume_task_record(task: dict) -> dict:
 def finish_task_record(task: dict) -> dict:
     """Finish a project while preserving all tracked time."""
     updated_task = task.copy()
-    finished_at = datetime.now()
+    finished_at = datetime.now(LOCAL_TIMEZONE)
 
     saved_minutes = get_saved_minutes(
         updated_task
