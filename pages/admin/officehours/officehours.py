@@ -133,10 +133,7 @@ if not employees:
 # WHO'S WORKING NOW
 # =============================================================================
 
-section_header(
-    "Who's Working Now?",
-    "See which employees currently have an active office-hour task.",
-)
+section_header("Who's Working Now?")
 
 active_tasks = get_active_tasks(tasks_df)
 
