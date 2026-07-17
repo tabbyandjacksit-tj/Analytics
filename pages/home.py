@@ -94,7 +94,7 @@ tools = [
     {
         "title": "Office Hour Tracker",
         "description": "Exclusively for work-from-home employees to track their working office hours.",
-        "status": "Coming Soon",
+        "status": "Available",
         "category": "Office Hour Tools",
         "icon": icons["brand"],
         "page": "pages/admin/officehours/officehours.py",
