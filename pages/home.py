@@ -98,7 +98,7 @@ tools = [
         "category": "Office Hour Tools",
         "icon": icons["brand"],
         "page": "pages/admin/officehours/officehours.py",
-        "enabled": False,
+        "enabled": True,
     },
 ]
 # ---- Can set different categories to assign to homepage here!  ------------------------------------------------------
