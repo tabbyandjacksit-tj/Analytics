@@ -1,4 +1,4 @@
-#  {forestGreen,16} =====================================================================
+#  {forestGreen,2} =====================================================================
 # Imports
 # =======================================================================================
 from pathlib import Path
@@ -15,7 +15,7 @@ from utils.styling.instacart import (
     render_instacart_link,
     render_report_help_card,
 )
-#  {yellowgreen,14} =====================================================================
+#  {yellowgreen,2} =====================================================================
 # Page Configuration (sets title, icon, and layout of page)
 # =======================================================================================
 st.set_page_config(
@@ -23,13 +23,13 @@ st.set_page_config(
     page_icon="images/logo.png",
     layout="wide",
 )
-# =======================================================================================
+#  {yellowgreen,2} =======================================================================================
 # Apply CSS Styles
 # =======================================================================================
-apply_base_styles() #from utils.styling.base
-apply_instacart_styles() #from utils.styling.instacart
-render_instacart_header() #from utils.styling.instacart
-render_report_help_card()  #from utils.styling.instacart
+apply_base_styles() 
+apply_instacart_styles() 
+render_instacart_header() 
+render_report_help_card()  
 
 # =======================================================================================
 # Sets a password for the page and checks if the user is authenticated.
