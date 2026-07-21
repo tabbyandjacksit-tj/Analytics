@@ -346,11 +346,10 @@ def render_logout(
     )
 
     with st.sidebar:
-        st.caption(f"Signed in as {display_name}")
-
         authenticator.logout(
             button_name="Log Out",
             location="sidebar",
             key="analytics_logout",
             use_container_width=True,
         )
+        st.caption(f"Signed in as {display_name}")
