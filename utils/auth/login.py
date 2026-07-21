@@ -229,7 +229,6 @@ def render_login_help() -> None:
 # ==========================================
 # Login Gate
 # ==========================================
-
 def render_login_gate() -> stauth.Authenticate:
     """
     Render the login screen and stop execution until authentication succeeds.
@@ -238,29 +237,13 @@ def render_login_gate() -> stauth.Authenticate:
     """
     authenticator = create_authenticator()
 
-    authenticator.login(
-        location="main",
-        max_login_attempts=5,
-        fields={
-            "Form name": "Employee Login",
-            "Username": "Tabby & Jack's Email",
-            "Password": "Password",
-            "Login": "Log In",
-        },
-    )
-
     authentication_status = st.session_state.get("authentication_status")
 
-    if authentication_status is False:
-        apply_login_styles()
-        hide_sidebar_for_login()
+    # ==========================================
+    # Show Login Page Branding
+    # ==========================================
 
-        st.error("The email or password you entered is incorrect.")
-
-        render_login_help()
-        st.stop()
-
-    if authentication_status is None:
+    if authentication_status is not True:
         apply_login_styles()
         hide_sidebar_for_login()
 
@@ -282,8 +265,44 @@ def render_login_gate() -> stauth.Authenticate:
             unsafe_allow_html=True,
         )
 
+    # ==========================================
+    # Login Form
+    # ==========================================
+
+    authenticator.login(
+        location="main",
+        max_login_attempts=5,
+        fields={
+            "Form name": "Employee Login",
+            "Username": "Tabby & Jack's Email",
+            "Password": "Password",
+            "Login": "Log In",
+        },
+    )
+
+    authentication_status = st.session_state.get("authentication_status")
+
+    # ==========================================
+    # Incorrect Login
+    # ==========================================
+
+    if authentication_status is False:
+        st.error("The email or password you entered is incorrect.")
+
         render_login_help()
         st.stop()
+
+    # ==========================================
+    # Waiting for Login
+    # ==========================================
+
+    if authentication_status is None:
+        render_login_help()
+        st.stop()
+
+    # ==========================================
+    # Logged-In User Validation
+    # ==========================================
 
     username = str(
         st.session_state.get("username", "")
