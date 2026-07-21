@@ -97,6 +97,8 @@ tools = [
 # category is created too! Each tool card is displayed in a 2-column layout with the 
 # information created in the lists above. 
 # =======================================================================================
+
+
 for index in range(0, len(tools), 2):
     columns = st.columns(2, gap="large")
 

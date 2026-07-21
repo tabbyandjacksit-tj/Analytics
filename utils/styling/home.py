@@ -286,33 +286,27 @@ def render_dashboard_card(
     dashboard: dict,
     key: str,
 ) -> None:
+    """Render a dashboard navigation card."""
 
     st.markdown(
         f"""
-        <div class="tool-card">
-            <div class="tool-card-body">
-
-                <div class="tool-card-heading">
-
-                    <div class="tool-icon">
-                        <img
-                            src="data:image/png;base64,{dashboard['icon']}"
-                        >
-                    </div>
-
-                    <div>
-                        <h3>{dashboard['title']}</h3>
-                    </div>
-
-                </div>
-
-                <p class="tool-description">
-                    {dashboard['description']}
-                </p>
-
+<div class="app-card">
+    <div class="app-card-body">
+        <div class="app-card-top">
+            <div class="app-icon-wrap">
+                <img
+                    src="data:image/png;base64,{dashboard['icon']}"
+                    width="50"
+                >
+            </div>
+            <div>
+                <h3>{dashboard['title']}</h3>
             </div>
         </div>
-        """,
+        <p>{dashboard['description']}</p>
+    </div>
+</div>
+""",
         unsafe_allow_html=True,
     )
 
