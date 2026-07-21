@@ -392,12 +392,12 @@ with st.sidebar:
         "pages/dashboards/ordering.py",
     )
     sidebar_nav_button(
-        ":material/groups: Employee Resources",
+        ":material/groups: Employee References",
         "pages/dashboards/employee_resources.py",
     )
 
     sidebar_nav_button(
-        ":material/admin_panel_settings: Admin Tools",
+        ":material/admin_panel_settings: Admin Resources",
         "pages/dashboards/admin_tools.py",
     )
 
