@@ -50,7 +50,8 @@ tools = [
     {
         "title": "Helpful Links",
         "description": (
-            "Open frequently used company documents, schedules, and resources."
+            "Open frequently used documents, procedures, schedules, resources,"
+            "and other useful links."
         ),
         "status": "Available",
         "category": "Employee Resources",
@@ -61,7 +62,7 @@ tools = [
     {
         "title": "Vendor Contact",
         "description": (
-            "Search vendor contact information and review vendor details."
+            "Search vendor contact information and review their policy details."
         ),
         "status": "Available",
         "category": "Employee Resources",
@@ -72,7 +73,8 @@ tools = [
     {
         "title": "MAP Information",
         "description": (
-            "Review MAP pricing information and compliant brand resources."
+            "Review MAP pricing information, and see what complaint brand prices "
+            "should be!"
         ),
         "status": "Available",
         "category": "Employee Resources",

@@ -49,7 +49,7 @@ tools = [
     {
         "title": "Instacart Upload",
         "description": (
-            "Prepare store inventory files and send them to Instacart."
+            "Prepare nine different inventory files and STFP send them to Instacart."
         ),
         "status": "Available",
         "category": "Admin Tools",
@@ -58,9 +58,9 @@ tools = [
         "enabled": True,
     },
     {
-        "title": "Employee Customer Capture",
+        "title": "Customer Capture Rate",
         "description": (
-            "Review and manage employee customer-capture information."
+            "Review and manage employee customer-capture rates and see the current ranking."
         ),
         "status": "Available",
         "category": "Admin Tools",
@@ -71,7 +71,7 @@ tools = [
     {
         "title": "Employee Office Hours",
         "description": (
-            "Review employee office-hour entries and assigned office tasks."
+            "Track and review at home office hour tasks"
         ),
         "status": "Available",
         "category": "Admin Tools",

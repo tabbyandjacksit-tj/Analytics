@@ -48,7 +48,8 @@ tools = [
     {
         "title": "Major Vendor Order",
         "description": (
-            "Upload a Major Vendor Order Lightspeed report and generate a recommended order template."
+            "Generate a major vendor order report template based on data from Lightspeed."
+            "This is useful for orders that are ordered approximately every 1-2 weeks."
         ),
         "status": "Available",
         "category": "Ordering Tools",
@@ -59,7 +60,8 @@ tools = [
     {
         "title": "Small Vendor Order",
         "description": (
-            "Upload a Small Vendor Order Lightspeed report and generate recommended order template."
+            "Generate a small vendor order report template based on data from Lightspeed."
+            "This is useful for orders that are ordered approximately every 3-6 months"
         ),
         "status": "Available",
         "category": "Ordering Tools",
