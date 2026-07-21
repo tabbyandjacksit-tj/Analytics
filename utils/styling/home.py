@@ -225,6 +225,14 @@ def render_dashboard_header() -> None:
     )
 
 
+def render_category_title(category: str) -> None:
+    st.markdown(
+        f"""
+<div class="category-title">{category}</div>
+""",
+        unsafe_allow_html=True,
+    )
+
 
 def status_class(status: str) -> str:
     if status == "Available":
@@ -280,6 +288,7 @@ def render_footer() -> None:
 """,
         unsafe_allow_html=True,
     )
+
 
 
 def render_dashboard_card(
