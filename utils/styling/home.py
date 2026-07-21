@@ -280,3 +280,45 @@ def render_footer() -> None:
 """,
         unsafe_allow_html=True,
     )
+
+
+def render_dashboard_card(
+    dashboard: dict,
+    key: str,
+) -> None:
+
+    st.markdown(
+        f"""
+        <div class="tool-card">
+            <div class="tool-card-body">
+
+                <div class="tool-card-heading">
+
+                    <div class="tool-icon">
+                        <img
+                            src="data:image/png;base64,{dashboard['icon']}"
+                        >
+                    </div>
+
+                    <div>
+                        <h3>{dashboard['title']}</h3>
+                    </div>
+
+                </div>
+
+                <p class="tool-description">
+                    {dashboard['description']}
+                </p>
+
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    if st.button(
+        f"Open {dashboard['title']} →",
+        key=key,
+        use_container_width=True,
+    ):
+        st.switch_page(dashboard["page"])

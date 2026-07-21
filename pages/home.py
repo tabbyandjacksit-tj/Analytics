@@ -11,6 +11,7 @@ from utils.styling.home import (
     render_home_banner,
     render_tool_card,
 )
+
 # =======================================================================================
 # Page Configuration (sets title, icon, and layout of page)
 # CSS Styles also imported/applied
@@ -21,12 +22,11 @@ st.set_page_config(
     layout="wide",
 )
 
+apply_base_styles(max_width=1160)
+apply_home_styles()
 logo = image_to_base64("images/logo.png")
-
-render_home_banner(logo) # from utils.styling.home 
-render_dashboard_header() # from utils.styling.home
-apply_base_styles(max_width=1160) # from utils.styling.base
-apply_home_styles() # from utils.styling.base
+render_home_banner(logo)
+render_dashboard_header()
 
 # =======================================================================================
 # Load in different images and icons for the page
@@ -34,9 +34,9 @@ apply_home_styles() # from utils.styling.base
 # =======================================================================================
 icons = {
     "ordering": image_to_base64("images/ordering.png"),
-    "transfer": image_to_base64("images/item_report.png"),
-    "small": image_to_base64("images/small_order.png"),
-    "brand": image_to_base64("images/brand.png"),
+    "reporting": image_to_base64("images/item_report.png"),
+    "resources": image_to_base64("images/brand.png"),
+    "admin": image_to_base64("images/logo.png"),
 }
 
 # =======================================================================================
@@ -44,63 +44,50 @@ icons = {
 # Each tool has a title, description, status, category, icon, page link, and enabled status and 
 # represents one card on the home page. 
 # =======================================================================================
-tools = [
+dashboards = [
     {
-        "title": "Major Vendor Order",
-        "description": "Upload a Major Vendor Order Lightspeed report and generate an order template",
-        "status": "Available",
-        "category": "Ordering Tools",
+        "title": "Ordering Tools",
+        "description": (
+            "Create vendor orders and access tools used "
+            "for inventory ordering."
+        ),
         "icon": icons["ordering"],
-        "page": "pages/MVO.py",
+        "page": "pages/dashboards/ordering.py",
         "enabled": True,
     },
     {
-        "title": "Small Vendor Order",
-        "description": "Upload a Small Vendor Order Lightspeed report and generate an order template",
-        "status": "Available",
-        "category": "Ordering Tools",
-        "icon": icons["small"],
-        "page": "pages/SVO.py",
+        "title": "Reporting",
+        "description": (
+            "Review sales, inventory, and operational "
+            "reports from one central location."
+        ),
+        "icon": icons["reporting"],
+        "page": "pages/dashboards/reporting.py",
         "enabled": True,
     },
     {
-        "title": "Dusty Report Transfer",
-        "description": "See the best place for your Dusty Inventory to go!",
-        "status": "Coming Soon",
-        "category": "Inventory Tools",
-        "icon": icons["transfer"],
-        "page": "pages/dusty.py",
-        "enabled": False,
-    },
-    {
-        "title": "Sales by Brand",
-        "description": "See previous months sales per brand and generate a report to see what should be reordered!",
-        "status": "Coming Soon",
-        "category": "Inventory Tools",
-        "icon": icons["brand"],
-        "page": "pages/brandsale.py",
-        "enabled": False,
-    },
-    {
-        "title": "Vendor Contact Sheet",
-        "description": "Search for all of our different vendors and get their contact information",
-        "status": "Available",
-        "category": "Office Hour Tools",
-        "icon": icons["brand"],
-        "page": "pages/vendorcontact.py",
+        "title": "Employee Resources",
+        "description": (
+            "Find vendor contacts, MAP information, "
+            "helpful links, and employee resources."
+        ),
+        "icon": icons["resources"],
+        "page": "pages/dashboards/employee_resources.py",
         "enabled": True,
     },
     {
-        "title": "Office Hour Tracker",
-        "description": "Exclusively for work-from-home employees to track their working office hours.",
-        "status": "Availiable",
-        "category": "Office Hour Tools",
-        "icon": icons["brand"],
-        "page": "pages/admin/officehours/officehours.py",
+        "title": "Admin Tools",
+        "description": (
+            "Access internal administrative, employee, "
+            "and operational management tools."
+        ),
+        "icon": icons["admin"],
+        "page": "pages/dashboards/admin_tools.py",
         "enabled": True,
     },
 ]
-categories = ["Ordering Tools", "Inventory Tools", "Office Hour Tools"] # Where you can create different categories.
+
+# categories = ["Ordering Tools", "Inventory Tools", "Office Hour Tools"] # Where you can create different categories.
 # TODO: Expand out so that the categories = what the navigation is, and each click takes you to THAT page! 
 
 # =======================================================================================
@@ -108,20 +95,26 @@ categories = ["Ordering Tools", "Inventory Tools", "Office Hour Tools"] # Where 
 # category is created too! Each tool card is displayed in a 2-column layout with the 
 # information created in the lists above. 
 # =======================================================================================
-for category in categories:
-    category_tools = [tool for tool in tools if tool["category"] == category]
-    for i in range(0, len(category_tools), 2):
-        cols = st.columns(2, gap="large")
+for i in range(0, len(dashboards), 2):
 
-        for col, tool in zip(cols, category_tools[i:i + 2]):
-            with col:
-                render_tool_card(tool, key=f"open_{tool['title'].lower().replace(' ', '_')}",)
+    cols = st.columns(2, gap="large")
 
-        st.markdown(
-            "<div style='height: 16px;'></div>",
-            unsafe_allow_html=True,
-        )
-categories = ["Ordering Tools", "Inventory Tools", "Office Hour Tools"] # Where you can create different categories.
-# TODO: Expand out so that the categories = what the navigation is, and each click takes you to THAT page! 
+    for col, dashboard in zip(
+        cols,
+        dashboards[i:i + 2],
+    ):
+        with col:
+            render_dashboard_card(
+                dashboard,
+                key=(
+                    f"open_"
+                    f"{dashboard['title'].lower().replace(' ', '_')}"
+                ),
+            )
+
+    st.markdown(
+        "<div style='height: 18px;'></div>",
+        unsafe_allow_html=True,
+    )
 
 render_footer()
