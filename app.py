@@ -388,13 +388,12 @@ with st.sidebar:
     )
 
     sidebar_nav_button(
-        ":material/groups: Employee Resources",
-        "pages/dashboards/employee_resources.py",
-    )
-
-    sidebar_nav_button(
         ":material/shopping_cart: Ordering Tools",
         "pages/dashboards/ordering.py",
+    )
+    sidebar_nav_button(
+        ":material/groups: Employee Resources",
+        "pages/dashboards/employee_resources.py",
     )
 
     sidebar_nav_button(
