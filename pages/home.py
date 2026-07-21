@@ -49,8 +49,8 @@ dashboards = [
     {
         "title": "Ordering Tools",
         "description": (
-            "Create vendor orders and access tools used "
-            "for inventory ordering."
+            "Create major/small vendor orders and access tools used "
+            "for inventory ordering and inventory control."
         ),
         "icon": icons["ordering"],
         "page": "pages/dashboards/ordering.py",
@@ -59,7 +59,7 @@ dashboards = [
     {
         "title": "Reporting",
         "description": (
-            "Review sales, inventory, and operational "
+            "Review sales reports, inventory, and other "
             "reports from one central location."
         ),
         "icon": icons["reporting"],
@@ -79,8 +79,8 @@ dashboards = [
     {
         "title": "Admin Tools",
         "description": (
-            "Access internal administrative, employee, "
-            "and operational management tools."
+            "Access internal operational management tools. "
+            "Some tools are limited to which users can access them."
         ),
         "icon": icons["admin"],
         "page": "pages/dashboards/admin_tools.py",
