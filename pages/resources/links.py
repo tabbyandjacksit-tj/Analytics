@@ -42,5 +42,5 @@ st.link_button(
     "https://drive.google.com/drive/folders/1EEUKoQeqaDybe_YadJXtiMOrInhfdSfF",
     use_container_width=True,
 )
-'st.divider()'
+st.divider()
 
