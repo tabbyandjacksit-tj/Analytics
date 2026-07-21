@@ -37,7 +37,7 @@ icons = {
     "ordering": image_to_base64("images/ordering.png"),
     "reporting": image_to_base64("images/item_report.png"),
     "resources": image_to_base64("images/brand.png"),
-    "admin": image_to_base64("images/logo.png"),
+    "admin": image_to_base64("images/admin.png"),
 }
 
 # =======================================================================================
