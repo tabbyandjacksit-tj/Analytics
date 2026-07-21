@@ -10,6 +10,7 @@ from utils.styling.home import (
     render_footer,
     render_home_banner,
     render_tool_card,
+    render_dashboard_card,
 )
 
 # =======================================================================================
