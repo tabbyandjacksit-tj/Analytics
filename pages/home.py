@@ -117,6 +117,10 @@ for category in categories:
             with col:
                 render_tool_card(tool, key=f"open_{tool['title'].lower().replace(' ', '_')}",)
 
+        st.markdown(
+            "<div style='height: 16px;'></div>",
+            unsafe_allow_html=True,
+        )
 categories = ["Ordering Tools", "Inventory Tools", "Office Hour Tools"] # Where you can create different categories.
 # TODO: Expand out so that the categories = what the navigation is, and each click takes you to THAT page! 
 
