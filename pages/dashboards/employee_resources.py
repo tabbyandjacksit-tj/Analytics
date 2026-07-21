@@ -1,9 +1,7 @@
 # =======================================================================================
 # Imports
 # =======================================================================================
-
 import streamlit as st
-
 from utils.tools.images import image_to_base64
 from utils.styling.base import apply_base_styles
 from utils.styling.dashboard import (
@@ -15,32 +13,18 @@ from utils.styling.home import (
     apply_home_styles,
     render_tool_card,
 )
-
-
 # =======================================================================================
-# Page Configuration
+# Page Configuration (sets title, icon, and layout of page)
+# CSS Styles also imported/applied
 # =======================================================================================
-
 st.set_page_config(
     page_title="Employee Resources",
     page_icon="images/logo.png",
     layout="wide",
 )
-
-
-# =======================================================================================
-# Apply Styles
-# =======================================================================================
-
 apply_base_styles(max_width=1160)
 apply_home_styles()
 apply_dashboard_styles()
-
-
-# =======================================================================================
-# Dashboard Header
-# =======================================================================================
-
 render_dashboard_banner(
     title="Employee Resources",
     description=(
@@ -48,29 +32,20 @@ render_dashboard_banner(
         "and tools that support daily operations."
     ),
 )
-
 render_dashboard_intro(
     eyebrow="Employee Resources",
     title="Choose a Resource",
     description="Select a resource below to view more information.",
 )
-
-# =======================================================================================
-# Load Card Icons
-# =======================================================================================
-
-icons = {
+icons = { # Neeeds to be adjusted per each card created 
     "links": image_to_base64("images/brand.png"),
     "vendor": image_to_base64("images/brand.png"),
     "map": image_to_base64("images/item_report.png"),
     "office_hours": image_to_base64("images/ordering.png"),
 }
-
-
 # =======================================================================================
-# Employee Resource Tools
+# Employee Resource Tools Links and Cards. This is super similar to home.py
 # =======================================================================================
-
 tools = [
     {
         "title": "Helpful Links",
@@ -117,13 +92,11 @@ tools = [
         "enabled": True,
     },
 ]
-
-
 # =======================================================================================
-# Render Dashboard Cards
+# Creates the dashboard tool card and renders them on the home page. Here is where each 
+# category is created too! Each tool card is displayed in a 2-column layout with the 
+# information created in the lists above. 
 # =======================================================================================
-
-
 for index in range(0, len(tools), 2):
     columns = st.columns(2, gap="large")
 

@@ -1,8 +1,7 @@
-#  {forestGreen,13} =====================================================================
+# =======================================================================================
 # Imports
 # =======================================================================================
 import streamlit as st
-
 from utils.tools.images import image_to_base64
 from utils.styling.base import apply_base_styles
 from utils.styling.home import (
@@ -12,18 +11,18 @@ from utils.styling.home import (
     render_home_banner,
     render_tool_card,
 )
-#  {yellowgreen,15} =====================================================================
+# =======================================================================================
 # Page Configuration (sets title, icon, and layout of page)
+# CSS Styles also imported/applied
 # =======================================================================================
 st.set_page_config(
     page_title="Tabby & Jack's Analytics Hub",
     page_icon="images/logo.png",
     layout="wide",
 )
+
 logo = image_to_base64("images/logo.png")
-# =======================================================================================
-# Apply CSS Styles
-# =======================================================================================
+
 render_home_banner(logo) # from utils.styling.home 
 render_dashboard_header() # from utils.styling.home
 apply_base_styles(max_width=1160) # from utils.styling.base
@@ -43,7 +42,7 @@ icons = {
 # =======================================================================================
 # Define the different tool cards that will be displayed on the home page. 
 # Each tool has a title, description, status, category, icon, page link, and enabled status and 
-# and represents one card on the home page. 
+# represents one card on the home page. 
 # =======================================================================================
 tools = [
     {
@@ -101,25 +100,24 @@ tools = [
         "enabled": True,
     },
 ]
-# ---- Can set different categories to assign to homepage here!  ------------------------------------------------------
-categories = ["Ordering Tools", "Inventory Tools", "Office Hour Tools"] 
+categories = ["Ordering Tools", "Inventory Tools", "Office Hour Tools"] # Where you can create different categories.
+# TODO: Expand out so that the categories = what the navigation is, and each click takes you to THAT page! 
 
 # =======================================================================================
-# Initializes each dashboard tool card and renders them on the home page. 
-# Each tool card is displayed in a 2-column layout with the information listed above
+# Creates the dashboard tool card and renders them on the home page. Here is where each 
+# category is created too! Each tool card is displayed in a 2-column layout with the 
+# information created in the lists above. 
 # =======================================================================================
 for category in categories:
     category_tools = [tool for tool in tools if tool["category"] == category]
-
-
     for i in range(0, len(category_tools), 2):
         cols = st.columns(2, gap="large")
 
         for col, tool in zip(cols, category_tools[i:i + 2]):
             with col:
-                render_tool_card(
-                    tool,
-                    key=f"open_{tool['title'].lower().replace(' ', '_')}",
-                )
+                render_tool_card(tool, key=f"open_{tool['title'].lower().replace(' ', '_')}",)
+
+categories = ["Ordering Tools", "Inventory Tools", "Office Hour Tools"] # Where you can create different categories.
+# TODO: Expand out so that the categories = what the navigation is, and each click takes you to THAT page! 
 
 render_footer()

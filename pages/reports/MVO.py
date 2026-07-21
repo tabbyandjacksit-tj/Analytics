@@ -1,4 +1,4 @@
-#  {forestGreen,14} =====================================================================
+# =======================================================================================
 # Imports
 # =======================================================================================
 from datetime import datetime, timedelta
@@ -13,33 +13,30 @@ from utils.styling.mvo import (
     render_preview_title,
     section_header,
 )
-#  {yellowgreen,21} =====================================================================
+# =======================================================================================
 # Page Configuration (sets title, icon, and layout of page)
+# CSS Styles also imported/applied
 # =======================================================================================
 st.set_page_config(
     page_title="Major Vendor Order",
     page_icon="images/logo.png",
     layout="wide",
 )
-# =======================================================================================
-# Apply CSS Styles
-# =======================================================================================
 apply_base_styles()
 apply_mvo_styles()
 render_hero(
     "Major Vendor Order Report",
     "Generate a vendor order from a Lightspeed item sales report.",
 )
+# =======================================================================================
+# Creates the instructions for exporting the report from Lightspeed in step 1.
+# Each step has an image, title, and description.
+# =======================================================================================
 section_header(
     "Step 1",
     "Export Report from Lightspeed",
     "Follow these steps to export the correct CSV report.",
 )
-
-# =======================================================================================
-# Creates the instructions for exporting the report from Lightspeed in step 1.
-# Each step has an image, title, and description.
-# =======================================================================================
 steps = [
     ("images/reports.png", "Reports", "Open REPORTS from the sidebar."),
     ("images/grouped_sales.png", "Grouped Sales", "Scroll to GROUPED SALES TOTAL."),
@@ -57,19 +54,18 @@ row2 = st.columns(3)
 for i, step in enumerate(steps[3:]):
     with row2[i]:
         render_instruction_card(i + 4, *step)
-# *Calculates and renders date card below step 1 instructions --------------------------
+# =======================================================================================
+# Calculates and creates a box for the dates that are 56 days out, or weekly which is 28 
+# =======================================================================================
 bi_report_start = datetime.today() - timedelta(days=56) 
 weekly_report_start = datetime.today() - timedelta(days=28) 
 render_date_card(bi_report_start, weekly_report_start) 
-
-# {yellowgreen,5} Creates step 2==========================================================
-
 section_header(
     "Step 2",
     "Upload Item Sale Report",
 )
 # ======================================================
-# Upload the Lightspeed Item report & check for missing columns
+# Upload the Lightspeed Item report & check for missing columns and other potential errors
 # ======================================================
 uploaded_file = st.file_uploader(
     "Upload Lightspeed CSV",
@@ -88,58 +84,55 @@ if missing_columns:
         f"Your file must contain these columns: {', '.join(missing_columns)}"
     )
     st.stop()
-
-# ======================================================
+# =======================================================================================
 # Manipulates the uploaded report and calculates the order quantities based on utils.mvo
-# ======================================================
+# =======================================================================================
 output_df = calculate_order_quantities(df)
-# {yellowgreen,6} Creates step 3 ==========================================================
 section_header(
     "Step 3",
     "Order Results",
     "Review the recommended order quantities below, and download your CSV.",
 )
 render_preview_title()
-
 st.dataframe(output_df.head(50), use_container_width=True) # Previews the first 50 rows of the MVO
 full_csv = output_df.to_csv(index=False) # Creates a CSV of the full MVO output for download
-# *Only retreives the UPC and Order QTY Column   ------------------------------------------
+# Only gathers the UPC and Order QTY columns and copies them into a dataframe. 
 upc_order_df = output_df[["UPC", "Order Qty"]].copy()
 upc_order_csv = upc_order_df.to_csv(index=False)
-
-# *Gives a warning when file created by site   ---------------------------------------------
+# Gives a warning that the file should not be opened, bc the CSV might be remove leading 0's 
 @st.dialog("Heads up!")
 def order_template_warning():
     st.write(
         "ⓘ **Heads up!** Please **do not** open this file. "
         "Instead, import it directly into a Lightspeed Purchase Order."
     )
-    st.download_button( # *Creates the download button for the order template   ------------
+    # Creatres the download button for the order template. 
+    st.download_button(
         label="Download Order Template",
         data=upc_order_csv,
         file_name="upc_order_template.csv",
         mime="text/csv",
         use_container_width=True,
     )
-
-# ======================================================
+# =======================================================================================
 # Creates the download buttons for the full CSV and order template, 
 # and gives a warning about what to do after downloading. Also sets the spacing for the buttons
-# ======================================================
-left, spacer, right = st.columns([2, 8, 2])
+# =======================================================================================
 with left:
-    st.download_button( # *Creates the download button for the full CSV   ---------------------
+    # Creates the dowload button for the entire CSV incase there is an error. 
+    st.download_button(
         label="Download Unedited CSV",
         data=full_csv,
         file_name="major_vendor_order_output.csv",
         mime="text/csv",
         use_container_width=True,
     )
-with right:
+with right: 
+    # Creates the dowload button for just the order template
     if st.button("Download Order Template", use_container_width=True):
         order_template_warning()
 
-# *Alert message for what to do once you download the report  --------------------------
+# Provides an alert message that the DISCO items will need to be removed, since LS does not give report with VendorID. 
 st.markdown(
     "ⓘ **Heads Up!** After importing into Lightspeed, remove any discontinued items and any items with a blank Vendor ID."
 )

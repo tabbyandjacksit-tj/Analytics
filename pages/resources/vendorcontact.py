@@ -1,24 +1,21 @@
-#  {forestGreen,10} =====================================================================
+# =======================================================================================
 # Imports
 # =======================================================================================
 from email import utils
-
 import pandas as pd
 import streamlit as st
 from utils.styling.base import apply_base_styles, render_hero
 from utils.styling.vendor import apply_vendor_styles, render_edit_box
 from utils.tools.sheet_reader import load_sheet
-#  {yellowgreen,7} =====================================================================
+# =======================================================================================
 # Page Configuration (sets title, icon, and layout of page)
+# CSS Styles also imported/applied
 # =======================================================================================
 st.set_page_config(
     page_title="Vendor Contacts",
     page_icon="images/logo.png",
     layout="wide",
 )
-# {yellowgreen, 8} =======================================================================================
-# Apply CSS Styles
-# =======================================================================================
 apply_base_styles()
 apply_vendor_styles()
 render_hero(
@@ -45,14 +42,13 @@ CHECKBOX_COLUMNS = [
 # Loads in the vendor contacts from the google sheet as a df and refreshes every 60 seconds.
 # =======================================================================================
 df = load_sheet(SHEET_ID, GID)
-
 # =======================================================================================
 # Creates the search bar function for the dataframe, and displays the filtered results in a table.
 # =======================================================================================
 st.markdown("### Search Vendor Contacts")
-search = st.text_input(
+search = st.text_input( #
     "Search",
-    placeholder="Search by brand, vendor, email, phone, notes...",
+    placeholder="Search by brand, vendor, email, phone, notes...", 
     label_visibility="collapsed",
 )
 if search:
@@ -65,7 +61,7 @@ else:
     filtered = df.copy()
 st.write(f"**Showing {len(filtered)} of {len(df)} vendors**")
 for col in CHECKBOX_COLUMNS:
-    if col in filtered.columns:
+    if col in filtered.columns: # Creates the filtered checkbox columns
         filtered[col] = (
             filtered[col]
             .astype(str)
@@ -73,7 +69,7 @@ for col in CHECKBOX_COLUMNS:
             .str.lower()
             .isin(["true", "yes", "1", "checked"])
         )
-st.dataframe(
+st.dataframe( # Creates the dataframe that is actually being showed based on the filtered columns we created above. 
     filtered,
     hide_index=True,
     use_container_width=True,
@@ -87,5 +83,5 @@ st.dataframe(
 # =======================================================================================
 # Creates a box with a link to the google sheet for editing the vendor contacts.
 # Only people with access to that google sheet can actually click into it! 
-# =======================================================================================
+# ===============================================s========================================
 render_edit_box(SHEET_EDIT_URL)

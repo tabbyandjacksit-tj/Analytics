@@ -1,4 +1,4 @@
-#  {forestGreen,2} =====================================================================
+# =======================================================================================
 # Imports
 # =======================================================================================
 from pathlib import Path
@@ -15,22 +15,19 @@ from utils.styling.instacart import (
     render_instacart_link,
     render_report_help_card,
 )
-#  {yellowgreen,2} =====================================================================
+# =======================================================================================
 # Page Configuration (sets title, icon, and layout of page)
+# CSS Styles also imported/applied
 # =======================================================================================
 st.set_page_config(
     page_title="Instacart Upload",
     page_icon="images/logo.png",
     layout="wide",
 )
-#  {yellowgreen,2} =======================================================================================
-# Apply CSS Styles
-# =======================================================================================
 apply_base_styles() 
 apply_instacart_styles() 
 render_instacart_header() 
 render_report_help_card()  
-
 # =======================================================================================
 # Sets a password for the page and checks if the user is authenticated.
 # If not, it prompts for a password or provides my information on how to get access.
@@ -38,7 +35,7 @@ render_report_help_card()
 PASSWORD = get_secret("INSTACART_PASSWORD")# ---- Load password from secret.toml -------
 if "instacart_authenticated" not in st.session_state:
     st.session_state.instacart_authenticated = False
-# *Creates & sets a help button for unauthenticated users  --------------------------
+# Creates & sets a help button for unauthenticated users  
 @st.dialog("Need Access?")
 def access_help():
     st.write(
@@ -50,7 +47,7 @@ If you need access or have any questions, please contact:
 **Maria Swenson**
 """
     )
-# *Creates the prompt and settings for prompting a password   --------------------------
+# Creates the prompt and settings for prompting a password   
 if not st.session_state.instacart_authenticated:
     password = st.text_input( # Prompts the password box for unauthenticated users
         "Enter password to access this page",
@@ -65,7 +62,6 @@ if not st.session_state.instacart_authenticated:
     if st.button("Need Access?", use_container_width=True):
         access_help()
     st.stop()
-
 # ======================================================
 # Upload the Lightspeed Item report and input SFTP password 
 # ======================================================
@@ -79,7 +75,6 @@ password = st.text_input( # Creates the password input box (SFTP password for In
     type="password",
 )
 sales_file = Path("data/sales.csv") 
-
 # ======================================================
 # Edit the data in accordance with utils/instacart.py and upload to Instacart SFTP server
 # ======================================================
@@ -90,15 +85,8 @@ if report_file and password:
     ):
         output_folder = Path("temp_instacart_files")
         output_folder.mkdir(exist_ok=True)
-        created_files = create_instacart_files( # from utils.instacart
-            report_file,
-            sales_file,
-            output_folder,
-        )
-        uploaded = upload_files_to_instacart( # from utils.instacart
-            created_files,
-            password,
-        )
+        created_files = create_instacart_files(report_file, sales_file, output_folder, )
+        uploaded = upload_files_to_instacart(created_files, password, )
         st.success(
             f"Successfully uploaded  {len(uploaded)} store files to Instacart."
         )

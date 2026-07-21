@@ -1,9 +1,7 @@
-# ======================================================================================
+# =======================================================================================
 # Imports
-# ======================================================================================
-
+# =======================================================================================
 import streamlit as st
-
 from utils.tools.images import image_to_base64
 from utils.styling.base import apply_base_styles
 from utils.styling.dashboard import (
@@ -15,31 +13,18 @@ from utils.styling.home import (
     apply_home_styles,
     render_tool_card,
 )
-
-# ======================================================================================
-# Page Configuration
-# ======================================================================================
-
+# =======================================================================================
+# Page Configuration (sets title, icon, and layout of page)
+# CSS Styles also imported/applied
+# =======================================================================================
 st.set_page_config(
     page_title="Reporting",
     page_icon="images/logo.png",
     layout="wide",
 )
-
-
-# ======================================================================================
-# Apply Styles
-# ======================================================================================
-
 apply_base_styles(max_width=1160)
 apply_home_styles()
 apply_dashboard_styles()
-
-
-# ======================================================================================
-# Page Banner
-# ======================================================================================
-
 render_dashboard_banner(
     title="Reporting Dashboard",
     description=(
@@ -47,28 +32,18 @@ render_dashboard_banner(
         "from one central location."
     ),
 )
-
 render_dashboard_intro(
     eyebrow="Reporting Tools",
     title="Choose a Report",
     description="Select a reporting tool below to get started.",
 )
-
-
-# =======================================================================================
-# Load Card Icons
-# =======================================================================================
-
-icons = {
+icons = { # Neeeds to be adjusted per each card created 
     "transfer": image_to_base64("images/item_report.png"),
     "brand": image_to_base64("images/brand.png"),
 }
-
-
 # =======================================================================================
-# Reporting Tools
+# Reporting Tool Links and Cards. This is super similar to home.py
 # =======================================================================================
-
 tools = [
     {
         "title": "Dusty Report Transfer",
@@ -93,10 +68,10 @@ tools = [
         "enabled": False,
     },
 ]
-
-
 # =======================================================================================
-# Render Dashboard Cards
+# Creates the dashboard tool card and renders them on the home page. Here is where each 
+# category is created too! Each tool card is displayed in a 2-column layout with the 
+# information created in the lists above. 
 # =======================================================================================
 for index in range(0, len(tools), 2):
     columns = st.columns(2, gap="large")
