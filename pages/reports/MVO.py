@@ -118,6 +118,7 @@ def order_template_warning():
 # Creates the download buttons for the full CSV and order template, 
 # and gives a warning about what to do after downloading. Also sets the spacing for the buttons
 # =======================================================================================
+left, right = st.columns(2)
 with left:
     # Creates the dowload button for the entire CSV incase there is an error. 
     st.download_button(
