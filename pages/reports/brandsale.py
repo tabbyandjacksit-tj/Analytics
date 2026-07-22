@@ -61,13 +61,17 @@ for i, step in enumerate(steps[3:]):
 # Calculates and creates a box for the dates that are 56 days out, or weekly which is 28 
 # =======================================================================================
 section_header(
-    "Feel free to select your preferred date range. " 
-    "If you are trying to calcualate a date that is NOT listed below, "
-    "please visit https://www.timeanddate.com/date/dateadd.html?d1=22&m1=7&y1=2026&"
+    "Select a Date Range",
+    "Choose your preferred date range below. "
+    "If you need to calculate a different date range, use the date calculator.",
 )
-bi_report_start = datetime.today() - timedelta(days=56) 
-weekly_report_start = datetime.today() - timedelta(days=28) 
-render_date_card(bi_report_start, weekly_report_start) 
+st.link_button(
+    "Open Date Calculator",
+    "https://www.timeanddate.com/date/dateadd.html",
+)
+bi_report_start = datetime.today() - timedelta(days=56)
+weekly_report_start = datetime.today() - timedelta(days=28)
+render_date_card(bi_report_start, weekly_report_start)
 # section_header(
 #     "Step 2",
 #     "Upload Item Sale Report",
