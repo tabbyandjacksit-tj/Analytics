@@ -61,11 +61,11 @@ tools = [
         "description": (
             "Review previous sales by brand and generate a sales report."
         ),
-        "status": "Coming Soon",
+        "status": "Avaliable",
         "category": "Reporting",
         "icon": icons["brand"],
         "page": "pages/reports/brandsale.py",
-        "enabled": False,
+        "enabled": True,
     },
 ]
 # =======================================================================================
