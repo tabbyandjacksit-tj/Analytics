@@ -47,7 +47,6 @@ steps = [
     ("images/vendor.png", "Brand Filter", "Choose the desired BRAND."),
     ("images/export.png", "Export CSV", "Press EXPORT and save the CSV."),
 ]
-
 row1 = st.columns(3)
 for i, step in enumerate(steps[:3]):
     with row1[i]:
@@ -66,9 +65,7 @@ days_ago = st.number_input(
     value=90,
     step=1,
 )
-
 calculated_date = datetime.today() - timedelta(days=days_ago)
-
 st.info(
     f"Start your report on "
     f"**{calculated_date.strftime('%B %d, %Y')}** "
