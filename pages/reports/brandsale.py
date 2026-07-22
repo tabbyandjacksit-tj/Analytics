@@ -44,7 +44,7 @@ steps = [
     ("images/grouped_sales.png", "Grouped Sales", "Scroll to GROUPED SALES TOTAL."),
     ("images/item_report.png", "Item Report", "Select ITEM as the report type."),
     ("images/calendar.png", "Date Filter", "Set DATE RANGE based on report frequency below."),
-    ("images/vendor.png", "Vendor Filter", "Choose the desired BRAND."),
+    ("images/vendor.png", "Brand Filter", "Choose the desired BRAND."),
     ("images/export.png", "Export CSV", "Press EXPORT and save the CSV."),
 ]
 
