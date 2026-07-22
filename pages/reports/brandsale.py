@@ -60,25 +60,20 @@ for i, step in enumerate(steps[3:]):
 # =======================================================================================
 # Calculates and creates a box for the dates that are 56 days out, or weekly which is 28 
 # =======================================================================================
-section_header(
-    "Select a Date Range",
-    "Choose your preferred date range below. "
-    "If you need to calculate a different date range, use the date calculator.",
+days_ago = st.number_input(
+    "Enter the number of days for your report",
+    min_value=1,
+    value=90,
+    step=1,
 )
-bi_report_start = datetime.today() - timedelta(days=56)
-weekly_report_start = datetime.today() - timedelta(days=28)
-render_date_card(bi_report_start, weekly_report_start)
 
+calculated_date = datetime.today() - timedelta(days=days_ago)
 
-left, center, right = st.columns([2, 1, 2])
-
-with center:
-    st.link_button(
-        "Open Date Calculator",
-        "https://www.timeanddate.com/date/dateadd.html",
-        use_container_width=True,
-    )
-
+st.info(
+    f"Start your report on "
+    f"**{calculated_date.strftime('%B %d, %Y')}** "
+    f"for a {days_ago}-day date range."
+)
 
 
 
