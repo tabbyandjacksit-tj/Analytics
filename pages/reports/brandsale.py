@@ -65,13 +65,30 @@ section_header(
     "Choose your preferred date range below. "
     "If you need to calculate a different date range, use the date calculator.",
 )
-st.link_button(
-    "Open Date Calculator",
-    "https://www.timeanddate.com/date/dateadd.html",
-)
 bi_report_start = datetime.today() - timedelta(days=56)
 weekly_report_start = datetime.today() - timedelta(days=28)
 render_date_card(bi_report_start, weekly_report_start)
+
+
+left, center, right = st.columns([2, 1, 2])
+
+with center:
+    st.link_button(
+        "Open Date Calculator",
+        "https://www.timeanddate.com/date/dateadd.html",
+        use_container_width=True,
+    )
+
+
+
+
+
+
+
+
+
+
+
 # section_header(
 #     "Step 2",
 #     "Upload Item Sale Report",
