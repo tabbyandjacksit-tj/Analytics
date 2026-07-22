@@ -79,7 +79,7 @@ dashboards = [
     {
         "title": "Admin Tools",
         "description": (
-            "Access internal operational management tools. "
+            "Access internal management tools. "
             "Some tools are limited to which users can access them."
         ),
         "icon": icons["admin"],
