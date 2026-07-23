@@ -14,36 +14,37 @@ For?
 ## Functions
 #### from sheet_reader.py: 
     load_sheet(sheet_idL str, gid: str) -> pd.DataFrame: 
-        loads in a google sheet TAB as a DataFrame. This automatically 
-        refreshes every 60 seconds. Takes argument of sheet ID from google 
-        sheet, as well as the GID for the correct sheet.
+        loads in a public google sheet TAB as a pandas DataFrame. This automatically caches every 60 seconds. Best used for read-only sheets, that also do not require authentication
 
     get_google_client() _> gspread.Client: 
-        authorizes the credentials of a google client account. This function 
-        is used for the back-and-forth editing between sheets and site. 
-        Scopes is defined at the start of the file.
+        creates and returns an authenticated google sheet client using the google service account credentials. The permissions that are avaliable to the user are controlled by the SCOPES, which is defined at the top of the file. This allows the application to read and write from PRIVATE google sheets. 
     
     def get_worksheet(sheet_id: str, worksheet_name: str):
-        opens a worksheet by its spreadsheet ID and tab name. It pulls the
-        client through get_google_client(), and gets the spreadsheet key
-        from open_by_key. This is why get_google_client() has to exist above. 
+        opens and returns a specific google sheets worksheet using  the sheet ID and tab name. This  function ues get_google_client() to create an authenticated connection and open_by_key to open the spreedsheet. Worksheet() gets used to select the requested tab. This is a helper function that is used by other functions needing direct workbook access. 
     
     def load_private_sheet(sheet_id: str, worksheet_name: str,) -> pd.DataFrame:
-        uses get_worksheet to open a worksheet by its spreadsheet ID and tab name. Also obtains all values from the worksheet. This offically loads in 
-        the dataframe and stores headers, rows, columns and values. 
+        loads in a private google sheet into a pd DF. This function uses get_worksheet() to access the worksheet. It also uses get_all_values() to get the rows/cols. The first row is used to hold the df's col. This is cached after running to reduce API calls. 
 
     def append_row(sheet_id: str, worksheet_name: str, row_data: dict[str, Any], columns: list[str],) -> None: 
-        appends a row to a worksheet. It takes arguments that read in the sheet, creates the workbook and than appends a row to it based on the value_input_option. Immediately after adding, it clears the cache so that it will refresh. This is great for things like officehours
+        appends a row to the end of a google sheet. It uses the column list to determine how the values should be stored in that sheet. The sheet is immediately cached after in order to reload/refresh the updated data. This is particularly helpful for things like Office Hours Tasks. 
 
     def update_row_by_id(sheet_id: str, worksheet_name: str, record_id: str, updated_data: dict[str, Any], columns: list[str], id_column_number: int = 1,) -> bool:
-        updates a google sheet by finding a row and replalcing the entire rows values. The function uses google sheet indexing, so 1 = COL A rather than 0. This function also clears the cache at the end to ensure that the sheet refreshes. 
+        updates a sheet's existing row using a unique record ID and updates that row with a new value. id_column_number identifies which sheet contains that record. Google sheet uses indexing that begins at 1, so column A is = 1. The function returns True if the record was found AND updated. The cache is than cleared to reload  the newest data. 
 
     def column_number_to_letter(column_number: int) -> str:
-        takes in a column number and turns it into a google sheets column letter.
-        This is because google sheets indexes through letters, which is the majority of our functions, but not all columns are in number format. This is a helper function that is nice for anytime that you read in a sheet incase it is not a google sheet. 
+        converts a numeric column position into its correspoinding CSV column letter. This is a helper function that is used for creating  A1-style cell ranges. 
 
     def clear_sheet_cache() -> None:
-        clears cached sheet after a function that is written over. 
+        clears cached sheet after a function that is written over. This should be called after data is written or updated. 
+
+#### from secrets.py: 
+    def _read_local_secrets() -> Any | None:
+        
+    def get_secret(name: str) -> str:
+
+    def get_optional_secret(name: str, default: str = "",) -> str:
+
+    def get_google_service_account() -> dict[str, Any]:
 
 ## Imports/Technologies
 
