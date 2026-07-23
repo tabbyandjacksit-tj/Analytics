@@ -12,7 +12,7 @@ For?
 ## Features / Reports 
 
 ## Functions
-#### from sheet_reader.py: 
+#### from utils/tools/sheet_reader.py: 
     load_sheet(sheet_idL str, gid: str) -> pd.DataFrame: 
         loads in a public google sheet TAB as a pandas DataFrame. This automatically caches every 60 seconds. Best used for read-only sheets, that also do not require authentication
 
@@ -37,7 +37,7 @@ For?
     def clear_sheet_cache() -> None:
         clears cached sheet after a function that is written over. This should be called after data is written or updated. 
 
-#### from secrets.py: 
+#### from utils/tools/secrets.py: 
     def _read_local_secrets() -> Any | None:
         
     def get_secret(name: str) -> str:
@@ -45,6 +45,16 @@ For?
     def get_optional_secret(name: str, default: str = "",) -> str:
 
     def get_google_service_account() -> dict[str, Any]:
+
+#### from utils/tools/images.py: 
+    def image_to_base64(image_path: str) -> str:
+        converts an image file to base64 to enable enbedding in HTML. All images are kept in images/ and must all be read in with this function in order to be read on the website. 
+
+
+
+
+
+
 
 ## Imports/Technologies
 
