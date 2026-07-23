@@ -30,61 +30,41 @@ TASK_COLUMNS = [
 
 LOCAL_TIMEZONE = ZoneInfo("America/Chicago")
 
-
 # =============================================================================
 # DATE HELPERS
 # =============================================================================
-
 def get_week_start(target_date: date | None = None) -> date:
-    """Return the Monday for the supplied date."""
-    target_date = target_date or date.today()
-
-    return target_date - timedelta(
-        days=target_date.weekday()
-    )
-
+    """
+    Return the Monday for the supplied date.
+    """
+    target_date = target_date or date.today() # The target date is monday! 
+    return target_date - timedelta(days=target_date.weekday())
 
 # =============================================================================
 # TIME HELPERS
 # =============================================================================
-
 def get_saved_minutes(task: dict) -> float:
-    """Return previously recorded minutes as a number."""
-    minutes = pd.to_numeric(
-        task.get("Minutes", 0),
-        errors="coerce",
-    )
-
+    """
+    Return previously recorded minutes as a number.
+    """
+    minutes = pd.to_numeric(task.get("Minutes", 0), errors="coerce",)
     if pd.isna(minutes):
         return 0.0
-
     return float(minutes)
 
-
 def get_active_session_minutes(task: dict) -> float:
-    """Return minutes elapsed during the current active session."""
-    started_at = pd.to_datetime(
-        task.get("Start Time", ""),
-        errors="coerce",
-    )
-
+    """
+    Return minutes elapsed during the current active session.
+    """
+    started_at = pd.to_datetime(task.get("Start Time", ""), errors="coerce",)
     if pd.isna(started_at):
-        return 0.0
-
+        return 0.0 # Will return 0.0 if there is nothing that has been working on or to elapse 
     started_datetime = started_at.to_pydatetime()
-
     if started_datetime.tzinfo is None:
-        started_datetime = started_datetime.replace(
-            tzinfo=LOCAL_TIMEZONE
-        )
-
-    elapsed_minutes = (
-        datetime.now(LOCAL_TIMEZONE)
-        - started_datetime
-    ).total_seconds() / 60
-
+        started_datetime = started_datetime.replace(tzinfo=LOCAL_TIMEZONE)
+    # This function uses elapsed_minutes which does a seconds calculation and than converts to minutes. 
+    elapsed_minutes = (datetime.now(LOCAL_TIMEZONE)- started_datetime).total_seconds() / 60
     return max(elapsed_minutes, 0.0)
-
 
 # =============================================================================
 # CREATE PROJECT

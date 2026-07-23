@@ -5,12 +5,10 @@ import streamlit as st
 from google.oauth2.service_account import Credentials
 from utils.tools.secrets import get_google_service_account
 
-
 SCOPES = [
     "https://www.googleapis.com/auth/spreadsheets",
     "https://www.googleapis.com/auth/drive",
 ]
-
 
 @st.cache_data(ttl=60) # If the sheet is not refreshing fast enough, lower this. 
 def load_sheet(sheet_id: str, gid: str) -> pd.DataFrame:
@@ -27,14 +25,12 @@ def load_sheet(sheet_id: str, gid: str) -> pd.DataFrame:
     df = df.fillna("")
     return df
 
-
 def get_google_client() -> gspread.Client:
     """
     Create an authenticated Google Sheets client.
     """
     credentials = Credentials.from_service_account_info(get_google_service_account(),scopes=SCOPES,)
     return gspread.authorize(credentials)
-
 
 def get_worksheet(sheet_id: str, worksheet_name: str):
     """
@@ -43,7 +39,6 @@ def get_worksheet(sheet_id: str, worksheet_name: str):
     client = get_google_client()
     spreadsheet = client.open_by_key(sheet_id)
     return spreadsheet.worksheet(worksheet_name)
-
 
 def load_private_sheet(sheet_id: str, worksheet_name: str,) -> pd.DataFrame:
     """
@@ -60,7 +55,6 @@ def load_private_sheet(sheet_id: str, worksheet_name: str,) -> pd.DataFrame:
     rows = values[1:]
     return pd.DataFrame(rows, columns=headers,) # Saves the sheet as a pandas data frame with rows defined and columns defined 
 
-
 def append_row(sheet_id: str, worksheet_name: str, row_data: dict[str, Any], columns: list[str],) -> None:
     """Append one row to a worksheet."""
     worksheet = get_worksheet(sheet_id, worksheet_name)
@@ -70,7 +64,6 @@ def append_row(sheet_id: str, worksheet_name: str, row_data: dict[str, Any], col
     ]
     worksheet.append_row( row, value_input_option="USER_ENTERED",)
     clear_sheet_cache()
-
 
 def update_row_by_id(sheet_id: str, worksheet_name: str, record_id: str, updated_data: dict[str, Any], columns: list[str], id_column_number: int = 1,) -> bool:
     """
@@ -97,7 +90,6 @@ def update_row_by_id(sheet_id: str, worksheet_name: str, record_id: str, updated
     clear_sheet_cache()
     return True
 
-
 def column_number_to_letter(column_number: int) -> str:
     """
     Convert a column number to a Google Sheets column letter.
@@ -107,7 +99,6 @@ def column_number_to_letter(column_number: int) -> str:
         column_number, remainder = divmod(column_number - 1, 26)
         letters = chr(65 + remainder) + letters
     return letters
-
 
 def clear_sheet_cache() -> None:
     """

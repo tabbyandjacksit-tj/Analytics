@@ -50,6 +50,27 @@ For?
     def image_to_base64(image_path: str) -> str:
         converts an image file to base64 to enable enbedding in HTML. All images are kept in images/ and must all be read in with this function in order to be read on the website. 
 
+#### from utils/reporting/officehours.py
+    TASK_COLUMNS: 
+        sets the columns of the task sheet. includes a myriad of tabs that will be crucial in reading in sheet and tracking information about office hours worked and tasks completed. 
+
+    LOCAL_TIMEZONE: 
+        sets the timezone to America/Chicago. This is hardcoded in, but if we ever have employees outside of this zone, we could make adjustments. 
+
+    def get_week_start(target_date: date | None = None) -> date:
+        helper function that always returns the first day of the start of the week that an inputed date is given. It will always start at Monday rather than Sunday. 
+
+    def get_saved_minutes(task: dict) -> float:
+        helper function that obtains the previously recorded minutes as a number. If there is nothing recorded, than 0.0 minutes is reported. 
+    
+    def get_active_session_minutes(task: dict) -> float:
+        helper function that returns the time elapsed in minutes during the current active session. This function also uses LOCAL_TIMEZONE to get the correct date and time when reporting the final elapsed time. Will return 0.0 if there is nothing else to return. 
+
+    def create_task_record(employee: str, project: str, task: str = "", notes: str = "",) -> dict:
+        creates a new project record and places it in the to-do status. It also gathers the date = today and sets it as the created date. This is also where get_week_start() gets implemented to get the start of the week based on the date of today. 
+
+    def start_task_record(task: dict) -> dict:
+        created an "updated task" which 
 
 
 
