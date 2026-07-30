@@ -23,14 +23,21 @@ from utils.tools.sheet_reader import (
     load_private_sheet,
     update_row_by_id,
 )
-from utils.styling.base import apply_base_styles, render_hero
 from utils.styling.officehours import (
     apply_officehour_styles,
     render_active_task,
     render_no_active_task,
     render_task_card,
 )
-from utils.components.headers import render_section_header
+from utils.styling.base import (
+    apply_base_styles,
+    render_hero,
+)
+from utils.components.headers import (
+    render_section_header,
+    render_subsection_header,
+)
+from utils.styling.components import apply_component_styles
 from utils.tools.secrets import get_secret
 SHEET_ID = get_secret("OFFICE_HOURS_SHEET_ID")
 LOCAL_TIMEZONE = ZoneInfo("America/Chicago") # Sets the time zone so that the record tracks correctly. 
@@ -43,7 +50,8 @@ st.set_page_config(
     layout="wide",
 )
 apply_base_styles(max_width=1100)
-apply_officehour_styles()\
+apply_component_styles()
+apply_officehour_styles()
 
 # =============================================================================
 # GOOGLE SHEET SETTINGS
@@ -129,8 +137,12 @@ summary_5.metric("Tracked Time", format_minutes(total_minutes),)
 # Where the adding new project form lives.
 # =============================================================================
 render_section_header(
-    title = "Add New Project",
-    subtitle = "Add a project for the current week. Feel free to add notes to help yourself remember all items to complete!",
+    label="Project Setup",
+    title="Add New Project",
+    subtitle=(
+        "Add a project for the selected week and include any "
+        "notes or next steps."
+    ),
 )
 with st.form(
     "new_project",
@@ -169,8 +181,9 @@ if submitted:
 # =============================================================================
 
 render_section_header(
-    title = "Currently Working On...",
-    subtitle = "Only one project can be actively timed at a time.",
+    label="Active Project",
+    title="Currently Working",
+    subtitle="Only one project can be actively timed at a time.",
 )
 
 active_tasks = employee_tasks[employee_tasks["Status"].eq("Active")].copy()

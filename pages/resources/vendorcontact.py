@@ -1,11 +1,17 @@
 # =======================================================================================
-# Imports
+# IMPORTS
 # =======================================================================================
-from email import utils
-import pandas as pd
 import streamlit as st
-from utils.styling.base import apply_base_styles, render_hero
-from utils.styling.vendor import apply_vendor_styles, render_edit_box
+from utils.components.headers import render_section_header
+from utils.styling.base import (
+    apply_base_styles,
+    render_hero,
+)
+from utils.styling.components import apply_component_styles
+from utils.styling.vendor import (
+    apply_vendor_styles,
+    render_edit_box,
+)
 from utils.tools.sheet_reader import load_sheet
 # =======================================================================================
 # Page Configuration (sets title, icon, and layout of page)
@@ -17,6 +23,7 @@ st.set_page_config(
     layout="wide",
 )
 apply_base_styles()
+apply_component_styles()
 apply_vendor_styles()
 render_hero(
     "☏ Vendor Contacts",
@@ -41,11 +48,25 @@ CHECKBOX_COLUMNS = [
 # =======================================================================================
 # Loads in the vendor contacts from the google sheet as a df and refreshes every 60 seconds.
 # =======================================================================================
-df = load_sheet(SHEET_ID, GID)
+try:
+    df = load_sheet(SHEET_ID, GID)
+except Exception as error:
+    st.error(
+        "Could not load the vendor contact information. "
+        f"Details: {error}"
+    )
+    st.stop()
 # =======================================================================================
 # Creates the search bar function for the dataframe, and displays the filtered results in a table.
 # =======================================================================================
-st.markdown("### Search Vendor Contacts")
+render_section_header(
+    label="Vendor Directory",
+    title="Search Vendor Contacts",
+    subtitle=(
+        "Search by brand, vendor, representative, email, "
+        "phone number, or policy details."
+    ),
+)
 search = st.text_input( #
     "Search",
     placeholder="Search by brand, vendor, email, phone, notes...", 
@@ -53,7 +74,7 @@ search = st.text_input( #
 )
 if search:
     mask = df.astype(str).apply(
-        lambda row: row.str.contains(search, case=False, na=False).any(),
+        lambda row: row.str.contains(search, case=False, na=False, regex=False,).any(),
         axis=1,
     )
     filtered = df[mask].copy()

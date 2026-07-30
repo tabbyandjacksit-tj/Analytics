@@ -1,8 +1,10 @@
 # =======================================================================================
 # Imports
 # =======================================================================================
+# =======================================================================================
+# IMPORTS
+# =======================================================================================
 import streamlit as st
-from utils.tools.images import image_to_base64
 from utils.styling.base import apply_base_styles
 from utils.styling.dashboard import (
     apply_dashboard_styles,
@@ -13,6 +15,7 @@ from utils.styling.home import (
     apply_home_styles,
     render_tool_card,
 )
+from utils.tools.images import image_to_base64
 # =======================================================================================
 # Page Configuration (sets title, icon, and layout of page)
 # CSS Styles also imported/applied
@@ -28,14 +31,17 @@ apply_dashboard_styles()
 render_dashboard_banner(
     title="Admin Tools",
     description=(
-        "Access administrative tools for employee management, "
-        "data processing, and external platform updates."
+        "Access tools for employee management, data processing, "
+        "and external platform updates."
     ),
 )
 render_dashboard_intro(
     eyebrow="Administrative Tools",
     title="Choose an Admin Tool",
-    description="Select an administrative tool below to continue.",
+    description=(
+        "Select a tool below to manage employee activity, "
+        "process reports, or update external platforms."
+    ),
 )
 icons = { # Neeeds to be adjusted per each card created 
     "instacart": image_to_base64("images/item_report.png"),
@@ -49,7 +55,7 @@ tools = [
     {
         "title": "Instacart Upload",
         "description": (
-            "Prepare nine different inventory files and STFP send them to Instacart."
+            "Prepare nine different inventory files and SFTP send them to Instacart."
         ),
         "status": "Available",
         "category": "Admin Tools",

@@ -3,24 +3,35 @@
 # =======================================================================================
 import pandas as pd
 import streamlit as st
-from utils.reporting.employee_capture import (
-    find_missing_columns,
-    prepare_employee_report,
-    summarize_employee_capture,
-    employee_leaderboard,
+from utils.components.headers import (
+    render_section_header,
+    render_subsection_header,
 )
-from utils.styling.base import apply_base_styles, render_hero
+from utils.styling.base import (
+    apply_base_styles,
+    render_hero,
+)
+from utils.styling.components import apply_component_styles
 from utils.styling.mvo import (
     apply_mvo_styles,
     render_instruction_card,
 )
-from utils.components.headers import render_section_header
+from utils.reporting.employee_capture import (
+    employee_leaderboard,
+    find_missing_columns,
+    prepare_employee_report,
+    summarize_employee_capture,
+)
+
+
+
 st.set_page_config(
     page_title="Employee Customer Capture",
     page_icon="images/logo.png",
     layout="wide",
 )
 apply_base_styles()
+apply_component_styles()
 apply_mvo_styles()
 render_hero(
     "Employee Customer Capture",
@@ -30,9 +41,12 @@ render_hero(
 # FILE UPLOAD
 # =============================================================================
 render_section_header(
-    eyebrow = "Step 1",
-    title = "Upload Employee Capture Report",
-    subtitle = "Upload the completed transaction report exported from Lightspeed.",
+    label="Step 1",
+    title="Upload Employee Capture Report",
+    subtitle=(
+        "Upload the completed transaction report exported "
+        "from Lightspeed."
+    ),
 )
 uploaded_file = st.file_uploader( # Place to upload CSV
     "Upload Employee Report",
@@ -85,6 +99,14 @@ employees = sorted(
 if not employees:
     st.warning("No employees were found in the uploaded report.")
     st.stop()
+render_section_header(
+    label="Step 2",
+    title="Select an Employee",
+    subtitle=(
+        "Choose an employee to review their customer capture "
+        "performance."
+    ),
+)
 selected_employee = st.selectbox("Select Employee", options=employees,)
 # =============================================================================
 # CUSTOMER CAPTURE RESULTS
@@ -95,7 +117,14 @@ attached_sales = results["attached_sales"]
 unattached_sales = results["unattached_sales"]
 capture_rate = results["capture_rate"]
 employee_df = results["employee_df"]
-st.markdown(f"### Results for {selected_employee}")
+render_section_header(
+    label="Employee Results",
+    title=f"Results for {selected_employee}",
+    subtitle=(
+        "Review completed sales and the percentage of transactions "
+        "with an attached customer."
+    ),
+)
 col1, col2, col3, col4 = st.columns(4)
 col1.metric("Total Sales", total_sales)
 col2.metric("Customer Attached", attached_sales)
@@ -104,6 +133,13 @@ col4.metric("Capture Rate", f"{capture_rate:.1%}")
 # =============================================================================
 # TRANSACTION DETAILS
 # =============================================================================
+render_subsection_header(
+    title="Transaction Details",
+    subtitle=(
+        "Review each completed transaction included in the "
+        "employee's results."
+    ),
+)
 display_df = employee_df[
     [
         "ID",
@@ -125,29 +161,43 @@ st.dataframe(
 # Creates a leaderboard of the top 10 employee capture rates, as long as they have 
 # had over 15 sales in the given time frame. 
 # =============================================================================
+# =============================================================================
+# EMPLOYEE LEADERBOARD
+# =============================================================================
+
 leaderboard_df = employee_leaderboard(cleaned_df)
-leaderboard_df = leaderboard_df[leaderboard_df["Completed Sales"] >= 15].head(10)
+
+leaderboard_df = leaderboard_df[
+    leaderboard_df["Completed Sales"] >= 15
+].head(10)
+
 render_section_header(
-    eyebrow = "Top 10",
-    title = "Employee Customer Capture Rates",
-    subtitle = "Employees must have at least 10 completed sales to qualify.",
+    label="Top 10",
+    title="Employee Customer Capture Rates",
+    subtitle=(
+        "Employees must have at least 15 completed sales "
+        "to qualify."
+    ),
 )
-if leaderboard_df.empty: # Exception
+
+if leaderboard_df.empty:
     st.info(
-        "No employees had at least 10 completed sales in this report."
+        "No employees had at least 15 completed sales "
+        "in this report."
     )
 else:
     leaderboard_df["Capture Rate"] = (
-    leaderboard_df["Capture Rate"] * 100
-).round(1) # Else if calculates the percentage of the capture rates. 
-st.dataframe( # Creates the final leaderboard at the end. 
-    leaderboard_df,
-    hide_index=True,
-    use_container_width=True,
-    column_config={
-        "Capture Rate": st.column_config.NumberColumn(
-            "Capture Rate",
-            format="%.1f%%",
-        ),
-    },
-)
+        leaderboard_df["Capture Rate"] * 100
+    ).round(1)
+
+    st.dataframe(
+        leaderboard_df,
+        hide_index=True,
+        use_container_width=True,
+        column_config={
+            "Capture Rate": st.column_config.NumberColumn(
+                "Capture Rate",
+                format="%.1f%%",
+            ),
+        },
+    )

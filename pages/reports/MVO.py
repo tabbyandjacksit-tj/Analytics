@@ -1,18 +1,28 @@
 # =======================================================================================
 # Imports
 # =======================================================================================
-from datetime import datetime, timedelta
+# =======================================================================================
+# IMPORTS
+# =======================================================================================
+from datetime import date, timedelta
 import pandas as pd
 import streamlit as st
-from utils.reporting.mvo import calculate_order_quantities, find_missing_columns
-from utils.styling.base import apply_base_styles, render_hero
+from utils.components.headers import render_section_header
+from utils.reporting.mvo import (
+    calculate_order_quantities,
+    find_missing_columns,
+)
+from utils.styling.base import (
+    apply_base_styles,
+    render_hero,
+)
+from utils.styling.components import apply_component_styles
 from utils.styling.mvo import (
     apply_mvo_styles,
     render_date_card,
     render_instruction_card,
     render_preview_title,
 )
-from utils.components.headers import render_section_header
 # =======================================================================================
 # Page Configuration (sets title, icon, and layout of page)
 # CSS Styles also imported/applied
@@ -23,6 +33,7 @@ st.set_page_config(
     layout="wide",
 )
 apply_base_styles()
+apply_component_styles()
 apply_mvo_styles()
 render_hero(
     "Major Vendor Order Report",
@@ -33,9 +44,12 @@ render_hero(
 # Each step has an image, title, and description.
 # =======================================================================================
 render_section_header(
-    eyebrow = "Step 1",
-    title = "Export Report from Lightspeed",
-    subtitle = "Follow these steps to export the correct CSV report.",
+    label="Step 1",
+    title="Export Report from Lightspeed",
+    subtitle=(
+        "Follow these steps to export the correct item sales "
+        "report from Lightspeed."
+    ),
 )
 steps = [
     ("images/reports.png", "Reports", "Open REPORTS from the sidebar."),
@@ -57,12 +71,18 @@ for i, step in enumerate(steps[3:]):
 # =======================================================================================
 # Calculates and creates a box for the dates that are 56 days out, or weekly which is 28 
 # =======================================================================================
-bi_report_start = datetime.today() - timedelta(days=56) 
-weekly_report_start = datetime.today() - timedelta(days=28) 
-render_date_card(bi_report_start, weekly_report_start) 
+biweekly_report_start = date.today() - timedelta(days=56)
+weekly_report_start = date.today() - timedelta(days=28)
+render_date_card(
+    biweekly_report_start,
+    weekly_report_start,
+)
 render_section_header(
-    eyebrow = "Step 2",
-    title = "Upload Item Sale Report",
+    label="Step 2",
+    title="Upload Item Sales Report",
+    subtitle=(
+        "Upload the CSV exported directly from Lightspeed."
+    ),
 )
 # ======================================================
 # Upload the Lightspeed Item report & check for missing columns and other potential errors
@@ -76,7 +96,11 @@ st.caption("Please use only the CSV exported directly from Lightspeed. Do not ed
 st.divider()
 if uploaded_file is None:
     st.stop()
-df = pd.read_csv(uploaded_file)
+try:
+    df = pd.read_csv(uploaded_file)
+except Exception as error:
+    st.error(f"Could not read the uploaded CSV: {error}")
+    st.stop()
 missing_columns = find_missing_columns(df)
 if missing_columns:
     st.error(
@@ -89,9 +113,12 @@ if missing_columns:
 # =======================================================================================
 output_df = calculate_order_quantities(df)
 render_section_header(
-    eyebrow = "Step 3",
-    title = "Order Results",
-    subtitle = "Review the recommended order quantities below, and download your CSV.",
+    label="Step 3",
+    title="Review Order Results",
+    subtitle=(
+        "Review the recommended order quantities and download "
+        "the appropriate CSV file."
+    ),
 )
 render_preview_title()
 st.dataframe(output_df.head(50), use_container_width=True) # Previews the first 50 rows of the MVO

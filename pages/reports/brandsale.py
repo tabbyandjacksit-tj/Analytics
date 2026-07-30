@@ -5,17 +5,17 @@
 # Imports
 # =======================================================================================
 from datetime import datetime, timedelta
-import pandas as pd
 import streamlit as st
-from utils.reporting.mvo import calculate_order_quantities, find_missing_columns
-from utils.styling.base import apply_base_styles, render_hero
+from utils.components.headers import (
+    render_section_header,
+    render_subsection_header,
+)
+from utils.styling.base import (apply_base_styles, render_hero,)
+from utils.styling.components import apply_component_styles
 from utils.styling.mvo import (
     apply_mvo_styles,
-    render_date_card,
     render_instruction_card,
-    render_preview_title,
 )
-from utils.components.headers import render_section_header
 # =======================================================================================
 # Page Configuration (sets title, icon, and layout of page)
 # CSS Styles also imported/applied
@@ -26,18 +26,26 @@ st.set_page_config(
     layout="wide",
 )
 apply_base_styles()
+apply_component_styles()
 apply_mvo_styles()
 render_hero(
     "Sales by Brand",
-    "See the sales per brand based on the sales and set time",
+    (
+        "Review sales performance for a selected brand "
+        "and date range."
+    ),
 )
 # =======================================================================================
 # Creates the instructions for exporting the report from Lightspeed in step 1.
 # Each step has an image, title, and description.
 # =======================================================================================
 render_section_header(
-    title = "Export Report from Lightspeed",
-    subtitle = "Follow these steps to export the correct CSV report for analysis.",
+    label="Step 1",
+    title="Export Report from Lightspeed",
+    subtitle=(
+        "Follow these steps to export the correct grouped sales "
+        "report for analysis."
+    ),
 )
 steps = [
     ("images/reports.png", "Reports", "Open REPORTS from the sidebar."),
@@ -59,8 +67,16 @@ for i, step in enumerate(steps[3:]):
 # =======================================================================================
 # Calculates and creates a box for the dates that are 56 days out, or weekly which is 28 
 # =======================================================================================
+render_section_header(
+    label="Step 2",
+    title="Choose the Report Date Range",
+    subtitle=(
+        "Enter the number of days you would like to include "
+        "in the sales report."
+    ),
+)
 days_ago = st.number_input(
-    "Enter the number of days for your report",
+    "Number of Days",
     min_value=1,
     value=90,
     step=1,

@@ -16,20 +16,7 @@ def render_info_card(
     description: str,
     label: str = "",
 ) -> None:
-    """
-    Render a general informational card.
-
-    Parameters
-    ----------
-    title:
-        Main card heading.
-
-    description:
-        Supporting card text.
-
-    label:
-        Optional small uppercase label displayed above the title.
-    """
+    """Render a general informational card."""
 
     safe_title = html.escape(str(title))
     safe_description = html.escape(str(description))
@@ -62,20 +49,7 @@ def render_metric_card(
     value: str | int,
     description: str = "",
 ) -> None:
-    """
-    Render a card displaying one important number or value.
-
-    Parameters
-    ----------
-    label:
-        Small heading describing the value.
-
-    value:
-        Main value shown prominently.
-
-    description:
-        Optional supporting information.
-    """
+    """Render one important number or result."""
 
     safe_label = html.escape(str(label))
     safe_value = html.escape(str(value))
@@ -100,28 +74,15 @@ def render_metric_card(
 
 
 # =============================================================================
-# EMPTY STATE CARD
+# EMPTY CARD
 # =============================================================================
 
-def render_empty_state(
+def render_empty_card(
     title: str,
     description: str,
     icon: str = "📄",
 ) -> None:
-    """
-    Render a placeholder when no content or results are available.
-
-    Parameters
-    ----------
-    title:
-        Main empty-state message.
-
-    description:
-        Instructions explaining what the user should do next.
-
-    icon:
-        Optional emoji or symbol displayed above the title.
-    """
+    """Render an empty state before data or results exist."""
 
     safe_title = html.escape(str(title))
     safe_description = html.escape(str(description))
@@ -129,10 +90,34 @@ def render_empty_state(
 
     st.markdown(
         f"""
-<div class="tj-empty-state">
+<div class="tj-empty-card">
     <div class="tj-empty-icon">{safe_icon}</div>
     <div class="tj-empty-title">{safe_title}</div>
     <div class="tj-empty-description">{safe_description}</div>
+</div>
+""",
+        unsafe_allow_html=True,
+    )
+
+
+# =============================================================================
+# NOTE CARD
+# =============================================================================
+
+def render_note_card(
+    title: str,
+    text: str,
+) -> None:
+    """Render a smaller note or reminder card."""
+
+    safe_title = html.escape(str(title))
+    safe_text = html.escape(str(text))
+
+    st.markdown(
+        f"""
+<div class="tj-note-card">
+    <div class="tj-note-title">{safe_title}</div>
+    <div class="tj-note-text">{safe_text}</div>
 </div>
 """,
         unsafe_allow_html=True,

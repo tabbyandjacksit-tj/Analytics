@@ -8,10 +8,14 @@ from utils.reporting.instacart import (
     upload_files_to_instacart,
 )
 from utils.tools.secrets import get_secret
-from utils.styling.base import apply_base_styles
+from utils.components.headers import render_section_header
+from utils.styling.base import (
+    apply_base_styles,
+    render_hero,
+)
+from utils.styling.components import apply_component_styles
 from utils.styling.instacart import (
     apply_instacart_styles,
-    render_instacart_header,
     render_instacart_link,
     render_report_help_card,
 )
@@ -24,10 +28,16 @@ st.set_page_config(
     page_icon="images/logo.png",
     layout="wide",
 )
-apply_base_styles() 
+apply_base_styles()
+apply_component_styles()
 apply_instacart_styles() 
-render_instacart_header() 
-render_report_help_card()  
+render_hero(
+    "Instacart Upload",
+    (
+        "Configure your Lightspeed inventory report and upload "
+        "the store files to Instacart."
+    ),
+)
 # =======================================================================================
 # Sets a password for the page and checks if the user is authenticated.
 # If not, it prompts for a password or provides my information on how to get access.

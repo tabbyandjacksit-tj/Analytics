@@ -1,0 +1,246 @@
+# =============================================================================
+# IMPORTS
+# =============================================================================
+
+from utils.styling.base import apply_extra_css
+
+
+# =============================================================================
+# SHARED COMPONENT STYLES
+# =============================================================================
+
+def apply_component_styles() -> None:
+    """Apply reusable component styles across the application."""
+
+    apply_extra_css(
+        """
+/* ==========================================================================
+   STANDARD HERO
+   ========================================================================== */
+
+.tj-hero {
+    background-color: #1D5A3E;
+    border-radius: 26px;
+    box-shadow: 0 8px 22px rgba(29, 90, 62, 0.18);
+    margin-bottom: 28px;
+    padding: 28px;
+}
+
+.tj-hero h1 {
+    color: #FFF9EF;
+    font-size: 44px;
+    font-weight: 800;
+    margin: 0;
+    text-align: center;
+}
+
+.tj-hero p {
+    color: rgba(255, 249, 239, 0.88);
+    font-size: 17px;
+    margin: 12px 0 0;
+    text-align: center;
+}
+
+
+/* ==========================================================================
+   SECTION HEADERS
+   ========================================================================== */
+
+.tj-section-header {
+    margin-bottom: 20px;
+}
+
+.tj-section-label {
+    color: #C97822;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+}
+
+.tj-section-title {
+    color: #1D5A3E;
+    font-size: 31px;
+    font-weight: 800;
+    line-height: 1.2;
+    margin: 0;
+}
+
+.tj-section-subtitle {
+    color: #5C7A58;
+    font-size: 16px;
+    line-height: 1.5;
+    margin-top: 5px;
+}
+
+
+/* ==========================================================================
+   SMALL SECTION HEADERS
+   ========================================================================== */
+
+.tj-subsection-title {
+    color: #1D5A3E;
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1.3;
+    margin: 0;
+}
+
+.tj-subsection-subtitle {
+    color: #5C7A58;
+    font-size: 15px;
+    line-height: 1.5;
+    margin-top: 5px;
+}
+
+
+/* ==========================================================================
+   INFORMATION CARDS
+   ========================================================================== */
+
+.tj-info-card {
+    background-color: #FFF9EF;
+    border: 1px solid #D7C8A4;
+    border-radius: 18px;
+    box-shadow: 0 3px 10px rgba(47, 55, 45, 0.04);
+    padding: 20px 22px;
+}
+
+.tj-card-label {
+    color: #C97822;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
+
+.tj-card-title {
+    color: #1D5A3E;
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 1.3;
+}
+
+.tj-card-description {
+    color: #5C7A58;
+    font-size: 15px;
+    line-height: 1.55;
+    margin-top: 7px;
+}
+
+
+/* ==========================================================================
+   METRIC CARDS
+   ========================================================================== */
+
+.tj-metric-card {
+    background-color: #FFFDF8;
+    border: 1px solid #D7C8A4;
+    border-radius: 18px;
+    box-shadow: 0 3px 10px rgba(47, 55, 45, 0.04);
+    min-height: 130px;
+    padding: 19px 20px;
+}
+
+.tj-metric-label {
+    color: #5C7A58;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.tj-metric-value {
+    color: #1D5A3E;
+    font-size: 34px;
+    font-weight: 800;
+    line-height: 1.15;
+    margin: 10px 0 5px;
+}
+
+.tj-metric-description {
+    color: #5C7A58;
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+
+/* ==========================================================================
+   EMPTY STATES
+   ========================================================================== */
+
+.tj-empty-card {
+    background-color: #FFFDF8;
+    border: 1px dashed #D7C8A4;
+    border-radius: 22px;
+    padding: 38px 24px;
+    text-align: center;
+}
+
+.tj-empty-icon {
+    font-size: 34px;
+    margin-bottom: 9px;
+}
+
+.tj-empty-title {
+    color: #1D5A3E;
+    font-size: 19px;
+    font-weight: 800;
+}
+
+.tj-empty-description {
+    color: #5C7A58;
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 6px auto 0;
+    max-width: 440px;
+}
+
+
+/* ==========================================================================
+   NOTE CARDS
+   ========================================================================== */
+
+.tj-note-card {
+    background-color: #FDF7EA;
+    border: 1px solid #D7C8A4;
+    border-radius: 18px;
+    box-shadow: 0 3px 10px rgba(47, 55, 45, 0.04);
+    padding: 18px 20px;
+}
+
+.tj-note-title {
+    color: #1D5A3E;
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.tj-note-text {
+    color: #5C7A58;
+    font-size: 14px;
+    line-height: 1.55;
+    margin-top: 5px;
+}
+
+
+/* ==========================================================================
+   RESPONSIVE STYLES
+   ========================================================================== */
+
+@media (max-width: 750px) {
+    .tj-hero h1 {
+        font-size: 34px;
+    }
+
+    .tj-section-title {
+        font-size: 26px;
+    }
+
+    .tj-metric-card {
+        min-height: auto;
+    }
+}
+"""
+    )

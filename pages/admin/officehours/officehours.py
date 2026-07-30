@@ -4,23 +4,27 @@
 from datetime import datetime
 import pandas as pd
 import streamlit as st
+from utils.components.headers import render_section_header
 from utils.reporting.officehours import (
+    LOCAL_TIMEZONE,
     format_minutes,
     get_active_tasks,
     get_week_start,
     prepare_tasks,
-    LOCAL_TIMEZONE
 )
-from utils.tools.sheet_reader import load_private_sheet
-from utils.styling.base import apply_base_styles, render_hero
+from utils.styling.base import (
+    apply_base_styles,
+    render_hero,
+)
+from utils.styling.components import apply_component_styles
 from utils.styling.officehours import (
     apply_officehour_styles,
     render_active_employee,
     render_employee_card,
     render_no_active_workers,
 )
-from utils.components.headers import render_section_header
 from utils.tools.secrets import get_secret
+from utils.tools.sheet_reader import load_private_sheet
 # =======================================================================================
 # Page Configuration (sets title, icon, and layout of page)
 # CSS Styles also imported/applied
@@ -32,6 +36,7 @@ st.set_page_config(
     layout="wide",
 )
 apply_base_styles(max_width=1160)
+apply_component_styles()
 apply_officehour_styles()
 render_hero(
     "Office Hour Tracker",
@@ -95,7 +100,14 @@ if not employees:
 # =============================================================================
 # Creates the section for "Who is Working Now?"
 # =============================================================================
-render_section_header(title = "Who's Working Now?")
+render_section_header(
+    label="Current Activity",
+    title="Who's Working Now?",
+    subtitle=(
+        "See which employees are currently tracking time "
+        "and what they are working on."
+    ),
+)
 active_tasks = get_active_tasks(tasks_df) # Obtains the task that is active in the tasks_df that is defined! 
 if active_tasks.empty:
     render_no_active_workers()
@@ -141,8 +153,12 @@ else:
 # Creates the cards for each employees weekly tasks 
 # =============================================================================
 render_section_header(
-    title = "Office Hour Employees",
-    subtitle = "Open any employee's tracker to view and manage weekly tasks.",
+    label="Employee Trackers",
+    title="Office Hour Employees",
+    subtitle=(
+        "Open an employee's tracker to view and manage "
+        "their weekly projects."
+    ),
 )
 current_week = get_week_start()
 for row_start in range(0, len(employees), 3):

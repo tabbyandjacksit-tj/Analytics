@@ -1,11 +1,15 @@
 # =======================================================================================
 # Imports
 # =======================================================================================
-import pandas as pd
 import streamlit as st
-from utils.styling.base import apply_base_styles, render_hero
+from utils.components.headers import render_section_header
+from utils.styling.base import (
+    apply_base_styles,
+    render_hero,
+)
+from utils.styling.components import apply_component_styles
+from utils.styling.vendor import apply_vendor_styles
 from utils.tools.sheet_reader import load_sheet
-from utils.styling.vendor import apply_vendor_styles, render_edit_box, render_map_section
 # =======================================================================================
 # Page Configuration (sets title, icon, and layout of page)
 # CSS Styles also imported/applied
@@ -16,10 +20,14 @@ st.set_page_config(
     layout="wide",
 )
 apply_base_styles()
+apply_component_styles()
 apply_vendor_styles()
 render_hero(
-    "˗ˋˏ$ˎˊ˗ MAP Information",
-    "Search for which vendors follow MAP pricing, and what their pricing might be!",
+    "MAP Information",
+    (
+        "Search brand MAP policies and verify compliant "
+        "product pricing."
+    ),
 )
 # =======================================================================================
 # Initialize variables for the google sheet & checkbox columns. This is basically copied from 
@@ -36,9 +44,13 @@ TOTAL_DF = load_sheet(SHEET_ID, TOTAL_GID)
 # than the table will show the brand and when they last updated if that info is avaliable to me. 
 # Master copy is kept in TabbyandjacksIT@gmail.com
 # =======================================================================================
-render_map_section(
-    "Search For Details About MAP Pricing",
-    "See if a brand follows MAP pricing, when it was last updated on Lightspeed, and what the policy is for each brand.",
+render_section_header(
+    label="Brand Policies",
+    title="Search MAP Policy Details",
+    subtitle=(
+        "Check whether a brand follows MAP pricing, review its "
+        "policy details, and see when the information was last updated."
+    ),
 )
 # Creates the search section  and spits out if the brand is MAP or not!  
 search = st.text_input(
@@ -55,7 +67,10 @@ if search:
     brand_filtered = BRAND_DF[mask].copy()
 else:
     brand_filtered = BRAND_DF.copy()
-brand_filtered = brand_filtered.drop(columns=["Hide"]) # Drops the columns we have set to hidden. 
+brand_filtered = brand_filtered.drop(
+    columns=["Hide"],
+    errors="ignore",
+)
 st.dataframe(
     brand_filtered,
     hide_index=True,
@@ -67,9 +82,13 @@ st.dataframe(
 # The idea is that the user is able to enter a name or a UPC, and what it should be priced comes out. 
 # Master copy is kept in TabbyandjacksIT@gmail.com
 # =======================================================================================
-render_map_section(
-    "Search Product Pricing Details",
-    "Check what the MAP pricing is for each product, and when it is was last updated by the vendor."
+render_section_header(
+    label="Product Pricing",
+    title="Search MAP Product Pricing",
+    subtitle=(
+        "Search by brand, UPC, or item name to verify the "
+        "current MAP price."
+    ),
 )
 # Creates the search section  and says what to price at when/if that is found in the data system. 
 search = st.text_input(
