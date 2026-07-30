@@ -40,6 +40,7 @@ render_dashboard_intro(
 icons = { # Neeeds to be adjusted per each card created 
     "transfer": image_to_base64("images/item_report.png"),
     "brand": image_to_base64("images/brand.png"),
+    "hour": image_to_base64("images/hour.png")
 }
 # =======================================================================================
 # Reporting Tool Links and Cards. This is super similar to home.py
