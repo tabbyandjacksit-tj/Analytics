@@ -112,10 +112,10 @@ pages = {
     ),
 
     "Sales by Hour": st.Page(
-        "pages/reports/salesbyhour.py"
-        title = "Sales by Hour",
-        icon = ":material/hour:",
-        visibility= "hidden"
+        "pages/reports/salesbyhour.py",
+        title="Sales by Hour",
+        icon=":material/hour:",
+        visibility="hidden",
     ),
 
     # ------------------------------------------------------------------
