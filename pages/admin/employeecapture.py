@@ -13,8 +13,8 @@ from utils.styling.base import apply_base_styles, render_hero
 from utils.styling.mvo import (
     apply_mvo_styles,
     render_instruction_card,
-    section_header,
 )
+from utils.components.headers import render_section_header
 st.set_page_config(
     page_title="Employee Customer Capture",
     page_icon="images/logo.png",
@@ -29,10 +29,10 @@ render_hero(
 # =============================================================================
 # FILE UPLOAD
 # =============================================================================
-section_header(
-    "Step 1",
-    "Upload Employee Capture Report",
-    "Upload the completed transaction report exported from Lightspeed.",
+render_section_header(
+    eyebrow = "Step 1",
+    title = "Upload Employee Capture Report",
+    subtitle = "Upload the completed transaction report exported from Lightspeed.",
 )
 uploaded_file = st.file_uploader( # Place to upload CSV
     "Upload Employee Report",
@@ -127,10 +127,10 @@ st.dataframe(
 # =============================================================================
 leaderboard_df = employee_leaderboard(cleaned_df)
 leaderboard_df = leaderboard_df[leaderboard_df["Completed Sales"] >= 15].head(10)
-section_header(
-    "Top 10",
-    "Employee Customer Capture Rates",
-    "Employees must have at least 10 completed sales to qualify.",
+render_section_header(
+    eyebrow = "Top 10",
+    title = "Employee Customer Capture Rates",
+    subtitle = "Employees must have at least 10 completed sales to qualify.",
 )
 if leaderboard_df.empty: # Exception
     st.info(

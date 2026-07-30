@@ -65,19 +65,3 @@ def render_edit_box(sheet_url: str) -> None:
     )
 
 
-def section_header(label: str, title: str, subtitle: str = "") -> None:
-    st.markdown(
-        f"""
-<div class="section-title">{title}</div>
-<div class="section-subtitle">{subtitle}</div>
-""",
-        unsafe_allow_html=True,
-    )
-def render_map_section(title: str, subtitle: str = "") -> None:
-    st.markdown(
-        f"""
-<div class="map-section-title">{title}</div>
-<div class="map-section-subtitle">{subtitle}</div>
-""",
-        unsafe_allow_html=True,
-    )

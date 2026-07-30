@@ -18,8 +18,8 @@ from utils.styling.officehours import (
     render_active_employee,
     render_employee_card,
     render_no_active_workers,
-    section_header,
 )
+from utils.components.headers import render_section_header
 from utils.tools.secrets import get_secret
 # =======================================================================================
 # Page Configuration (sets title, icon, and layout of page)
@@ -95,7 +95,7 @@ if not employees:
 # =============================================================================
 # Creates the section for "Who is Working Now?"
 # =============================================================================
-section_header("Who's Working Now?")
+render_section_header(title = "Who's Working Now?")
 active_tasks = get_active_tasks(tasks_df) # Obtains the task that is active in the tasks_df that is defined! 
 if active_tasks.empty:
     render_no_active_workers()
@@ -140,9 +140,9 @@ else:
 # =============================================================================
 # Creates the cards for each employees weekly tasks 
 # =============================================================================
-section_header(
-    "Office Hour Employees",
-    "Open any employee's tracker to view and manage weekly tasks.",
+render_section_header(
+    title = "Office Hour Employees",
+    subtitle = "Open any employee's tracker to view and manage weekly tasks.",
 )
 current_week = get_week_start()
 for row_start in range(0, len(employees), 3):

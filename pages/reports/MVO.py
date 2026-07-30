@@ -11,8 +11,8 @@ from utils.styling.mvo import (
     render_date_card,
     render_instruction_card,
     render_preview_title,
-    section_header,
 )
+from utils.components.headers import render_section_header
 # =======================================================================================
 # Page Configuration (sets title, icon, and layout of page)
 # CSS Styles also imported/applied
@@ -32,10 +32,10 @@ render_hero(
 # Creates the instructions for exporting the report from Lightspeed in step 1.
 # Each step has an image, title, and description.
 # =======================================================================================
-section_header(
-    "Step 1",
-    "Export Report from Lightspeed",
-    "Follow these steps to export the correct CSV report.",
+render_section_header(
+    eyebrow = "Step 1",
+    title = "Export Report from Lightspeed",
+    subtitle = "Follow these steps to export the correct CSV report.",
 )
 steps = [
     ("images/reports.png", "Reports", "Open REPORTS from the sidebar."),
@@ -60,9 +60,9 @@ for i, step in enumerate(steps[3:]):
 bi_report_start = datetime.today() - timedelta(days=56) 
 weekly_report_start = datetime.today() - timedelta(days=28) 
 render_date_card(bi_report_start, weekly_report_start) 
-section_header(
-    "Step 2",
-    "Upload Item Sale Report",
+render_section_header(
+    eyebrow = "Step 2",
+    title = "Upload Item Sale Report",
 )
 # ======================================================
 # Upload the Lightspeed Item report & check for missing columns and other potential errors
@@ -88,10 +88,10 @@ if missing_columns:
 # Manipulates the uploaded report and calculates the order quantities based on utils.mvo
 # =======================================================================================
 output_df = calculate_order_quantities(df)
-section_header(
-    "Step 3",
-    "Order Results",
-    "Review the recommended order quantities below, and download your CSV.",
+render_section_header(
+    eyebrow = "Step 3",
+    title = "Order Results",
+    subtitle = "Review the recommended order quantities below, and download your CSV.",
 )
 render_preview_title()
 st.dataframe(output_df.head(50), use_container_width=True) # Previews the first 50 rows of the MVO

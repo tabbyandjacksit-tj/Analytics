@@ -29,8 +29,8 @@ from utils.styling.officehours import (
     render_active_task,
     render_no_active_task,
     render_task_card,
-    section_header,
 )
+from utils.components.headers import render_section_header
 from utils.tools.secrets import get_secret
 SHEET_ID = get_secret("OFFICE_HOURS_SHEET_ID")
 LOCAL_TIMEZONE = ZoneInfo("America/Chicago") # Sets the time zone so that the record tracks correctly. 
@@ -128,9 +128,9 @@ summary_5.metric("Tracked Time", format_minutes(total_minutes),)
 # =============================================================================
 # Where the adding new project form lives.
 # =============================================================================
-section_header(
-    "Add New Project",
-    "Add a project for the current week. Feel free to add notes to help yourself remember all items to complete!",
+render_section_header(
+    title = "Add New Project",
+    subtitle = "Add a project for the current week. Feel free to add notes to help yourself remember all items to complete!",
 )
 with st.form(
     "new_project",
@@ -168,9 +168,9 @@ if submitted:
 # Creates the section for the projects that are currently being worked on
 # =============================================================================
 
-section_header(
-    "Currently Working On...",
-    "Only one project can be actively timed at a time.",
+render_section_header(
+    title = "Currently Working On...",
+    subtitle = "Only one project can be actively timed at a time.",
 )
 
 active_tasks = employee_tasks[employee_tasks["Status"].eq("Active")].copy()
@@ -275,7 +275,7 @@ else:
 # =============================================================================
 # Tracks and creates a section for projects that are in progress 
 # =============================================================================
-section_header("In Progress",)
+render_section_header(title = "In Progress",)
 in_progress_tasks = employee_tasks[employee_tasks["Status"].eq("In Progress")].copy()
 if in_progress_tasks.empty:
     st.caption("No projects are currently paused.")
@@ -337,7 +337,7 @@ else:
 # =============================================================================
 # Creates the section for the tasks that are marked as needed to be done 
 # =============================================================================
-section_header("To Do")
+render_section_header(title = "To Do")
 todo_tasks = employee_tasks[employee_tasks["Status"].eq("To Do")].copy()
 if todo_tasks.empty:
     st.caption("No projects are waiting to be started.")
@@ -390,7 +390,7 @@ else:
 # to the office tracker sheet that is established with the GID above, or through
 # tabbyandjacksIT@gmail.com
 # =============================================================================
-section_header("Finished")
+render_section_header(title = "Finished")
 finished_tasks = employee_tasks[employee_tasks["Status"].eq("Finished")].copy()
 if finished_tasks.empty:
     st.caption("No tasks have been finished this week.")

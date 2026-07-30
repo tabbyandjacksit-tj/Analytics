@@ -149,24 +149,6 @@ def apply_officehour_styles() -> None:
     )
 
 
-# =============================================================================
-# SECTION HEADER
-# =============================================================================
-
-def section_header(
-    title: str,
-    subtitle: str = "",
-) -> None:
-    safe_title = html.escape(str(title))
-    safe_subtitle = html.escape(str(subtitle))
-
-    st.markdown(
-        (
-            f'<div class="section-title">{safe_title}</div>'
-            f'<div class="section-subtitle">{safe_subtitle}</div>'
-        ),
-        unsafe_allow_html=True,
-    )
 
 
 # =============================================================================

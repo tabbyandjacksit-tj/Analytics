@@ -147,15 +147,6 @@ hr {
 """
     )
 
-def section_header(label: str, title: str, subtitle: str = "") -> None:
-    st.markdown(
-        f"""
-<div class="section-label">{label}</div>
-<div class="section-title">{title}</div>
-<div class="section-subtitle">{subtitle}</div>
-""",
-        unsafe_allow_html=True,
-    )
 
 def render_instruction_card(
     number: int,
