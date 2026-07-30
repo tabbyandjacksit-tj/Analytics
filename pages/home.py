@@ -6,13 +6,13 @@ from utils.tools.images import image_to_base64
 from utils.styling.base import apply_base_styles
 from utils.styling.home import (
     apply_home_styles,
-    render_dashboard_header,
     render_footer,
     render_home_banner,
-    render_tool_card,
     render_dashboard_card,
 )
-
+from utils.components.headers import render_section_header
+from utils.styling.components import apply_component_styles
+from utils.components.layout import render_card_grid
 # =======================================================================================
 # Page Configuration (sets title, icon, and layout of page)
 # CSS Styles also imported/applied
@@ -24,11 +24,18 @@ st.set_page_config(
 )
 
 apply_base_styles(max_width=1160)
+apply_component_styles()
 apply_home_styles()
 logo = image_to_base64("images/logo.png")
 render_home_banner(logo)
-render_dashboard_header()
-
+render_section_header(
+    label="Analytics Hub",
+    title="Choose a Dashboard",
+    subtitle=(
+        "Select a dashboard below to access ordering tools, "
+        "reports, employee resources, or administrative tools."
+    ),
+)
 # =======================================================================================
 # Load in different images and icons for the page
 # image_to_base64 function converts the image to a base64 string so it can be used in HTML/CSS
@@ -96,26 +103,10 @@ dashboards = [
 # category is created too! Each tool card is displayed in a 2-column layout with the 
 # information created in the lists above. 
 # =======================================================================================
-for i in range(0, len(dashboards), 2):
-
-    cols = st.columns(2, gap="large")
-
-    for col, dashboard in zip(
-        cols,
-        dashboards[i:i + 2],
-    ):
-        with col:
-            render_dashboard_card(
-                dashboard,
-                key=(
-                    f"open_"
-                    f"{dashboard['title'].lower().replace(' ', '_')}"
-                ),
-            )
-
-    st.markdown(
-        "<div style='height: 18px;'></div>",
-        unsafe_allow_html=True,
-    )
+render_card_grid(
+    dashboards,
+    render_dashboard_card,
+    columns=2,
+)
 
 render_footer()
