@@ -1,12 +1,9 @@
 from __future__ import annotations
-
 import json
 import os
 from typing import Any
-
 import streamlit as st
 from streamlit.errors import StreamlitSecretNotFoundError
-
 
 def _read_local_secrets() -> Any | None:
     """
@@ -49,10 +46,7 @@ def get_secret(name: str) -> str:
     return value
 
 
-def get_optional_secret(
-    name: str,
-    default: str = "",
-) -> str:
+def get_optional_secret(name: str, default: str = "",) -> str:
     """Read an optional value locally or from Render."""
     local_secrets = _read_local_secrets()
 

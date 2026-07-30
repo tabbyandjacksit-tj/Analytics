@@ -70,7 +70,16 @@ For?
         creates a new project record and places it in the to-do status. It also gathers the date = today and sets it as the created date. This is also where get_week_start() gets implemented to get the start of the week based on the date of today. 
 
     def start_task_record(task: dict) -> dict:
-        created an "updated task" which 
+        created an "updated task" which is going to set the task to active, obtain the start time, set end time and completed date to "", and saves a dictionary with that information
+    
+    def pause_task_record(task: dict) -> dict: 
+        creates an "updated task" which is going to set the task to "In Progress", save the minutes as what has already been saved + the current active counter, and than set the start time, end time, and completed date to blank. 
+
+    def resume_task_record(task: dict) -> dict:
+        this will resume a task that is in progress without getting rid of the saved time. Instead it will just mark it as resumed and continue the timer. This sets the status to "Active" as well. 
+
+    def finish_task_record(task: dict) -> dict:
+        creates a finished_task dictionary that also calculates the current time for the finished time, updates the saved minutes using get_saved_minutes and produces the amount of time that task took, marks the status as finished, and saves the completed date as the day today. 
 
 
 

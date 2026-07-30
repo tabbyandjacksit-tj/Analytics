@@ -69,16 +69,9 @@ def get_active_session_minutes(task: dict) -> float:
 # =============================================================================
 # CREATE PROJECT
 # =============================================================================
-
-def create_task_record(
-    employee: str,
-    project: str,
-    task: str = "",
-    notes: str = "",
-) -> dict:
+def create_task_record(employee: str, project: str, task: str = "", notes: str = "",) -> dict:
     """Create a new project record in To Do status."""
     today = date.today()
-
     return {
         "Task ID": str(uuid4()),
         "Employee": employee.strip(),
@@ -94,131 +87,79 @@ def create_task_record(
         "Notes": notes.strip(),
     }
 
-
 # =============================================================================
 # START PROJECT
 # =============================================================================
-
 def start_task_record(task: dict) -> dict:
     """Start a To Do project without removing saved time."""
     updated_task = task.copy()
-
     updated_task["Status"] = "Active"
-    updated_task["Start Time"] = datetime.now(LOCAL_TIMEZONE).isoformat(
-        timespec="seconds"
-    )
+    updated_task["Start Time"] = datetime.now(LOCAL_TIMEZONE).isoformat(timespec="seconds")
     updated_task["End Time"] = ""
     updated_task["Completed Date"] = ""
-
-    if not str(
-        updated_task.get("Minutes", "")
-    ).strip():
+    if not str(updated_task.get("Minutes", "")).strip():
         updated_task["Minutes"] = 0
-
     return updated_task
-
 
 # =============================================================================
 # PAUSE PROJECT
 # =============================================================================
-
 def pause_task_record(task: dict) -> dict:
     """Pause an active project and preserve tracked time."""
     updated_task = task.copy()
-
-    saved_minutes = get_saved_minutes(
-        updated_task
-    )
-
-    active_minutes = get_active_session_minutes(
-        updated_task
-    )
-
+    saved_minutes = get_saved_minutes(updated_task)
+    active_minutes = get_active_session_minutes(updated_task)
     updated_task["Status"] = "In Progress"
-    updated_task["Minutes"] = round(
-        saved_minutes + active_minutes,
-        1,
-    )
+    updated_task["Minutes"] = round(saved_minutes + active_minutes, 1,)
     updated_task["Start Time"] = ""
     updated_task["End Time"] = ""
     updated_task["Completed Date"] = ""
-
     return updated_task
-
 
 # =============================================================================
 # RESUME PROJECT
 # =============================================================================
-
 def resume_task_record(task: dict) -> dict:
     """Resume an In Progress project without clearing saved time."""
     updated_task = task.copy()
-
     updated_task["Status"] = "Active"
-    updated_task["Start Time"] = datetime.now(LOCAL_TIMEZONE).isoformat(
-        timespec="seconds"
-    )
+    updated_task["Start Time"] = datetime.now(LOCAL_TIMEZONE).isoformat(timespec="seconds")
     updated_task["End Time"] = ""
     updated_task["Completed Date"] = ""
-
     return updated_task
-
 
 # =============================================================================
 # FINISH PROJECT
 # =============================================================================
-
 def finish_task_record(task: dict) -> dict:
     """Finish a project while preserving all tracked time."""
     updated_task = task.copy()
     finished_at = datetime.now(LOCAL_TIMEZONE)
-
-    saved_minutes = get_saved_minutes(
-        updated_task
-    )
-
+    saved_minutes = get_saved_minutes(updated_task)
     active_minutes = 0.0
-
     if updated_task.get("Status") == "Active":
-        active_minutes = get_active_session_minutes(
-            updated_task
-        )
-
-    total_minutes = round(
-        saved_minutes + active_minutes,
-        1,
-    )
+        active_minutes = get_active_session_minutes(updated_task)
+    total_minutes = round(saved_minutes + active_minutes,1,)
 
     updated_task["Status"] = "Finished"
     updated_task["Start Time"] = ""
-    updated_task["End Time"] = finished_at.isoformat(
-        timespec="seconds"
-    )
+    updated_task["End Time"] = finished_at.isoformat(timespec="seconds")
     updated_task["Minutes"] = total_minutes
-    updated_task["Completed Date"] = (
-        finished_at.date().isoformat()
-    )
-
+    updated_task["Completed Date"] = (finished_at.date().isoformat())
     return updated_task
-
 
 # =============================================================================
 # PREPARE GOOGLE SHEET DATA
 # =============================================================================
-
-def prepare_tasks(
-    tasks_df: pd.DataFrame,
-) -> pd.DataFrame:
+def prepare_tasks(tasks_df: pd.DataFrame,) -> pd.DataFrame:
     """Normalize project data loaded from Google Sheets."""
     tasks_df = tasks_df.copy()
-
     for column in TASK_COLUMNS:
         if column not in tasks_df.columns:
             tasks_df[column] = ""
 
     tasks_df = tasks_df[TASK_COLUMNS]
     tasks_df = tasks_df.fillna("")
-
     text_columns = [
         "Task ID",
         "Employee",
@@ -232,19 +173,9 @@ def prepare_tasks(
         "Completed Date",
         "Notes",
     ]
-
     for column in text_columns:
-        tasks_df[column] = (
-            tasks_df[column]
-            .astype(str)
-            .map(str.strip)
-        )
-
-    tasks_df["Minutes"] = pd.to_numeric(
-        tasks_df["Minutes"],
-        errors="coerce",
-    ).fillna(0)
-
+        tasks_df[column] = (tasks_df[column].astype(str).map(str.strip))
+    tasks_df["Minutes"] = pd.to_numeric(tasks_df["Minutes"], errors="coerce",).fillna(0)
     return tasks_df
 
 
