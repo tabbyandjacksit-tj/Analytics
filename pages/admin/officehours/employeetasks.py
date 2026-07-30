@@ -288,7 +288,10 @@ else:
 # =============================================================================
 # Tracks and creates a section for projects that are in progress 
 # =============================================================================
-render_section_header(title = "In Progress",)
+render_subsection_header(
+    title="In Progress",
+    subtitle="Paused projects that can be resumed.",
+)
 in_progress_tasks = employee_tasks[employee_tasks["Status"].eq("In Progress")].copy()
 if in_progress_tasks.empty:
     st.caption("No projects are currently paused.")
@@ -350,7 +353,10 @@ else:
 # =============================================================================
 # Creates the section for the tasks that are marked as needed to be done 
 # =============================================================================
-render_section_header(title = "To Do")
+render_subsection_header(
+    title="To Do",
+    subtitle="Projects that have not been started.",
+)
 todo_tasks = employee_tasks[employee_tasks["Status"].eq("To Do")].copy()
 if todo_tasks.empty:
     st.caption("No projects are waiting to be started.")
@@ -403,7 +409,10 @@ else:
 # to the office tracker sheet that is established with the GID above, or through
 # tabbyandjacksIT@gmail.com
 # =============================================================================
-render_section_header(title = "Finished")
+render_subsection_header(
+    title="Finished",
+    subtitle="Projects completed during the selected week.",
+)
 finished_tasks = employee_tasks[employee_tasks["Status"].eq("Finished")].copy()
 if finished_tasks.empty:
     st.caption("No tasks have been finished this week.")

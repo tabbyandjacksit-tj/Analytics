@@ -214,16 +214,6 @@ def render_home_banner(logo: str) -> None:
     )
 
 
-def render_dashboard_header() -> None:
-    st.markdown(
-        """
-<div class="section-kicker">Daily Tools</div>
-<div class="section-title">Reporting Dashboard</div>
-<div class="section-subtitle">Choose a tool below to get started!</div>
-""",
-        unsafe_allow_html=True,
-    )
-
 
 def render_category_title(category: str) -> None:
     st.markdown(
