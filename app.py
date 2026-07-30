@@ -114,7 +114,7 @@ pages = {
     "Sales by Hour": st.Page(
         "pages/reports/salesbyhour.py",
         title="Sales by Hour",
-        icon=":material/hour:",
+        icon=":material/calendar_clock:",
         visibility="hidden",
     ),
 
