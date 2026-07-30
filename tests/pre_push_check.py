@@ -53,6 +53,7 @@ MODULES_TO_IMPORT = [
     "utils.tools.images",
     "utils.tools.secrets",
     "utils.tools.sheet_reader",
+    "utils.reporting.salesbyhour",
 ]
 
 

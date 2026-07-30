@@ -67,6 +67,18 @@ tools = [
         "page": "pages/reports/brandsale.py",
         "enabled": True,
     },
+    {
+        "title": "Sales by Hour",
+        "description": (
+            "Create a heatmap showing the percentage of sales generated per each day and hour."
+        ),
+        "status": "Avaliable",
+        "category": "Reporting",
+        "icon": icons["hour"],
+        "page": "pages/reports/salesbyhour.py",
+        "enabled": True,       
+
+    },
 ]
 # =======================================================================================
 # Creates the dashboard tool card and renders them on the home page. Here is where each 
