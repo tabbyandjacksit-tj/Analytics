@@ -111,6 +111,13 @@ pages = {
         visibility="hidden",
     ),
 
+    "Sales by Hour": st.Page(
+        "pages/reports/salesbyhour.py"
+        title = "Sales by Hour",
+        icon = ":material/hour:",
+        visibility= "hidden"
+    )
+
     # ------------------------------------------------------------------
     # Employee resources
     # ------------------------------------------------------------------
