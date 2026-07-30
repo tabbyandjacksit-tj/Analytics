@@ -116,7 +116,7 @@ pages = {
         title = "Sales by Hour",
         icon = ":material/hour:",
         visibility= "hidden"
-    )
+    ),
 
     # ------------------------------------------------------------------
     # Employee resources
