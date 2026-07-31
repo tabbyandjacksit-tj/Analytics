@@ -163,20 +163,19 @@ if st.button("Generate Report"):
         ],
         how="inner"
     )
-
+st.write(results.columns.tolist())
 
     results = results[
-        [
-            "Date",
-            "First name",
-            "Last name",
-            "Primary number",
-            "Email",
-            "Booked",
-            "Created",
-            "Ticket comment",
-        ]
+    [
+        "Booked",
+        "First name",
+        "Last name",
+        "Primary number",
+        "Email",
+        "Created",
+        "Ticket comment",
     ]
+]
 
 
     st.session_state.results = results
