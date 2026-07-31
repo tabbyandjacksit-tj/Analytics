@@ -174,6 +174,12 @@ pages = {
         icon=":material/task_alt:",
         visibility="hidden",
     ),
+        "Verify Grooming Appointments": st.Page(
+        "pages/admin/officehours/sortgrooming.py",
+        title="Verify Grooming Appointments",
+        icon=":material/sort:",
+        visibility="hidden",
+    ),
     
 
     # ------------------------------------------------------------------
