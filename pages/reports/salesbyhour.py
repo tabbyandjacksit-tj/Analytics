@@ -19,6 +19,8 @@ from utils.reporting.salesbyhour import (
     prepare_sales_hour_report,
     build_heatmap,
     create_heatmap,
+    get_busiest_hours,
+    get_top_busy_times,
 )
 
 # =============================================================================
@@ -157,6 +159,84 @@ st.pyplot(
     figure,
     use_container_width=True,
 )
+# =============================================================================
+# Busy Times Summary
+# =============================================================================
+
+render_section_header(
+    label="Step 4",
+    title="Busiest Periods",
+    subtitle=(
+        "Review the busiest days and hours "
+        "to help with scheduling decisions."
+    ),
+)
+
+
+top_times = get_top_busy_times(
+    heatmap,
+    top_n=10,
+)
+
+busiest_hours = get_busiest_hours(
+    heatmap,
+    top_n=10,
+)
+
+
+# Format values
+if mode == "Percent of Sales":
+
+    top_times["Value"] = (
+        top_times["Value"]
+        .round(1)
+        .astype(str)
+        + "%"
+    )
+
+    busiest_hours["Value"] = (
+        busiest_hours["Value"]
+        .round(1)
+        .astype(str)
+        + "%"
+    )
+
+else:
+
+    top_times["Value"] = (
+        top_times["Value"]
+        .round(1)
+    )
+
+    busiest_hours["Value"] = (
+        busiest_hours["Value"]
+        .round(1)
+    )
+
+
+col1, col2 = st.columns(2)
+
+
+with col1:
+
+    st.subheader("📅 Busiest Day + Time")
+
+    st.dataframe(
+        top_times,
+        hide_index=True,
+        use_container_width=True,
+    )
+
+
+with col2:
+
+    st.subheader("⏰ Busiest Hours Overall")
+
+    st.dataframe(
+        busiest_hours,
+        hide_index=True,
+        use_container_width=True,
+    )
 
 # =============================================================================
 # Table

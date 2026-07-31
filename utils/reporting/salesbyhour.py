@@ -157,3 +157,66 @@ def create_heatmap(
     plt.tight_layout()
 
     return fig
+
+# =============================================================================
+# Busy Time Rankings
+# =============================================================================
+
+def get_top_busy_times(
+    heatmap: pd.DataFrame,
+    top_n: int = 10,
+) -> pd.DataFrame:
+
+    busy_times = (
+        heatmap
+        .stack()
+        .reset_index()
+    )
+
+    busy_times.columns = [
+        "Day",
+        "Hour",
+        "Value",
+    ]
+
+    busy_times = (
+        busy_times
+        .sort_values(
+            "Value",
+            ascending=False,
+        )
+        .head(top_n)
+    )
+
+    busy_times["Hour"] = busy_times["Hour"].apply(
+        lambda x: f"{int(x)}:00"
+    )
+
+    return busy_times.reset_index(drop=True)
+
+
+def get_busiest_hours(
+    heatmap: pd.DataFrame,
+    top_n: int = 10,
+) -> pd.DataFrame:
+
+    busiest_hours = (
+        heatmap
+        .sum(axis=0)
+        .sort_values(
+            ascending=False,
+        )
+        .head(top_n)
+        .reset_index()
+    )
+
+    busiest_hours.columns = [
+        "Hour",
+        "Value",
+    ]
+
+    busiest_hours["Hour"] = busiest_hours["Hour"].apply(
+        lambda x: f"{int(x)}:00"
+    )
+
+    return busiest_hours.reset_index(drop=True)
