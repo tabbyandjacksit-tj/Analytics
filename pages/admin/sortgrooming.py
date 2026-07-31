@@ -162,20 +162,30 @@ if st.button("Generate Report"):
             "Location"
         ],
         how="inner"
+    ).drop(
+        columns=["Date"]
     )
     st.write(results.columns.tolist())
 
     results = results[
-    [
-        "Booked",
-        "First name",
-        "Last name",
-        "Primary number",
-        "Email",
-        "Created",
-        "Ticket comment",
+        [
+            "Booked",
+            "First name",
+            "Last name",
+            "Primary number",
+            "Email",
+            "Created",
+            "Ticket comment",
+        ]
     ]
-]
+
+
+    results = results.rename(
+        columns={
+            "Booked": "Appointment Date",
+            "Created": "Location",
+        }
+    )
 
 
     st.session_state.results = results
