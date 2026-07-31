@@ -201,7 +201,7 @@ if "results" in st.session_state:
 
     with pd.ExcelWriter(
         output,
-        engine="xlsxwriter"
+        engine="openpyxl"
     ) as writer:
 
         st.session_state.results.to_excel(
