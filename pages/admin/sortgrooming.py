@@ -163,7 +163,7 @@ if st.button("Generate Report"):
         ],
         how="inner"
     )
-st.write(results.columns.tolist())
+    st.write(results.columns.tolist())
 
     results = results[
     [
