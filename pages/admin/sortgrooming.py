@@ -35,7 +35,7 @@ uploaded_file = st.file_uploader(
 if uploaded_file is None:
     st.stop()
 
-df = pd.read_excel(uploaded_file)
+df = pd.read_csv(uploaded_file)
 
 
 remove_columns = [
