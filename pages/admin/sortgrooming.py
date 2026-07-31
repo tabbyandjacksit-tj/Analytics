@@ -28,7 +28,7 @@ render_section_header(
 
 uploaded_file = st.file_uploader(
     "Upload Appointment Schedule",
-    type=["xlsx"]
+    type=["csv"]
 )
 
 
