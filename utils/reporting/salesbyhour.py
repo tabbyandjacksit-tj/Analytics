@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 REQUIRED_COLUMNS = [
     "Date",
     "Hour",
-    "Transactions",
+    "Count",
 ]
 
 
@@ -37,8 +37,8 @@ def prepare_sales_hour_report(df: pd.DataFrame) -> pd.DataFrame:
         errors="coerce",
     )
 
-    df["Transactions"] = pd.to_numeric(
-        df["Transactions"],
+    df["Count"] = pd.to_numeric(
+        df["Count"],
         errors="coerce",
     ).fillna(0)
 
@@ -71,7 +71,7 @@ def build_heatmap(df: pd.DataFrame, mode: str) -> pd.DataFrame:
         df.groupby(
             ["Day", "Hour"],
             observed=False,
-        )["Transactions"]
+        )["Count"]
         .sum()
         .reset_index()
     )
@@ -79,7 +79,7 @@ def build_heatmap(df: pd.DataFrame, mode: str) -> pd.DataFrame:
     heatmap = grouped.pivot(
         index="Day",
         columns="Hour",
-        values="Transactions",
+        values="Count",
     ).fillna(0)
 
     if mode == "Average Transactions":
