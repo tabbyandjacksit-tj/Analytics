@@ -175,7 +175,7 @@ pages = {
         visibility="hidden",
     ),
         "Verify Grooming Appointments": st.Page(
-        "pages/admin/officehours/sortgrooming.py",
+        "pages/admin/sortgrooming.py",
         title="Verify Grooming Appointments",
         icon=":material/sort:",
         visibility="hidden",
