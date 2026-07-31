@@ -174,6 +174,7 @@ pages = {
         icon=":material/task_alt:",
         visibility="hidden",
     ),
+    
 
     # ------------------------------------------------------------------
     # Account

@@ -85,6 +85,17 @@ tools = [
         "page": "pages/admin/officehours/officehours.py",
         "enabled": True,
     },
+    {
+        "title": "Verify Grooming Appointments",
+        "description": (
+            "Input shifts and see what appointments were booked during that time"
+        ),
+        "status": "Available",
+        "category": "Admin Tools",
+        "icon": icons["office_tasks"],
+        "page": "pages/admin/sortgrooming.py",
+        "enabled": True,
+    },
 ]
 # =======================================================================================
 # Creates the dashboard tool card and renders them on the home page. Here is where each 
