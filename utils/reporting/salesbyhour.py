@@ -98,16 +98,20 @@ def build_heatmap(df: pd.DataFrame, mode: str) -> pd.DataFrame:
 # =============================================================================
 # Plot
 # =============================================================================
+# =============================================================================
+# Plot
+# =============================================================================
 def create_heatmap(
     heatmap: pd.DataFrame,
     mode: str,
+    cmap: str = "RdPu",
 ):
     fig, ax = plt.subplots(figsize=(14, 5))
 
     image = ax.imshow(
         heatmap.values,
         aspect="auto",
-        cmap="RdPu",      # Pink → Purple
+        cmap=cmap,
     )
 
     ax.set_xticks(range(len(heatmap.columns)))

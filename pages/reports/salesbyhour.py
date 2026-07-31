@@ -105,6 +105,29 @@ mode = st.radio(
 
     horizontal=True,
 )
+heatmap_colors = {
+    "💗 Pink & Purple": "RdPu",
+    "💙 Ocean Blue": "Blues",
+    "💚 Forest Green": "Greens",
+    "🧡 Sunset": "YlOrRd",
+    "💜 Purple": "Purples",
+    "🌊 Teal": "BuGn",
+}
+
+if "heatmap_theme" not in st.session_state:
+    st.session_state.heatmap_theme = "💗 Pink & Purple"
+
+
+color_choice = st.selectbox(
+    "🎨 Choose heatmap colors",
+    list(heatmap_colors.keys()),
+    index=list(heatmap_colors.keys()).index(
+        st.session_state.heatmap_theme
+    ),
+)
+
+st.session_state.heatmap_theme = color_choice
+
 
 # =============================================================================
 # Heatmap
@@ -123,6 +146,7 @@ render_section_header(
 figure = create_heatmap(
     heatmap,
     mode,
+    cmap=heatmap_colors[color_choice],
 )
 
 st.pyplot(
