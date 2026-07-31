@@ -88,7 +88,7 @@ df = df.rename(
 df["Booked"] = pd.to_datetime(
     df["Booked"],
     errors="coerce",
-)
+).dt.date
 
 
 df = df[
@@ -136,6 +136,10 @@ if st.button("Add Work Day"):
 schedule = pd.DataFrame(
     st.session_state.work_days
 )
+if not schedule.empty:
+    schedule["Date"] = pd.to_datetime(
+        schedule["Date"]
+    ).dt.date
 
 
 if not schedule.empty:
