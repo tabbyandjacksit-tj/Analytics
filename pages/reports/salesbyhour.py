@@ -106,20 +106,24 @@ mode = st.radio(
     horizontal=True,
 )
 heatmap_colors = {
-    "💗 Pink & Purple": "RdPu",
-    "💙 Ocean Blue": "Blues",
-    "💚 Forest Green": "Greens",
-    "🧡 Sunset": "YlOrRd",
-    "💜 Purple": "Purples",
-    "🌊 Teal": "BuGn",
+    "🦞 Red": "Reds",
+    "🐈 Orange": "Oranges",
+    "🐥 Yellow": "YlOrBr",
+    "🐢 Green": "Greens",
+    "🦚 Teal": "BuGn",
+    "🐋 Blue": "Blues",
+    "🐈‍⬛ Purple": "Purples",
+    "🦩 Pink": "RdPu",
+    "🐇 Grey": "Greys",
+
 }
 
 if "heatmap_theme" not in st.session_state:
-    st.session_state.heatmap_theme = "💗 Pink & Purple"
+    st.session_state.heatmap_theme = "🦩 Pink"
 
 
 color_choice = st.selectbox(
-    "🎨 Choose heatmap colors",
+    "𓂃🖌 Choose heatmap colors",
     list(heatmap_colors.keys()),
     index=list(heatmap_colors.keys()).index(
         st.session_state.heatmap_theme
