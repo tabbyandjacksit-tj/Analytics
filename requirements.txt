@@ -5,4 +5,5 @@ paramiko
 st-gsheets-connection
 gspread
 google-auth
+matplotlib
 streamlit-authenticator
