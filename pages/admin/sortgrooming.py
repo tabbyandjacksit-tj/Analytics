@@ -162,8 +162,6 @@ if st.button("Generate Report"):
             "Location"
         ],
         how="inner"
-    ).drop(
-        columns=["Date"]
     )
     st.write(results.columns.tolist())
 
