@@ -4,7 +4,9 @@ from pathlib import Path
 from typing import Any
 
 import streamlit as st
+from textwrap import dedent
 
+import streamlit as st
 
 # =============================================================================
 # Master Page Dictionary
@@ -371,29 +373,28 @@ def render_breadcrumb(current_file: str) -> None:
 
     parts: list[str] = []
 
+    # Back arrow
     if parent_id:
         parent_page = get_page(parent_id)
+        parent_slug = Path(parent_page["path"]).stem
 
         parts.append(
-            f"""
-            <a
-                href="/{Path(parent_page["path"]).stem}"
-                target="_self"
-                class="breadcrumb-back"
-                title="Back to {parent_page["title"]}"
-            >
-                ←
-            </a>
-            """
+            (
+                f'<a href="/{parent_slug}" '
+                f'target="_self" '
+                f'class="breadcrumb-back" '
+                f'title="Back to {parent_page["title"]}">←</a>'
+            )
         )
 
+    # Breadcrumb links
     for index, (title, page_path) in enumerate(breadcrumbs):
-        is_current = page_path is None
-
         if index > 0:
-            parts.append('<span class="breadcrumb-divider">/</span>')
+            parts.append(
+                '<span class="breadcrumb-divider">/</span>'
+            )
 
-        if is_current:
+        if page_path is None:
             parts.append(
                 f'<span class="breadcrumb-current">{title}</span>'
             )
@@ -401,20 +402,16 @@ def render_breadcrumb(current_file: str) -> None:
             slug = Path(page_path).stem
 
             parts.append(
-                f"""
-                <a
-                    href="/{slug}"
-                    target="_self"
-                    class="breadcrumb-link"
-                >
-                    {title}
-                </a>
-                """
+                (
+                    f'<a href="/{slug}" '
+                    f'target="_self" '
+                    f'class="breadcrumb-link">{title}</a>'
+                )
             )
 
     breadcrumb_html = "".join(parts)
 
-    st.markdown(
+    html = dedent(
         f"""
         <style>
         .breadcrumb-row {{
@@ -460,9 +457,11 @@ def render_breadcrumb(current_file: str) -> None:
         }}
         </style>
 
-        <div class="breadcrumb-row">
-            {breadcrumb_html}
-        </div>
-        """,
+        <div class="breadcrumb-row">{breadcrumb_html}</div>
+        """
+    ).strip()
+
+    st.markdown(
+        html,
         unsafe_allow_html=True,
     )
