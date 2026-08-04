@@ -16,6 +16,7 @@ from utils.styling.mvo import (
     apply_mvo_styles,
     render_instruction_card,
 )
+from utils.tools.navigation import render_breadcrumbs
 # =======================================================================================
 # Page Configuration (sets title, icon, and layout of page)
 # CSS Styles also imported/applied
@@ -47,6 +48,18 @@ render_section_header(
         "report for analysis."
     ),
 )
+render_breadcrumbs(
+    crumbs=[
+        ("Home", "pages/home.py"),
+        ("Admin Tools", "pages/dashboards/admin_tools.py"),
+        (
+            "Verify Grooming Appointments",
+            "pages/admin/sortgrooming.py",
+        ),
+    ],
+    back_page="pages/dashboards/admin_tools.py",
+)
+
 steps = [
     ("images/reports.png", "Reports", "Open REPORTS from the sidebar."),
     ("images/grouped_sales.png", "Grouped Sales", "Scroll to GROUPED SALES TOTAL."),

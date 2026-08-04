@@ -23,6 +23,7 @@ from utils.styling.officehours import (
     render_employee_card,
     render_no_active_workers,
 )
+from utils.tools.navigation import render_breadcrumb
 from utils.tools.secrets import get_secret
 from utils.tools.sheet_reader import load_private_sheet
 # =======================================================================================
@@ -42,6 +43,8 @@ render_hero(
     "Office Hour Tracker",
     "See who is currently working and open any employee's weekly task tracker.",
 )
+render_breadcrumb(__file__)
+
 # =============================================================================
 # Google sheet settings & also loading in the sheet using functions from helpers.
 # =============================================================================

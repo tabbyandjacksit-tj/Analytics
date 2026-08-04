@@ -22,7 +22,7 @@ from utils.reporting.employee_capture import (
     prepare_employee_report,
     summarize_employee_capture,
 )
-
+from utils.tools.navigation import render_breadcrumb
 
 
 st.set_page_config(
@@ -33,6 +33,7 @@ st.set_page_config(
 apply_base_styles()
 apply_component_styles()
 apply_mvo_styles()
+render_breadcrumb(__file__)
 render_hero(
     "Employee Customer Capture",
     "Review how often an employee attaches a customer to completed sales.",

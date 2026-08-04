@@ -19,6 +19,7 @@ from utils.styling.instacart import (
     render_instacart_link,
     render_report_help_card,
 )
+from utils.tools.navigation import render_breadcrumb
 # =======================================================================================
 # Page Configuration (sets title, icon, and layout of page)
 # CSS Styles also imported/applied
@@ -31,6 +32,7 @@ st.set_page_config(
 apply_base_styles()
 apply_component_styles()
 apply_instacart_styles() 
+render_breadcrumb(__file__)
 render_hero(
     "Instacart Upload",
     (

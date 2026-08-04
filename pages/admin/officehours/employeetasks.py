@@ -39,6 +39,7 @@ from utils.components.headers import (
 )
 from utils.styling.components import apply_component_styles
 from utils.tools.secrets import get_secret
+from utils.tools.navigation import render_breadcrumb
 SHEET_ID = get_secret("OFFICE_HOURS_SHEET_ID")
 LOCAL_TIMEZONE = ZoneInfo("America/Chicago") # Sets the time zone so that the record tracks correctly. 
 # =============================================================================
@@ -52,6 +53,8 @@ st.set_page_config(
 apply_base_styles(max_width=1100)
 apply_component_styles()
 apply_officehour_styles()
+render_breadcrumb(__file__)
+
 
 # =============================================================================
 # GOOGLE SHEET SETTINGS

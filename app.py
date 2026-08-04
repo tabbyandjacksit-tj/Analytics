@@ -9,7 +9,11 @@ from utils.auth import (
     render_logout,
 )
 
-
+from utils.tools.navigation import (
+    build_streamlit_pages,
+    get_searchable_pages,
+    get_sidebar_pages,
+)
 # ======================================================================================
 # App Configuration
 # ======================================================================================
@@ -24,163 +28,11 @@ st.set_page_config(
 # Page Registration
 # ======================================================================================
 
-pages = {
-    # ------------------------------------------------------------------
-    # Main dashboard pages
-    # ------------------------------------------------------------------
 
-    "Home": st.Page(
-        "pages/home.py",
-        title="Home",
-        icon=":material/home:",
-        default=True,
-    ),
-
-    "Ordering Tools": st.Page(
-        "pages/dashboards/ordering.py",
-        title="Ordering Tools",
-        icon=":material/shopping_cart:",
-    ),
-
-    "Reporting": st.Page(
-        "pages/dashboards/reporting.py",
-        title="Reporting",
-        icon=":material/analytics:",
-    ),
-
-    "Employee Resources": st.Page(
-        "pages/dashboards/employee_resources.py",
-        title="Employee Resources",
-        icon=":material/groups:",
-    ),
-
-    "Admin Tools": st.Page(
-        "pages/dashboards/admin_tools.py",
-        title="Admin Tools",
-        icon=":material/admin_panel_settings:",
-    ),
-
-    # ------------------------------------------------------------------
-    # Ordering tools
-    # ------------------------------------------------------------------
-
-    "Major Vendor Order": st.Page(
-        "pages/reports/MVO.py",
-        title="Major Vendor Order",
-        icon=":material/shopping_cart:",
-        visibility="hidden",
-    ),
-
-    "Small Vendor Order": st.Page(
-        "pages/reports/SVO.py",
-        title="Small Vendor Order",
-        icon=":material/shopping_basket:",
-        visibility="hidden",
-    ),
-
-    # ------------------------------------------------------------------
-    # Reporting tools
-    # ------------------------------------------------------------------
-
-    "Dusty Report Transfer": st.Page(
-        "pages/reports/dusty.py",
-        title="Dusty Report Transfer",
-        icon=":material/move_item:",
-        visibility="hidden",
-    ),
-
-    "Sales by Brand": st.Page(
-        "pages/reports/brandsale.py",
-        title="Sales by Brand",
-        icon=":material/filter_list:",
-        visibility="hidden",
-    ),
-
-    "Sales by Hour": st.Page(
-        "pages/reports/salesbyhour.py",
-        title="Sales by Hour",
-        icon=":material/calendar_clock:",
-        visibility="hidden",
-    ),
-
-    # ------------------------------------------------------------------
-    # Employee resources
-    # ------------------------------------------------------------------
-
-    "Helpful Links": st.Page(
-        "pages/resources/links.py",
-        title="Helpful Links",
-        icon=":material/link:",
-        visibility="hidden",
-    ),
-
-    "Vendor Contact": st.Page(
-        "pages/resources/vendorcontact.py",
-        title="Vendor Contact",
-        icon=":material/contact_page:",
-        visibility="hidden",
-    ),
-
-    "MAP Information": st.Page(
-        "pages/resources/MAP.py",
-        title="MAP Information",
-        icon=":material/price_check:",
-        visibility="hidden",
-    ),
-
-    "Office Hour Tracker": st.Page(
-        "pages/admin/officehours/officehours.py",
-        title="Office Hour Tracker",
-        icon=":material/schedule:",
-        visibility="hidden",
-    ),
-
-    # ------------------------------------------------------------------
-    # Admin tools
-    # ------------------------------------------------------------------
-
-    "Instacart Upload": st.Page(
-        "pages/admin/instacart.py",
-        title="Instacart Upload",
-        icon=":material/upload_file:",
-        visibility="hidden",
-    ),
-
-    "Employee Customer Capture": st.Page(
-        "pages/admin/employeecapture.py",
-        title="Employee Customer Capture",
-        icon=":material/person:",
-        visibility="hidden",
-    ),
-
-    "Employee Office Hours": st.Page(
-        "pages/admin/officehours/employeetasks.py",
-        title="Employee Office Hours",
-        icon=":material/task_alt:",
-        visibility="hidden",
-    ),
-        "Verify Grooming Appointments": st.Page(
-        "pages/admin/sortgrooming.py",
-        title="Verify Grooming Appointments",
-        icon=":material/sort:",
-        visibility="hidden",
-    ),
-    
-
-    # ------------------------------------------------------------------
-    # Account
-    # ------------------------------------------------------------------
-
-    "Account": st.Page(
-        "pages/account.py",
-        title="Account Settings",
-        icon=":material/manage_accounts:",
-        visibility="hidden",
-    ),
-}
+registered_pages = build_streamlit_pages()
 
 navigation = st.navigation(
-    list(pages.values()),
+    registered_pages,
     position="hidden",
 )
 
@@ -202,20 +54,7 @@ except Exception as exc:
 # Searchable Tool Links
 # ======================================================================================
 
-report_links = {
-    "Major Vendor Order": "pages/reports/MVO.py",
-    "Small Vendor Order": "pages/reports/SVO.py",
-    "Dusty Report Transfer": "pages/reports/dusty.py",
-    "Sales by Brand": "pages/reports/brandsale.py",
-    "Helpful Links": "pages/resources/links.py",
-    "Vendor Contact": "pages/resources/vendorcontact.py",
-    "MAP Information": "pages/resources/MAP.py",
-    "Office Hour Tracker": "pages/admin/officehours/officehours.py",
-    "Instacart Upload": "pages/admin/instacart.py",
-    "Employee Customer Capture": "pages/admin/employeecapture.py",
-    "Employee Office Hours": "pages/admin/officehours/employeetasks.py",
-    "Account Settings": "pages/account.py",
-}
+searchable_pages = get_searchable_pages()
 
 
 # ======================================================================================
@@ -371,21 +210,21 @@ with st.sidebar:
         search_term = search.strip().lower()
 
         matches = {
-            name: page_path
-            for name, page_path in report_links.items()
-            if search_term in name.lower()
+            page_id: page
+            for page_id, page in searchable_pages.items()
+            if search_term in page["title"].lower()
         }
 
         st.markdown("**Results**")
 
         if matches:
-            for result_number, (name, page_path) in enumerate(
+            for result_number, (page_id, page) in enumerate(
                 matches.items()
             ):
                 sidebar_nav_button(
-                    label=f"Open {name}",
-                    page_path=page_path,
-                    key=f"search_{result_number}_{page_path}",
+                    label=f"Open {page['title']}",
+                    page_path=page["path"],
+                    key=f"search_{result_number}_{page_id}",
                 )
         else:
             st.caption("Sorry! That tool does not exist.")
@@ -394,35 +233,31 @@ with st.sidebar:
 
     st.markdown("### Navigation")
 
-    sidebar_nav_button(
-        ":material/home: Home",
-        "pages/home.py",
-    )
+    sidebar_pages = get_sidebar_pages()
 
-    sidebar_nav_button(
-        ":material/analytics: Reporting",
-        "pages/dashboards/reporting.py",
-    )
+    for page_id, page in sidebar_pages.items():
+        if page_id == "account":
+            continue
 
-    sidebar_nav_button(
-        ":material/shopping_cart: Ordering Tools",
-        "pages/dashboards/ordering.py",
-    )
-    sidebar_nav_button(
-        ":material/groups: Employee References",
-        "pages/dashboards/employee_resources.py",
-    )
+        label = f"{page['icon']} {page['title']}"
 
-    sidebar_nav_button(
-        ":material/admin_panel_settings: Admin Resources",
-        "pages/dashboards/admin_tools.py",
-    )
+        sidebar_nav_button(
+            label=label,
+            page_path=page["path"],
+            key=f"sidebar_{page_id}",
+        )
 
     st.divider()
 
+    account_page = sidebar_pages["account"]
+
     sidebar_nav_button(
-        ":material/manage_accounts: Account Settings",
-        "pages/account.py",
+        label=(
+            f"{account_page['icon']} "
+            f"{account_page['title']}"
+        ),
+        page_path=account_page["path"],
+        key="sidebar_account",
     )
 
     render_logout(authenticator)

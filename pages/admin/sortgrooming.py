@@ -4,6 +4,7 @@ from io import BytesIO
 
 from utils.styling.base import apply_base_styles, render_hero
 from utils.components.headers import render_section_header
+from utils.tools.navigation import render_breadcrumb
 
 st.set_page_config(
     page_title="Grooming Sort",
@@ -12,7 +13,7 @@ st.set_page_config(
 )
 
 apply_base_styles()
-
+render_breadcrumb(__file__)
 render_hero(
     "Grooming Appointment Sorter",
     (
