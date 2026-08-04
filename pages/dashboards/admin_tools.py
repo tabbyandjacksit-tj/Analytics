@@ -16,6 +16,8 @@ from utils.styling.home import (
     render_tool_card,
 )
 from utils.tools.images import image_to_base64
+from utils.tools.navigation import render_breadcrumb
+
 # =======================================================================================
 # Page Configuration (sets title, icon, and layout of page)
 # CSS Styles also imported/applied
@@ -28,6 +30,7 @@ st.set_page_config(
 apply_base_styles(max_width=1160)
 apply_home_styles()
 apply_dashboard_styles()
+render_breadcrumb(__file__)
 render_dashboard_banner(
     title="Admin Tools",
     description=(

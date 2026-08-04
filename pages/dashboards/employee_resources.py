@@ -13,6 +13,7 @@ from utils.styling.home import (
     apply_home_styles,
     render_tool_card,
 )
+from utils.tools.navigation import render_breadcrumb
 # =======================================================================================
 # Page Configuration (sets title, icon, and layout of page)
 # CSS Styles also imported/applied
@@ -24,6 +25,7 @@ st.set_page_config(
 )
 apply_base_styles(max_width=1160)
 apply_home_styles()
+render_breadcrumb(__file__)
 apply_dashboard_styles()
 render_dashboard_banner(
     title="Employee Resources",

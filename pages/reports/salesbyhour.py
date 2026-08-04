@@ -13,6 +13,7 @@ from utils.styling.base import (
 from utils.components.headers import (
     render_section_header,
 )
+from utils.tools.navigation import render_breadcrumb
 
 from utils.reporting.salesbyhour import (
     find_missing_columns,
@@ -34,7 +35,7 @@ st.set_page_config(
 )
 
 apply_base_styles()
-
+render_breadcrumb(__file__)
 render_hero(
     "Sales by Hour",
     (

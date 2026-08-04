@@ -10,6 +10,7 @@ from utils.styling.base import (
 from utils.styling.components import apply_component_styles
 from utils.styling.vendor import apply_vendor_styles
 from utils.tools.sheet_reader import load_sheet
+from utils.tools.navigation import render_breadcrumb
 # =======================================================================================
 # Page Configuration (sets title, icon, and layout of page)
 # CSS Styles also imported/applied
@@ -22,6 +23,7 @@ st.set_page_config(
 apply_base_styles()
 apply_component_styles()
 apply_vendor_styles()
+render_breadcrumb(__file__)
 render_hero(
     "MAP Information",
     (

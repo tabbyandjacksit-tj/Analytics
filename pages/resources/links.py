@@ -2,10 +2,12 @@
 # Imports
 # =======================================================================================
 import streamlit as st
+from utils.tools.navigation import render_breadcrumb
 # =======================================================================================
 # Page Configuration (sets title, icon, and layout of page)
 # CSS Styles also imported/applied
 # =======================================================================================
+render_breadcrumb(__file__)
 st.title(":material/link: Helpful Links")
 st.write("Easy access to commonly used websites and tools at Tabby & Jack's!")
 st.divider()

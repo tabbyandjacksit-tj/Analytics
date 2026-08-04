@@ -9,10 +9,13 @@ from utils.auth import (
     validate_new_password,
     verify_password,
 )
+from utils.tools.navigation import render_breadcrumb
+
 # =======================================================================================
 # Page Configuration (sets title, icon, and layout of page)
 # CSS Styles also imported/applied
 # =======================================================================================
+render_breadcrumb(__file__)
 st.set_page_config(
     page_title="Account Settings",
     page_icon="images/logo.png",

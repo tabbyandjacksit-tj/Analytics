@@ -10,6 +10,7 @@ from utils.styling.home import (
     render_home_banner,
     render_dashboard_card,
 )
+from utils.tools.navigation import render_breadcrumb
 from utils.components.headers import render_section_header
 from utils.styling.components import apply_component_styles
 from utils.components.layout import render_card_grid
@@ -25,6 +26,7 @@ st.set_page_config(
 
 apply_base_styles(max_width=1160)
 apply_component_styles()
+render_breadcrumb(__file__)
 apply_home_styles()
 logo = image_to_base64("images/logo.png")
 render_home_banner(logo)

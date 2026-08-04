@@ -16,7 +16,7 @@ from utils.styling.mvo import (
     apply_mvo_styles,
     render_instruction_card,
 )
-from utils.tools.navigation import render_breadcrumbs
+from utils.tools.navigation import render_breadcrumb
 # =======================================================================================
 # Page Configuration (sets title, icon, and layout of page)
 # CSS Styles also imported/applied
@@ -29,6 +29,7 @@ st.set_page_config(
 apply_base_styles()
 apply_component_styles()
 apply_mvo_styles()
+render_breadcrumb(__file__)
 render_hero(
     "Sales by Brand",
     (
@@ -47,17 +48,6 @@ render_section_header(
         "Follow these steps to export the correct grouped sales "
         "report for analysis."
     ),
-)
-render_breadcrumbs(
-    crumbs=[
-        ("Home", "pages/home.py"),
-        ("Admin Tools", "pages/dashboards/admin_tools.py"),
-        (
-            "Verify Grooming Appointments",
-            "pages/admin/sortgrooming.py",
-        ),
-    ],
-    back_page="pages/dashboards/admin_tools.py",
 )
 
 steps = [

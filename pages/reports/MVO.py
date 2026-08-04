@@ -17,6 +17,7 @@ from utils.styling.base import (
     render_hero,
 )
 from utils.styling.components import apply_component_styles
+from utils.tools.navigation import render_breadcrumb
 from utils.styling.mvo import (
     apply_mvo_styles,
     render_date_card,
@@ -35,6 +36,7 @@ st.set_page_config(
 apply_base_styles()
 apply_component_styles()
 apply_mvo_styles()
+render_breadcrumb(__file__)
 render_hero(
     "Major Vendor Order Report",
     "Generate a vendor order from a Lightspeed item sales report.",
