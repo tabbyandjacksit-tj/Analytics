@@ -359,114 +359,110 @@ def build_breadcrumbs(page_id: str) -> list[tuple[str, str | None]]:
 
 
 def render_breadcrumb(current_file: str) -> None:
-    """Render automatic breadcrumbs for the current page."""
+    """Render compact automatic breadcrumbs for the current page."""
 
     page_id = find_page_id(current_file)
 
     if page_id is None:
-        st.caption(
-            f"Breadcrumb configuration was not found for "
-            f"{Path(current_file).name}."
-        )
         return
 
     breadcrumbs = build_breadcrumbs(page_id)
-
-    st.markdown(
-        """
-        <style>
-        .breadcrumb-current {
-            color: #1D5A3E;
-            font-size: 0.82rem;
-            font-weight: 800;
-            padding-top: 0.32rem;
-            white-space: nowrap;
-        }
-
-        .breadcrumb-divider {
-            color: #A59C88;
-            font-size: 0.82rem;
-            padding-top: 0.32rem;
-            text-align: center;
-        }
-
-        div[data-testid="stPageLink"] {
-            width: auto !important;
-        }
-
-        div[data-testid="stPageLink"] a {
-            min-height: auto !important;
-            padding: 0.15rem 0.25rem !important;
-            background: transparent !important;
-            border: none !important;
-            color: #5C7A58 !important;
-            font-size: 0.82rem !important;
-            font-weight: 700 !important;
-            text-decoration: none !important;
-        }
-
-        div[data-testid="stPageLink"] a:hover {
-            color: #EF8B1D !important;
-        }
-        </style>
-        """,
-        unsafe_allow_html=True,
-    )
-
-    column_widths: list[float] = [0.35]
-
-    for index in range(len(breadcrumbs)):
-        column_widths.append(
-            1.65 if index == len(breadcrumbs) - 1 else 1.0
-        )
-
-        if index < len(breadcrumbs) - 1:
-            column_widths.append(0.18)
-
-    columns = st.columns(
-        column_widths,
-        vertical_alignment="center",
-    )
-
-    column_index = 0
-
-    # Back arrow goes to the parent page
     parent_id = PAGE_CONFIG[page_id].get("parent")
 
-    with columns[column_index]:
-        if parent_id:
-            parent_page = get_page(parent_id)
+    parts: list[str] = []
 
-            st.page_link(
-                parent_page["path"],
-                label="←",
-                help=f"Back to {parent_page['title']}",
-            )
+    if parent_id:
+        parent_page = get_page(parent_id)
 
-    column_index += 1
+        parts.append(
+            f"""
+            <a
+                href="/{Path(parent_page["path"]).stem}"
+                target="_self"
+                class="breadcrumb-back"
+                title="Back to {parent_page["title"]}"
+            >
+                ←
+            </a>
+            """
+        )
 
     for index, (title, page_path) in enumerate(breadcrumbs):
         is_current = page_path is None
 
-        with columns[column_index]:
-            if is_current:
-                st.markdown(
-                    f'<div class="breadcrumb-current">{title}</div>',
-                    unsafe_allow_html=True,
-                )
-            else:
-                st.page_link(
-                    page_path,
-                    label=title,
-                )
+        if index > 0:
+            parts.append('<span class="breadcrumb-divider">/</span>')
 
-        column_index += 1
+        if is_current:
+            parts.append(
+                f'<span class="breadcrumb-current">{title}</span>'
+            )
+        else:
+            slug = Path(page_path).stem
 
-        if index < len(breadcrumbs) - 1:
-            with columns[column_index]:
-                st.markdown(
-                    '<div class="breadcrumb-divider">/</div>',
-                    unsafe_allow_html=True,
-                )
+            parts.append(
+                f"""
+                <a
+                    href="/{slug}"
+                    target="_self"
+                    class="breadcrumb-link"
+                >
+                    {title}
+                </a>
+                """
+            )
 
-            column_index += 1
+    breadcrumb_html = "".join(parts)
+
+    st.markdown(
+        f"""
+        <style>
+        .breadcrumb-row {{
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.45rem;
+            margin-top: -0.4rem;
+            margin-bottom: 0.9rem;
+            font-size: 0.82rem;
+            line-height: 1;
+        }}
+
+        .breadcrumb-row a {{
+            text-decoration: none !important;
+        }}
+
+        .breadcrumb-back {{
+            color: #5C7A58 !important;
+            font-size: 1rem;
+            font-weight: 800;
+            margin-right: 0.15rem;
+        }}
+
+        .breadcrumb-link {{
+            color: #5C7A58 !important;
+            font-weight: 700;
+        }}
+
+        .breadcrumb-back:hover,
+        .breadcrumb-link:hover {{
+            color: #EF8B1D !important;
+        }}
+
+        .breadcrumb-divider {{
+            color: #B4A993;
+            font-weight: 500;
+        }}
+
+        .breadcrumb-current {{
+            color: #1D5A3E;
+            font-weight: 800;
+        }}
+        </style>
+
+        <div class="breadcrumb-row">
+            {breadcrumb_html}
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
