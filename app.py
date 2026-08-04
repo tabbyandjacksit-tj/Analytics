@@ -20,21 +20,6 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded",
 )
-
-
-# ======================================================================================
-# Employee Authentication
-# ======================================================================================
-
-try:
-    authenticator = render_login_gate()
-
-except Exception as exc:
-    st.error("The employee login system could not be loaded.")
-    st.exception(exc)
-    st.stop()
-
-
 # ======================================================================================
 # Page Registration
 # ======================================================================================
@@ -193,6 +178,24 @@ pages = {
         visibility="hidden",
     ),
 }
+
+navigation = st.navigation(
+    list(pages.values()),
+    position="hidden",
+)
+
+# ======================================================================================
+# Employee Authentication
+# ======================================================================================
+
+try:
+    authenticator = render_login_gate()
+
+except Exception as exc:
+    st.error("The employee login system could not be loaded.")
+    st.exception(exc)
+    st.stop()
+
 
 
 # ======================================================================================
@@ -429,9 +432,5 @@ with st.sidebar:
 # Run Navigation
 # ======================================================================================
 
-navigation = st.navigation(
-    list(pages.values()),
-    position="hidden",
-)
 
 navigation.run()
