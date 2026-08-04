@@ -3,7 +3,7 @@
 # =======================================================================================
 
 from __future__ import annotations
-
+import subprocess
 import importlib
 import py_compile
 import sys
@@ -223,6 +223,100 @@ def check_required_files() -> list[str]:
 
     return failures
 
+def run_pytest_suite() -> list[str]:
+    """Run the automated pytest suite."""
+
+    failures: list[str] = []
+
+    print_section("4. RUNNING AUTOMATED TESTS")
+
+    result = subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "pytest",
+            "tests",
+            "-q",
+            "--disable-warnings",
+        ],
+        cwd=PROJECT_ROOT,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+
+    print(result.stdout)
+
+    if result.returncode != 0:
+        print_failure("Automated tests failed.")
+        print(result.stderr)
+
+        failures.append(
+            "The pytest automated test suite failed."
+        )
+    else:
+        print_success("Automated tests passed.")
+
+    return failures
+# =======================================================================================
+# PYTEST CHECK
+# =======================================================================================
+
+PYTEST_FILES = [
+    "tests/test_navigation.py",
+    "tests/test_page_smoke.py",
+    "tests/test_page_widgets.py",
+]
+
+
+def run_pytest_checks() -> list[str]:
+    """
+    Run the dependable project-level tests.
+
+    Individual report calculation tests are intentionally excluded for now.
+    """
+
+    failures: list[str] = []
+
+    print_section("4. RUNNING PROJECT TESTS")
+
+    command = [
+        sys.executable,
+        "-m",
+        "pytest",
+        *PYTEST_FILES,
+        "-q",
+        "--tb=short",
+    ]
+
+    result = subprocess.run(
+        command,
+        cwd=PROJECT_ROOT,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+
+    if result.stdout:
+        print(result.stdout)
+
+    if result.stderr:
+        print(result.stderr)
+
+    if result.returncode != 0:
+        failures.append(
+            "Navigation, smoke, or widget tests failed."
+        )
+
+        print_failure(
+            f"Pytest returned exit code {result.returncode}."
+        )
+    else:
+        print_success(
+            "Navigation, smoke, and widget tests passed."
+        )
+
+    return failures
 
 # =======================================================================================
 # MAIN
@@ -242,6 +336,13 @@ def main() -> int:
     failures.extend(check_internal_imports())
     failures.extend(check_required_files())
 
+    if not failures:
+        failures.extend(run_pytest_suite())
+    else:
+        print()
+        print(
+            "Pytest was skipped because an earlier project check failed."
+        )
     print_section("RESULT")
 
     if failures:
