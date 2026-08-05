@@ -48,7 +48,16 @@ def calculate_order_quantities(df: pd.DataFrame) -> pd.DataFrame:
     output_df = df[df["Order Qty"] > 0].copy()
     output_df = output_df.sort_values("Order Qty", ascending=False)
 
-    for col in output_df.select_dtypes(include=['float']):
-        if (output_df[col] % 1 == 0).all():
-            df[col] = df[col].astype('Int64')
+    for column in output_df.select_dtypes(
+        include=["float", "float64"],
+    ).columns:
+        non_null_values = output_df[column].dropna()
+
+        if (
+            not non_null_values.empty
+            and (non_null_values % 1 == 0).all()
+        ):
+            output_df[column] = output_df[column].astype(
+                "Int64"
+            )
     return output_df
