@@ -42,7 +42,7 @@ render_hero(
 # =============================================================================
 # FILE UPLOAD
 # =============================================================================
-left, right = st.columns([2.5, 1])
+left, right = st.columns([2.7, 1])
 
 with left:
     render_section_header(
@@ -61,17 +61,16 @@ with left:
     )
 
 with right:
+    st.markdown("<div style='height:72px'></div>", unsafe_allow_html=True)
+
     days_ago = st.number_input(
         "Number of Days",
         min_value=1,
         value=90,
-        step=1,
     )
 
-    calculated_date = datetime.today() - timedelta(days=days_ago)
-
     st.info(
-        f"Start on **{calculated_date:%B %d, %Y}**"
+        f"Start on **{days_ago:%B %d, %Y}**"
     )
 
 if uploaded_file is None:
