@@ -64,14 +64,17 @@ with right:
     st.markdown("<div style='height:72px'></div>", unsafe_allow_html=True)
 
     days_ago = st.number_input(
-        "Number of Days",
-        min_value=1,
-        value=90,
-    )
+    "Number of Days",
+    min_value=1,
+    value=90,
+    step=1,
+)
 
-    st.info(
-        f"Start on **{days_ago:%B %d, %Y}**"
-    )
+calculated_date = datetime.today() - timedelta(days=days_ago)
+
+st.info(
+    f"Start on **{calculated_date:%B %d, %Y}**"
+)
 
 if uploaded_file is None:
     steps = [
