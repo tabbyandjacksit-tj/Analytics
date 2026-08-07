@@ -4,12 +4,12 @@
 import pandas as pd
 import streamlit as st
 from utils.components.headers import (render_section_header, render_subsection_header,)
-from utils.components.cards import (render_upload_date_card, render_instruction_grid,)
+from utils.components.cards import (render_upload_date_card, render_instruction_grid, render_instruction_card,)
 from utils.styling.base import (apply_base_styles, render_hero,)
 from utils.styling.components import apply_component_styles
 from utils.reporting.employee_capture import (employee_leaderboard, find_missing_columns, get_employee_names, prepare_employee_report, summarize_employee_capture,)
 from utils.tools.navigation import render_breadcrumb
-from utils.styling.mvo import (apply_mvo_styles, render_instruction_card,)
+from utils.styling.mvo import (apply_mvo_styles)
 # =======================================================================================
 # Apply Styling & Render Hero
 # =======================================================================================
