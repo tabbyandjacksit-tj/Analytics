@@ -20,10 +20,12 @@ from utils.styling.instacart import (
     render_report_help_card,
 )
 from utils.tools.navigation import render_breadcrumb
+from utils.auth.users import require_role
 # =======================================================================================
 # Page Configuration (sets title, icon, and layout of page)
 # CSS Styles also imported/applied
 # =======================================================================================
+require_role("IT Admin")  # Restrict access to users with the "IT Admin" role
 st.set_page_config(
     page_title="Instacart Upload",
     page_icon="images/logo.png",

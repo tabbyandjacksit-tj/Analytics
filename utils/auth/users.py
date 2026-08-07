@@ -210,3 +210,21 @@ def update_last_edit(email: str) -> None:
 def clear_user_cache() -> None:
     """Force authentication users to be reloaded from Google Sheets."""
     load_users.clear()
+
+def require_role(*allowed_roles: str) -> None:
+    """Stop the page if the signed-in user lacks permission."""
+
+    user_role = str(
+        st.session_state.get("user_role", "")
+    ).strip().lower()
+
+    allowed = {
+        role.strip().lower()
+        for role in allowed_roles
+    }
+
+    if user_role not in allowed:
+        st.error(
+            "You do not have permission to access this page."
+        )
+        st.stop()
