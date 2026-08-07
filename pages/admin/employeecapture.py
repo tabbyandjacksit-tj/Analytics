@@ -3,6 +3,7 @@
 # =======================================================================================
 import pandas as pd
 import streamlit as st
+from datetime import datetime, timedelta
 from utils.components.headers import (
     render_section_header,
     render_subsection_header,
@@ -49,6 +50,27 @@ render_section_header(
         "from Lightspeed."
     ),
 )
+render_section_header(
+    label="Step 2",
+    title="Choose the Report Date Range",
+    subtitle=(
+        "Enter the number of days you would like to include "
+        "in the sales report."
+    ),
+)
+days_ago = st.number_input(
+    "Number of Days",
+    min_value=1,
+    value=90,
+    step=1,
+)
+calculated_date = datetime.today() - timedelta(days=days_ago)
+st.info(
+    f"Start your report on "
+    f"**{calculated_date.strftime('%B %d, %Y')}** "
+    f"for a {days_ago}-day date range."
+)
+
 uploaded_file = st.file_uploader( # Place to upload CSV
     "Upload Employee Report",
     type=["csv"],
@@ -89,6 +111,50 @@ if missing_columns:
     )
     st.stop()
 cleaned_df = prepare_employee_report(report_df)
+# =============================================================================
+# Creates a leaderboard of the top 10 employee capture rates, as long as they have 
+# had over 15 sales in the given time frame. 
+# =============================================================================
+# =============================================================================
+# EMPLOYEE LEADERBOARD
+# =============================================================================
+
+leaderboard_df = employee_leaderboard(cleaned_df)
+
+leaderboard_df = leaderboard_df[
+    leaderboard_df["Completed Sales"] >= 15
+].head(10)
+
+render_section_header(
+    label="Top 10",
+    title="Employee Customer Capture Rates",
+    subtitle=(
+        "Employees must have at least 15 completed sales "
+        "to qualify."
+    ),
+)
+
+if leaderboard_df.empty:
+    st.info(
+        "No employees had at least 15 completed sales "
+        "in this report."
+    )
+else:
+    leaderboard_df["Capture Rate"] = (
+        leaderboard_df["Capture Rate"] * 100
+    ).round(1)
+
+    st.dataframe(
+        leaderboard_df,
+        hide_index=True,
+        use_container_width=True,
+        column_config={
+            "Capture Rate": st.column_config.NumberColumn(
+                "Capture Rate",
+                format="%.1f%%",
+            ),
+        },
+    )
 # =============================================================================
 # EMPLOYEE SELECTION
 # =============================================================================
@@ -158,47 +224,3 @@ st.dataframe(
     hide_index=True,
     use_container_width=True,
 )
-# =============================================================================
-# Creates a leaderboard of the top 10 employee capture rates, as long as they have 
-# had over 15 sales in the given time frame. 
-# =============================================================================
-# =============================================================================
-# EMPLOYEE LEADERBOARD
-# =============================================================================
-
-leaderboard_df = employee_leaderboard(cleaned_df)
-
-leaderboard_df = leaderboard_df[
-    leaderboard_df["Completed Sales"] >= 15
-].head(10)
-
-render_section_header(
-    label="Top 10",
-    title="Employee Customer Capture Rates",
-    subtitle=(
-        "Employees must have at least 15 completed sales "
-        "to qualify."
-    ),
-)
-
-if leaderboard_df.empty:
-    st.info(
-        "No employees had at least 15 completed sales "
-        "in this report."
-    )
-else:
-    leaderboard_df["Capture Rate"] = (
-        leaderboard_df["Capture Rate"] * 100
-    ).round(1)
-
-    st.dataframe(
-        leaderboard_df,
-        hide_index=True,
-        use_container_width=True,
-        column_config={
-            "Capture Rate": st.column_config.NumberColumn(
-                "Capture Rate",
-                format="%.1f%%",
-            ),
-        },
-    )
