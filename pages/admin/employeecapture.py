@@ -50,26 +50,6 @@ render_section_header(
         "from Lightspeed."
     ),
 )
-render_section_header(
-    label="Step 2",
-    title="Choose the Report Date Range",
-    subtitle=(
-        "Enter the number of days you would like to include "
-        "in the sales report."
-    ),
-)
-days_ago = st.number_input(
-    "Number of Days",
-    min_value=1,
-    value=90,
-    step=1,
-)
-calculated_date = datetime.today() - timedelta(days=days_ago)
-st.info(
-    f"Start your report on "
-    f"**{calculated_date.strftime('%B %d, %Y')}** "
-    f"for a {days_ago}-day date range."
-)
 
 uploaded_file = st.file_uploader( # Place to upload CSV
     "Upload Employee Report",
@@ -95,6 +75,28 @@ if uploaded_file is None:
         with row2[i]:
             render_instruction_card(i + 4, *step)
     st.stop()
+
+
+render_section_header(
+    label="Step 2",
+    title="Choose the Report Date Range",
+    subtitle=(
+        "Enter the number of days you would like to include "
+        "in the sales report."
+    ),
+)
+days_ago = st.number_input(
+    "Number of Days",
+    min_value=1,
+    value=90,
+    step=1,
+)
+calculated_date = datetime.today() - timedelta(days=days_ago)
+st.info(
+    f"Start your report on "
+    f"**{calculated_date.strftime('%B %d, %Y')}** "
+    f"for a {days_ago}-day date range."
+)
 # =============================================================================
 # REPORT VALIDATION
 # =============================================================================
