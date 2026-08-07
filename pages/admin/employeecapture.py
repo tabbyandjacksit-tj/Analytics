@@ -3,10 +3,12 @@
 # =======================================================================================
 import pandas as pd
 import streamlit as st
-from datetime import datetime, timedelta
 from utils.components.headers import (
     render_section_header,
     render_subsection_header,
+)
+from utils.components.cards import (
+    render_upload_date_card,
 )
 from utils.styling.base import (
     apply_base_styles,
@@ -51,51 +53,13 @@ render_section_header(
     ),
 )
 
-with st.container(border=True):
-
-    left, right = st.columns([3, 1])
-
-    with left:
-        uploaded_file = st.file_uploader(
-            "Upload Employee Report",
-            type=["csv"],
-            label_visibility="collapsed",
-        )
-
-    with right:
-        days_ago = st.number_input(
-            "Number of Days",
-            min_value=1,
-            value=90,
-            step=1,
-        )
-
-        calculated_date = datetime.today() - timedelta(days=days_ago)
-
-        st.caption(
-            f"Start Report: **{calculated_date:%b %d, %Y}**"
-        )
-
+uploaded_file, days_ago, calculated_date = render_upload_date_card(
+    upload_label="Upload Employee Report",
+    file_types=["csv"],
+    default_days=90,
+)
 if uploaded_file is None:
-    steps = [
-        ("images/reports.png", "Reports", "Open REPORTS from the sidebar."),
-        ("images/grouped_sales.png", "Other Transactions", "Scroll to OTHER TRANSACTIONS."),
-        ("images/item_report.png", "All Transactions", "Select ALL TRANSACTIONS as the report type."),
-        ("images/calendar.png", "Date Filter", "Set DATE RANGE to what you hope to review."),
-        ("images/export.png", "Export CSV", "Press EXPORT and save the CSV."),
-        ("images/upload.png", "Upload CSV", "Upload the exported CSV file below."),
-    ]
-    row1 = st.columns(3)
-    for i, step in enumerate(steps[:3]):
-        with row1[i]:
-            render_instruction_card(i + 1, *step)
-    st.markdown("<div style='height:12px;'></div>", unsafe_allow_html=True)
-    row2 = st.columns(3)
-    for i, step in enumerate(steps[3:]):
-        with row2[i]:
-            render_instruction_card(i + 4, *step)
     st.stop()
-
 
 # =============================================================================
 # REPORT VALIDATION

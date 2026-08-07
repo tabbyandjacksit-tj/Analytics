@@ -223,7 +223,31 @@ def apply_component_styles() -> None:
     line-height: 1.55;
     margin-top: 5px;
 }
+/* ==========================================================================
+   Upload + Date Helper
+   ========================================================================== */
 
+.tj-helper-label {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.tj-date-result {
+    margin-top: 2px;
+    font-size: 13px;
+    line-height: 1.2;
+}
+
+.tj-date-result-label {
+    color: #C97822;
+    font-weight: 600;
+}
+
+.tj-date-result-value {
+    color: #1D5A3E;
+    font-weight: 600;
+}
 
 /* ==========================================================================
    RESPONSIVE STYLES
