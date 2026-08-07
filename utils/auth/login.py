@@ -333,9 +333,7 @@ def render_login_gate() -> stauth.Authenticate:
     if not st.session_state.get("login_timestamp_recorded"):
         update_last_login(user.email)
         st.session_state["login_timestamp_recorded"] = True
-
-    return stauth.authenticator
-
+    return authenticator
 
 # ==========================================
 # Logout
