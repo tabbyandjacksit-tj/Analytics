@@ -16,12 +16,12 @@ from utils.styling.base import (
     apply_base_styles,
     render_hero,
 )
+from utils.components.cards import render_instruction_card
 from utils.styling.components import apply_component_styles
 from utils.tools.navigation import render_breadcrumb
 from utils.styling.mvo import (
     apply_mvo_styles,
     render_date_card,
-    render_instruction_card,
     render_preview_title,
 )
 # =======================================================================================

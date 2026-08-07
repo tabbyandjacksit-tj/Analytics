@@ -148,26 +148,7 @@ hr {
     )
 
 
-def render_instruction_card(
-    number: int,
-    image_path: str,
-    title: str,
-    desc: str,
-) -> None:
-    image = image_to_base64(image_path)
 
-    st.markdown(
-        f"""
-<div class="mini-step">
-    <div class="mini-number">{number}</div>
-    <br>
-    <img src="data:image/png;base64,{image}" width="42" style="margin:0 auto 5px auto;">
-    <h4>{title}</h4>
-    <p>{desc}</p>
-</div>
-""",
-        unsafe_allow_html=True,
-    )
 
 def render_date_card(
     bi_report_start: datetime,

@@ -10,11 +10,11 @@ from utils.components.headers import (
     render_section_header,
     render_subsection_header,
 )
+from utils.components.cards import render_instruction_card
 from utils.styling.base import (apply_base_styles, render_hero,)
 from utils.styling.components import apply_component_styles
 from utils.styling.mvo import (
     apply_mvo_styles,
-    render_instruction_card,
 )
 from utils.tools.navigation import render_breadcrumb
 # =======================================================================================
