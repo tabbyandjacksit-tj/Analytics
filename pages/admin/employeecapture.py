@@ -78,11 +78,12 @@ if uploaded_file is None:
 
 
 render_section_header(
-    label="Step 2",
-    title="Choose the Report Date Range",
+    label="Select Date Range",
+    hide_label=True,
+    title="Choose the Date Range",
     subtitle=(
         "Enter the number of days you would like to include "
-        "in the sales report."
+        "in the capture report."
     ),
 )
 days_ago = st.number_input(
