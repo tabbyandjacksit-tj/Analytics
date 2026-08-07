@@ -28,6 +28,7 @@ render_hero(
 # FILE UPLOAD
 # =============================================================================
 render_section_header( # Creates the seciton titling for where you upload the report
+    label = "",
     hide_label=True,
     title="Upload Employee Capture Report",
     subtitle=(
@@ -119,6 +120,7 @@ if not employees: # there needs to be employees to run calculations on, if not, 
     st.warning("No employees were found in the uploaded report.")
     st.stop()
 render_section_header( # creates the titling for selecting an employee 
+    label="",
     hide_label=True,
     title="Select an Employee",
     subtitle=(
