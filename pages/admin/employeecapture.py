@@ -29,7 +29,6 @@ render_hero(
 # =============================================================================
 render_section_header( # Creates the seciton titling for where you upload the report
     label = "",
-    hide_label=True,
     title="Upload Employee Capture Report",
     subtitle=(
         "Upload the completed transaction report exported "
@@ -121,7 +120,6 @@ if not employees: # there needs to be employees to run calculations on, if not, 
     st.stop()
 render_section_header( # creates the titling for selecting an employee 
     label="",
-    hide_label=True,
     title="Select an Employee",
     subtitle=(
         "Choose an employee to review their customer capture "
