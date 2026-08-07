@@ -45,3 +45,33 @@ def render_section_header(
         """,
         unsafe_allow_html=True,
     )
+
+
+# =============================================================================
+# SMALLER SUBSECTION HEADER
+# =============================================================================
+
+def render_subsection_header(
+    title: str,
+    subtitle: str = "",
+) -> None:
+    """Render a smaller heading within a page section."""
+
+    safe_title = html.escape(str(title))
+    safe_subtitle = html.escape(str(subtitle))
+
+    subtitle_html = (
+        f'<div class="tj-subsection-subtitle">{safe_subtitle}</div>'
+        if safe_subtitle
+        else ""
+    )
+
+    st.markdown(
+        f"""
+        <div class="tj-subsection-header">
+            <div class="tj-subsection-title">{safe_title}</div>
+            {subtitle_html}
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
