@@ -44,6 +44,7 @@ render_hero(
 # =============================================================================
 # FILE UPLOAD
 # =============================================================================
+
 render_section_header(
     label="Step 1",
     title="Upload Employee Capture Report",
@@ -58,7 +59,67 @@ uploaded_file, days_ago, calculated_date = render_upload_date_card(
     file_types=["csv"],
     default_days=90,
 )
+
+# =============================================================================
+# INSTRUCTIONS
+# =============================================================================
+
 if uploaded_file is None:
+    steps = [
+        (
+            "images/reports.png",
+            "Reports",
+            "Open REPORTS from the sidebar.",
+        ),
+        (
+            "images/grouped_sales.png",
+            "Other Transactions",
+            "Scroll to OTHER TRANSACTIONS.",
+        ),
+        (
+            "images/item_report.png",
+            "All Transactions",
+            "Select ALL TRANSACTIONS as the report type.",
+        ),
+        (
+            "images/calendar.png",
+            "Date Filter",
+            "Set DATE RANGE to what you hope to review.",
+        ),
+        (
+            "images/export.png",
+            "Export CSV",
+            "Press EXPORT and save the CSV.",
+        ),
+        (
+            "images/upload.png",
+            "Upload CSV",
+            "Upload the exported CSV file above.",
+        ),
+    ]
+
+    st.markdown("<div style='height: 16px;'></div>", unsafe_allow_html=True)
+
+    row1 = st.columns(3)
+
+    for i, step in enumerate(steps[:3]):
+        with row1[i]:
+            render_instruction_card(
+                i + 1,
+                *step,
+            )
+
+    st.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)
+
+    row2 = st.columns(3)
+
+    for i, step in enumerate(steps[3:]):
+        with row2[i]:
+            render_instruction_card(
+                i + 4,
+                *step,
+            )
+
     st.stop()
 
 # =============================================================================
