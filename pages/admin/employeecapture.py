@@ -42,20 +42,43 @@ render_hero(
 # =============================================================================
 # FILE UPLOAD
 # =============================================================================
-render_section_header(
-    label="Step 1",
-    title="Upload Employee Capture Report",
-    subtitle=(
-        "Upload the completed transaction report exported "
-        "from Lightspeed."
-    ),
-)
+left, right = st.columns([2, 1])
 
-uploaded_file = st.file_uploader( # Place to upload CSV
-    "Upload Employee Report",
-    type=["csv"],
-    label_visibility="collapsed",
-)
+with left:
+    render_section_header(
+        label="Step 1",
+        title="Upload Employee Capture Report",
+        subtitle=(
+            "Upload the completed transaction report exported "
+            "from Lightspeed."
+        ),
+    )
+
+    uploaded_file = st.file_uploader(
+        "Upload Employee Report",
+        type=["csv"],
+        label_visibility="collapsed",
+    )
+
+with right:
+    render_section_header(
+        title="Date Range Helper",
+        hide_label=True,
+    )
+
+    days_ago = st.number_input(
+        "Number of Days",
+        min_value=1,
+        value=90,
+        step=1,
+    )
+
+    calculated_date = datetime.today() - timedelta(days=days_ago)
+
+    st.info(
+        f"Start on **{calculated_date:%B %d, %Y}**"
+    )
+
 if uploaded_file is None:
     steps = [
         ("images/reports.png", "Reports", "Open REPORTS from the sidebar."),
@@ -77,27 +100,6 @@ if uploaded_file is None:
     st.stop()
 
 
-render_section_header(
-    label="Select Date Range",
-    hide_label=True,
-    title="Choose the Date Range",
-    subtitle=(
-        "Enter the number of days you would like to include "
-        "in the capture report."
-    ),
-)
-days_ago = st.number_input(
-    "Number of Days",
-    min_value=1,
-    value=90,
-    step=1,
-)
-calculated_date = datetime.today() - timedelta(days=days_ago)
-st.info(
-    f"Start your report on "
-    f"**{calculated_date.strftime('%B %d, %Y')}** "
-    f"for a {days_ago}-day date range."
-)
 # =============================================================================
 # REPORT VALIDATION
 # =============================================================================
