@@ -42,7 +42,7 @@ render_hero(
 # =============================================================================
 # FILE UPLOAD
 # =============================================================================
-left, right = st.columns([2, 1])
+left, right = st.columns([2.5, 1])
 
 with left:
     render_section_header(
@@ -61,10 +61,6 @@ with left:
     )
 
 with right:
-    render_section_header(
-        title="Date Range Helper",
-    )
-
     days_ago = st.number_input(
         "Number of Days",
         min_value=1,
