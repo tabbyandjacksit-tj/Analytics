@@ -42,40 +42,6 @@ render_hero(
         "the store files to Instacart."
     ),
 )
-# =======================================================================================
-# Sets a password for the page and checks if the user is authenticated.
-# If not, it prompts for a password or provides my information on how to get access.
-# =======================================================================================
-PASSWORD = get_secret("INSTACART_PASSWORD")# ---- Load password from secret.toml -------
-if "instacart_authenticated" not in st.session_state:
-    st.session_state.instacart_authenticated = False
-# Creates & sets a help button for unauthenticated users  
-@st.dialog("Need Access?")
-def access_help():
-    st.write(
-        """
-This page is restricted to specific authorized employees.
-
-If you need access or have any questions, please contact:
-
-**Maria Swenson**
-"""
-    )
-# Creates the prompt and settings for prompting a password   
-if not st.session_state.instacart_authenticated:
-    password = st.text_input( # Prompts the password box for unauthenticated users
-        "Enter password to access this page",
-        type="password",
-    )
-    if st.button("Unlock", use_container_width=True): 
-        if password == PASSWORD:
-            st.session_state.instacart_authenticated = True
-            st.rerun()
-
-        st.error("Incorrect password. Click the 'Need Access?' button for help!")
-    if st.button("Need Access?", use_container_width=True):
-        access_help()
-    st.stop()
 # ======================================================
 # Upload the Lightspeed Item report and input SFTP password 
 # ======================================================
@@ -102,7 +68,7 @@ if report_file and password:
         created_files = create_instacart_files(report_file, sales_file, output_folder, )
         uploaded = upload_files_to_instacart(created_files, password, )
         st.success(
-            f"Successfully uploaded  {len(uploaded)} store files to Instacart."
+            f"You have successfully uploaded {len(uploaded)} store files to Instacart."
         )
 elif report_file:
     st.warning( # Warning for if the password is not entered when uploading!

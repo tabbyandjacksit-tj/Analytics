@@ -226,5 +226,8 @@ def require_role(*allowed_roles: str) -> None:
     if user_role not in allowed:
         st.error(
             "You do not have permission to access this page."
+            "If you believe this is an error, please contact: "
+            "Maria Swenson (maria.swenson@tabbyandjacks.com)"
+            "or through slack @Maria Swenson"
         )
         st.stop()
