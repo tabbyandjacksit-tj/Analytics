@@ -63,7 +63,6 @@ with left:
 with right:
     render_section_header(
         title="Date Range Helper",
-        hide_label=True,
     )
 
     days_ago = st.number_input(
