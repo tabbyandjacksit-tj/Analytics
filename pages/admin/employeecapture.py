@@ -3,39 +3,22 @@
 # =======================================================================================
 import pandas as pd
 import streamlit as st
-from utils.components.headers import (
-    render_section_header,
-    render_subsection_header,
-)
-from utils.components.cards import (
-    render_upload_date_card,
-)
-from utils.styling.base import (
-    apply_base_styles,
-    render_hero,
-)
+from utils.components.headers import (render_section_header, render_subsection_header,)
+from utils.components.cards import (render_upload_date_card, render_instruction_grid,)
+from utils.styling.base import (apply_base_styles, render_hero,)
 from utils.styling.components import apply_component_styles
-from utils.styling.mvo import (
-    apply_mvo_styles,
-    render_instruction_card,
-)
-from utils.reporting.employee_capture import (
-    employee_leaderboard,
-    find_missing_columns,
-    prepare_employee_report,
-    summarize_employee_capture,
-)
+from utils.reporting.employee_capture import (employee_leaderboard, find_missing_columns, get_employee_names, prepare_employee_report, summarize_employee_capture,)
 from utils.tools.navigation import render_breadcrumb
-
-
+# =======================================================================================
+# Apply Styling & Render Hero
+# =======================================================================================
 st.set_page_config(
     page_title="Employee Customer Capture",
-    page_icon="images/logo.png",
-    layout="wide",
-)
+        page_icon="images/logo.png",
+        layout="wide",
+    )
 apply_base_styles()
 apply_component_styles()
-apply_mvo_styles()
 render_breadcrumb(__file__)
 render_hero(
     "Employee Customer Capture",
@@ -44,86 +27,38 @@ render_hero(
 # =============================================================================
 # FILE UPLOAD
 # =============================================================================
-
-render_section_header(
-    label="Step 1",
+render_section_header( # Creates the seciton titling for where you upload the report
+    hide_label=True,
     title="Upload Employee Capture Report",
     subtitle=(
         "Upload the completed transaction report exported "
         "from Lightspeed."
     ),
 )
-
-uploaded_file, days_ago, calculated_date = render_upload_date_card(
+# Creates a side-by-side layout for file upload & date selection.
+uploaded_file, days_ago, calculated_date = render_upload_date_card( 
     upload_label="Upload Employee Report",
     file_types=["csv"],
     default_days=90,
 )
 
 # =============================================================================
-# INSTRUCTIONS
+# INSTRUCTION CARDS
 # =============================================================================
-
 if uploaded_file is None:
-    steps = [
-        (
-            "images/reports.png",
-            "Reports",
-            "Open REPORTS from the sidebar.",
-        ),
-        (
-            "images/grouped_sales.png",
-            "Other Transactions",
-            "Scroll to OTHER TRANSACTIONS.",
-        ),
-        (
-            "images/item_report.png",
-            "All Transactions",
-            "Select ALL TRANSACTIONS as the report type.",
-        ),
-        (
-            "images/calendar.png",
-            "Date Filter",
-            "Set DATE RANGE to what you hope to review.",
-        ),
-        (
-            "images/export.png",
-            "Export CSV",
-            "Press EXPORT and save the CSV.",
-        ),
-        (
-            "images/upload.png",
-            "Upload CSV",
-            "Upload the exported CSV file above.",
-        ),
+    steps = [ #images, tiles, and descriptions for the instruction cards
+        ("images/reports.png","Reports","Open REPORTS from the sidebar.",),
+        ("images/grouped_sales.png", "Other Transactions", "Scroll to OTHER TRANSACTIONS.",),
+        ("images/item_report.png","All Transactions","Select ALL TRANSACTIONS as the report type.",),
+        ("images/calendar.png","Date Filter","Set DATE RANGE to what you hope to review.",),
+        ("images/export.png","Export CSV","Press EXPORT and save the CSV.",),
+        ("images/upload.png","Upload CSV","Upload the exported CSV file above.",),
     ]
-
-    st.markdown("<div style='height: 16px;'></div>", unsafe_allow_html=True)
-
-    row1 = st.columns(3)
-
-    for i, step in enumerate(steps[:3]):
-        with row1[i]:
-            render_instruction_card(
-                i + 1,
-                *step,
-            )
-
-    st.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)
-
-    row2 = st.columns(3)
-
-    for i, step in enumerate(steps[3:]):
-        with row2[i]:
-            render_instruction_card(
-                i + 4,
-                *step,
-            )
-
+    # Puts the instruction cards into two rows of three cards each.
+    render_instruction_grid(steps)
     st.stop()
-
 # =============================================================================
-# REPORT VALIDATION
+# ENSURE THAT THE REPORT IS READABLE AND HAS ALL REQUIRED COLUMNS
 # =============================================================================
 try:
     report_df = pd.read_csv(uploaded_file)
@@ -146,11 +81,11 @@ cleaned_df = prepare_employee_report(report_df)
 # EMPLOYEE LEADERBOARD
 # =============================================================================
 
-leaderboard_df = employee_leaderboard(cleaned_df)
-
-leaderboard_df = leaderboard_df[
-    leaderboard_df["Completed Sales"] >= 15
-].head(10)
+leaderboard_df = employee_leaderboard(
+    cleaned_df,
+    min_sales=15,
+    limit=10,
+)
 
 render_section_header(
     label="Top 10",
@@ -163,47 +98,41 @@ render_section_header(
 
 if leaderboard_df.empty:
     st.info(
-        "No employees had at least 15 completed sales "
-        "in this report."
+        "No employees have at least 15 completed sales in the selected time frame."
     )
 else:
-    leaderboard_df["Capture Rate"] = (
-        leaderboard_df["Capture Rate"] * 100
-    ).round(1)
-
-    st.dataframe(
+    # Calculate the capture rate as a percentage and round to one decimal place for display.
+    leaderboard_df["Capture Rate"] = (leaderboard_df["Capture Rate"] * 100).round(1)
+    st.dataframe( # display the leaderboard dataframe in a table format
         leaderboard_df,
         hide_index=True,
         use_container_width=True,
         column_config={
-            "Capture Rate": st.column_config.NumberColumn(
-                "Capture Rate",
-                format="%.1f%%",
-            ),
+            "Capture Rate": st.column_config.NumberColumn("Capture Rate",format="%.1f%%",),
         },
     )
 # =============================================================================
 # EMPLOYEE SELECTION
 # =============================================================================
-employees = sorted(
-    employee
-    for employee in cleaned_df["Employee"].unique()
-    if employee
-)
-if not employees:
+employees = get_employee_names(cleaned_df)
+if not employees: # there needs to be employees to run calculations on, if not, it will stop the program and display a warning message.
     st.warning("No employees were found in the uploaded report.")
     st.stop()
-render_section_header(
-    label="Step 2",
+render_section_header( # creates the titling for selecting an employee 
+    hide_label=True,
     title="Select an Employee",
     subtitle=(
         "Choose an employee to review their customer capture "
         "performance."
     ),
-)
-selected_employee = st.selectbox("Select Employee", options=employees,)
+) 
+#Create a dropdown/select menu to choose an employee from the list of employees in the report.
+selected_employee = st.selectbox("Select Employee", options=employees,) 
 # =============================================================================
 # CUSTOMER CAPTURE RESULTS
+# Summarizes the employee capture results and displays the total sales,
+# attached sales, unattached sales, and capture rate in a metric format. 
+# It also displays a dataframe of the employee's completed transactions.
 # =============================================================================
 results = summarize_employee_capture(cleaned_df, selected_employee,)
 total_sales = results["total_sales"]
@@ -219,7 +148,7 @@ render_section_header(
         "with an attached customer."
     ),
 )
-col1, col2, col3, col4 = st.columns(4)
+col1, col2, col3, col4 = st.columns(4) # Creates/lists in col form
 col1.metric("Total Sales", total_sales)
 col2.metric("Customer Attached", attached_sales)
 col3.metric("No Customer Attached", unattached_sales)
@@ -234,7 +163,7 @@ render_subsection_header(
         "employee's results."
     ),
 )
-display_df = employee_df[
+display_df = employee_df[ # Diplays a dataframe of the employee's completed transactions, but only shows the following columns.
     [
         "ID",
         "Date",
@@ -244,10 +173,5 @@ display_df = employee_df[
         "Customer",
         "Customer Attached",
         "Source",
-    ]
-].copy()
-st.dataframe(
-    display_df,
-    hide_index=True,
-    use_container_width=True,
-)
+    ]].copy()
+st.dataframe(display_df, hide_index=True, use_container_width=True,)

@@ -7,6 +7,8 @@ import html
 import streamlit as st
 from datetime import datetime, timedelta
 
+from utils.styling.mvo import render_instruction_card
+
 
 # =============================================================================
 # INFORMATION CARD
@@ -195,3 +197,24 @@ def render_upload_date_card(
             )
 
     return uploaded_file, days_ago, calculated_date
+
+# =============================================================================
+# INSTRUCTION CARD
+# =============================================================================
+def render_instruction_grid(
+    steps,
+    columns_per_row=3,
+):
+    for row_start in range(0, len(steps), columns_per_row):
+        row_steps = steps[
+            row_start:row_start + columns_per_row
+        ]
+
+        columns = st.columns(columns_per_row)
+
+        for offset, step in enumerate(row_steps):
+            with columns[offset]:
+                render_instruction_card(
+                    row_start + offset + 1,
+                    *step,
+                )

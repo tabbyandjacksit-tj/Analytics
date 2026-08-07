@@ -118,8 +118,13 @@ def summarize_employee_capture(
     }
 
 
-def employee_leaderboard(df: pd.DataFrame) -> pd.DataFrame:
+def employee_leaderboard(
+    df: pd.DataFrame,
+    min_sales: int = 0,
+    limit: int | None = None,
+) -> pd.DataFrame:
     """Create an employee leaderboard ranked by customer-capture rate."""
+
     leaderboard = (
         df.groupby("Employee", as_index=False)
         .agg(
@@ -127,7 +132,7 @@ def employee_leaderboard(df: pd.DataFrame) -> pd.DataFrame:
             Customers_Attached=("Customer Attached", "sum"),
         )
     )
-    
+
     leaderboard = leaderboard[
         ~leaderboard["Employee"].isin(EXCLUDED_EMPLOYEES)
     ]
@@ -151,6 +156,10 @@ def employee_leaderboard(df: pd.DataFrame) -> pd.DataFrame:
         }
     )
 
+    leaderboard = leaderboard[
+        leaderboard["Completed Sales"] >= min_sales
+    ]
+
     leaderboard = leaderboard.sort_values(
         by=[
             "Capture Rate",
@@ -160,4 +169,14 @@ def employee_leaderboard(df: pd.DataFrame) -> pd.DataFrame:
         ascending=[False, False, False],
     )
 
+    if limit is not None:
+        leaderboard = leaderboard.head(limit)
+
     return leaderboard.reset_index(drop=True)
+
+def get_employee_names(df: pd.DataFrame) -> list[str]:
+    return sorted(
+        employee
+        for employee in df["Employee"].unique()
+        if employee and employee not in EXCLUDED_EMPLOYEES
+    )
