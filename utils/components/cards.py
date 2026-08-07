@@ -203,8 +203,10 @@ def render_upload_date_card(
 # =============================================================================
 def render_instruction_grid(
     steps,
-    columns_per_row=3,
+    columns_per_row: int = 3,
+    row_gap: int = 18,
 ):
+    
     for row_start in range(0, len(steps), columns_per_row):
         row_steps = steps[
             row_start:row_start + columns_per_row
@@ -218,3 +220,8 @@ def render_instruction_grid(
                     row_start + offset + 1,
                     *step,
                 )
+        if row_start + columns_per_row < len(steps):
+            st.markdown(
+                f"<div style='height:{row_gap}px'></div>",
+                unsafe_allow_html=True,
+            )
