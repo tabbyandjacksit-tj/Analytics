@@ -9,6 +9,7 @@ from utils.styling.base import (apply_base_styles, render_hero,)
 from utils.styling.components import apply_component_styles
 from utils.reporting.employee_capture import (employee_leaderboard, find_missing_columns, get_employee_names, prepare_employee_report, summarize_employee_capture,)
 from utils.tools.navigation import render_breadcrumb
+from utils.styling.mvo import (apply_mvo_styles, render_instruction_card,)
 # =======================================================================================
 # Apply Styling & Render Hero
 # =======================================================================================
@@ -19,6 +20,7 @@ st.set_page_config(
     )
 apply_base_styles()
 apply_component_styles()
+apply_mvo_styles()
 render_breadcrumb(__file__)
 render_hero(
     "Employee Customer Capture",
