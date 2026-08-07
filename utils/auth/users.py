@@ -6,7 +6,8 @@ from typing import Any
 import streamlit as st
 
 from utils.auth.client import get_auth_worksheet
-
+from datetime import datetime
+from zoneinfo import ZoneInfo
 
 @dataclass(frozen=True)
 class AuthUser:
@@ -138,6 +139,72 @@ def load_authenticator_credentials() -> dict:
         }
 
     return credentials
+
+LOCAL_TIMEZONE = ZoneInfo("America/Chicago")
+
+
+def _update_user_timestamp(
+    email: str,
+    column_name: str,
+) -> None:
+    """Update a timestamp column for a user in the authentication sheet."""
+    worksheet = get_auth_worksheet()
+
+    values = worksheet.get_all_values()
+
+    if not values:
+        return
+
+    headers = [
+        str(header).strip()
+        for header in values[0]
+    ]
+
+    if column_name not in headers:
+        raise RuntimeError(
+            f"Authentication sheet is missing column: {column_name}"
+        )
+
+    email_column = headers.index("Email") + 1
+    target_column = headers.index(column_name) + 1
+
+    normalized_email = email.strip().lower()
+
+    for sheet_row, row in enumerate(values[1:], start=2):
+        padded_row = row + [""] * (len(headers) - len(row))
+
+        row_email = padded_row[
+            email_column - 1
+        ].strip().lower()
+
+        if row_email == normalized_email:
+            timestamp = datetime.now(
+                LOCAL_TIMEZONE
+            ).strftime("%m/%d/%Y %I:%M %p")
+
+            worksheet.update_cell(
+                sheet_row,
+                target_column,
+                timestamp,
+            )
+
+            return
+
+
+def update_last_login(email: str) -> None:
+    """Record the user's most recent successful login."""
+    _update_user_timestamp(
+        email=email,
+        column_name="Last Login",
+    )
+
+
+def update_last_edit(email: str) -> None:
+    """Record the user's most recent data edit."""
+    _update_user_timestamp(
+        email=email,
+        column_name="Last Edit",
+    )
 
 
 def clear_user_cache() -> None:

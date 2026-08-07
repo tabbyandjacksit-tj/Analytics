@@ -6,6 +6,7 @@ import streamlit_authenticator as stauth
 from utils.auth.users import (
     get_user_by_email,
     load_authenticator_credentials,
+    update_last_login,
 )
 from utils.tools.secrets import get_secret
 
@@ -329,7 +330,11 @@ def render_login_gate() -> stauth.Authenticate:
     st.session_state["user_email"] = user.email
     st.session_state["user_name"] = user.name
 
-    return authenticator
+    if not st.session_state.get("login_timestamp_recorded"):
+        update_last_login(user.email)
+        st.session_state["login_timestamp_recorded"] = True
+
+    return stauth.authenticator
 
 
 # ==========================================
