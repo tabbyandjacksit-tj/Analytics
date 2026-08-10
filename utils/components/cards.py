@@ -210,28 +210,28 @@ def render_instruction_card(
     """Render a reusable instruction card."""
 
     st.markdown(
-        f"""
-        <div class="instruction-card">
-            <div class="instruction-number">
-                {number}
-            </div>
+f"""
+<div class="instruction-card">
+<div class="instruction-number">
+{number}
+</div>
 
-            <div class="instruction-content">
-                <div class="instruction-icon">
-                    {icon}
-                </div>
+<div class="instruction-content">
+<div class="instruction-icon">
+    {icon}
+</div>
 
-                <div class="instruction-title">
-                    {title}
-                </div>
+<div class="instruction-title">
+    {title}
+</div>
 
-                <div class="instruction-description">
-                    {description}
-                </div>
-            </div>
-        </div>
-        """,
-        unsafe_allow_html=True,
+<div class="instruction-description">
+    {description}
+</div>
+</div>
+</div>
+""",
+unsafe_allow_html=True,
     )
 
 # =============================================================================
