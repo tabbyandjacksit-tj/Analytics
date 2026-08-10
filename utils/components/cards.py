@@ -7,7 +7,6 @@ import html
 import streamlit as st
 from datetime import datetime, timedelta
 
-from utils.styling.mvo import render_instruction_card
 from utils.tools.images import image_to_base64
 
 
@@ -199,24 +198,32 @@ def render_upload_date_card(
 
     return uploaded_file, days_ago, calculated_date
 
+import streamlit as st
+
+
 def render_instruction_card(
     number: int,
-    image_path: str,
     title: str,
-    desc: str,
+    description: str,
 ) -> None:
-    image = image_to_base64(image_path)
+    """Render a reusable instruction card."""
 
     st.markdown(
         f"""
-<div class="mini-step">
-    <div class="mini-number">{number}</div>
-    <br>
-    <img src="data:image/png;base64,{image}" width="42" style="margin:0 auto 5px auto;">
-    <h4>{title}</h4>
-    <p>{desc}</p>
-</div>
-""",
+        <div class="instruction-card">
+            <div class="instruction-number">{number}</div>
+
+            <div class="instruction-content">
+                <div class="instruction-title">
+                    {title}
+                </div>
+
+                <div class="instruction-description">
+                    {description}
+                </div>
+            </div>
+        </div>
+        """,
         unsafe_allow_html=True,
     )
 
