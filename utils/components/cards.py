@@ -205,15 +205,22 @@ def render_instruction_card(
     number: int,
     title: str,
     description: str,
+    icon: str,
 ) -> None:
     """Render a reusable instruction card."""
 
     st.markdown(
         f"""
         <div class="instruction-card">
-            <div class="instruction-number">{number}</div>
+            <div class="instruction-number">
+                {number}
+            </div>
 
             <div class="instruction-content">
+                <div class="instruction-icon">
+                    {icon}
+                </div>
+
                 <div class="instruction-title">
                     {title}
                 </div>
