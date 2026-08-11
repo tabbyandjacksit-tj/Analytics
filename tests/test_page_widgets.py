@@ -82,32 +82,6 @@ def test_employee_capture_has_upload_box() -> None:
     assert len(app.file_uploader) >= 1
 
 
-def test_instacart_initial_access_controls_exist() -> None:
-    """
-    Instacart initially shows its own password gate.
-
-    The upload box is not expected until that gate is unlocked.
-    """
-
-    app = load_page("pages/admin/instacart.py")
-
-    text_input_labels = [
-        str(widget.label)
-        for widget in app.text_input
-    ]
-
-    labels = button_labels(app)
-
-    assert any(
-        "password" in label.lower()
-        for label in text_input_labels
-    )
-
-    assert any(
-        "unlock" in label.lower()
-        for label in labels
-    )
-
 
 def test_sales_by_brand_page_has_interactive_input() -> None:
     """

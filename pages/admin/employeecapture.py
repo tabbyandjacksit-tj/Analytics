@@ -3,8 +3,9 @@
 # =======================================================================================
 import pandas as pd
 import streamlit as st
+from utils.components.cards import apply_instruction_styles
 from utils.components.headers import (render_section_header, render_subsection_header,)
-from utils.components.cards import (render_upload_date_card, render_instruction_grid,)
+from utils.components.cards import (render_upload_date_card, render_instruction_grid, apply_instruction_styles)
 from utils.styling.base import (apply_base_styles, render_hero,)
 from utils.styling.components import apply_component_styles
 from utils.reporting.employee_capture import (employee_leaderboard, find_missing_columns, get_employee_names, prepare_employee_report, summarize_employee_capture,)
@@ -19,6 +20,7 @@ st.set_page_config(
         layout="wide",
     )
 apply_base_styles()
+apply_instruction_styles()
 apply_component_styles()
 apply_mvo_styles()
 render_breadcrumb(__file__)
@@ -48,16 +50,44 @@ uploaded_file, days_ago, calculated_date = render_upload_date_card(
 # INSTRUCTION CARDS
 # =============================================================================
 if uploaded_file is None:
-    steps = [ #images, tiles, and descriptions for the instruction cards
-        ("images/reports.png","Reports","Open REPORTS from the sidebar.",),
-        ("images/grouped_sales.png", "Other Transactions", "Scroll to OTHER TRANSACTIONS.",),
-        ("images/item_report.png","All Transactions","Select ALL TRANSACTIONS as the report type.",),
-        ("images/calendar.png","Date Filter","Set DATE RANGE to what you hope to review.",),
-        ("images/export.png","Export CSV","Press EXPORT and save the CSV.",),
-        ("images/upload.png","Upload CSV","Upload the exported CSV file above.",),
+    steps = [
+        (
+            "Reports",
+            "Open REPORTS from the sidebar.",
+            "images/reports.png",
+        ),
+        (
+            "Other Transactions",
+            "Scroll to OTHER TRANSACTIONS.",
+            "images/grouped_sales.png",
+        ),
+        (
+            "All Transactions",
+            "Select ALL TRANSACTIONS as the report type.",
+            "images/item_report.png",
+        ),
+        (
+            "Date Filter",
+            "Set DATE RANGE to what you hope to review.",
+            "images/calendar.png",
+        ),
+        (
+            "Export CSV",
+            "Press EXPORT and save the CSV.",
+            "images/export.png",
+        ),
+        (
+            "Upload CSV",
+            "Upload the exported CSV file above.",
+            "images/upload.png",
+        ),
     ]
+
+    render_instruction_grid(
+        steps,
+        columns_per_row=3,
+    )
     # Puts the instruction cards into two rows of three cards each.
-    render_instruction_grid(steps)
     st.stop()
 # =============================================================================
 # ENSURE THAT THE REPORT IS READABLE AND HAS ALL REQUIRED COLUMNS

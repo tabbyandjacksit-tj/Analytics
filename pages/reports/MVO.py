@@ -13,7 +13,10 @@ from utils.styling.base import (
     apply_base_styles,
     render_hero,
 )
-from utils.components.cards import render_instruction_card
+from utils.components.cards import (
+    apply_instruction_styles,
+    render_instruction_grid,
+)
 from utils.styling.components import apply_component_styles
 from utils.tools.navigation import render_breadcrumb
 from utils.styling.mvo import (
@@ -33,6 +36,7 @@ st.set_page_config(
 apply_base_styles()
 apply_component_styles()
 apply_mvo_styles()
+apply_instruction_styles()
 render_breadcrumb(__file__)
 render_hero(
     "Major Vendor Order Report",
@@ -51,22 +55,42 @@ render_section_header(
     ),
 )
 steps = [
-    ("images/reports.png", "Reports", "Open REPORTS from the sidebar."),
-    ("images/grouped_sales.png", "Grouped Sales", "Scroll to GROUPED SALES TOTAL."),
-    ("images/item_report.png", "Item Report", "Select ITEM as the report type."),
-    ("images/calendar.png", "Date Filter", "Set DATE RANGE based on report frequency below."),
-    ("images/vendor.png", "Vendor Filter", "Choose the desired VENDOR."),
-    ("images/export.png", "Export CSV", "Press EXPORT and save the CSV."),
+    (
+        "Reports",
+        "Open REPORTS from the sidebar.",
+        "images/reports.png",
+    ),
+    (
+        "Grouped Sales",
+        "Scroll to GROUPED SALES TOTAL.",
+        "images/grouped_sales.png",
+    ),
+    (
+        "Item Report",
+        "Select ITEM as the report type.",
+        "images/item_report.png",
+    ),
+    (
+        "Date Filter",
+        "Set DATE RANGE based on report frequency.",
+        "images/calendar.png",
+    ),
+    (
+        "Vendor Filter",
+        "Choose the desired VENDOR.",
+        "images/vendor.png",
+    ),
+    (
+        "Export CSV",
+        "Press EXPORT and save the CSV.",
+        "images/export.png",
+    ),
 ]
-row1 = st.columns(3)
-for i, step in enumerate(steps[:3]):
-    with row1[i]:
-        render_instruction_card(i + 1, *step)
-st.markdown("<div style='height:12px;'></div>", unsafe_allow_html=True)
-row2 = st.columns(3)
-for i, step in enumerate(steps[3:]):
-    with row2[i]:
-        render_instruction_card(i + 4, *step)
+
+render_instruction_grid(
+    steps,
+    columns_per_row=3,
+)
 # =======================================================================================
 # Calculates and creates a box for the dates that are 56 days out, or weekly which is 28 
 # =======================================================================================
@@ -163,3 +187,101 @@ with right:
 st.markdown(
     "ⓘ **Heads Up!** After importing into Lightspeed, remove any discontinued items and any items with a blank Vendor ID."
 )
+
+
+def apply_instruction_styles() -> None:
+    st.markdown(
+        """
+<style>
+
+/* =========================================================
+   INSTRUCTION CARD
+   ========================================================= */
+
+.instruction-card {
+    position: relative;
+    background: #FFFDF8;
+    border: 1px solid rgba(29, 90, 62, 0.14);
+    border-radius: 18px;
+    padding: 22px 22px 24px 22px;
+    min-height: 300px;
+    height: 100%;
+    box-shadow: 0 5px 16px rgba(29, 90, 62, 0.06);
+    overflow: hidden;
+}
+
+
+/* Step Number */
+
+.instruction-number {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+
+    width: 30px;
+    height: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #1D5A3E;
+    color: #FFF9EF;
+
+    border-radius: 50%;
+
+    font-size: 13px;
+    font-weight: 700;
+}
+
+
+/* Image */
+
+.instruction-image-wrap {
+    height: 145px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin: 24px 0 16px 0;
+
+    overflow: hidden;
+}
+
+
+.instruction-image {
+    max-width: 100%;
+    max-height: 135px;
+    object-fit: contain;
+    border-radius: 9px;
+}
+
+
+/* Card Title */
+
+.instruction-title {
+    color: #1D5A3E;
+
+    font-size: 18px;
+    font-weight: 750;
+
+    line-height: 1.25;
+
+    margin-bottom: 7px;
+}
+
+
+/* Card Description */
+
+.instruction-description {
+    color: #4F6157;
+
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+</style>
+""",
+        unsafe_allow_html=True,
+    )

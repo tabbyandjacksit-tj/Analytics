@@ -201,54 +201,93 @@ def render_upload_date_card(
 import streamlit as st
 
 
-def render_instruction_card(
-    number: int,
-    title: str,
-    description: str,
-    icon: str,
-) -> None:
-    """Render a reusable instruction card."""
+# =============================================================================
+# INSTRUCTION CARD STYLES
+# =============================================================================
+
+def apply_instruction_styles() -> None:
+    """Apply styling for reusable instruction cards."""
 
     st.markdown(
-f"""
-<div class="instruction-card">
-<div class="instruction-number">
-{number}
-</div>
-
-<div class="instruction-content">
-<div class="instruction-icon">
-    {icon}
-</div>
-
-<div class="instruction-title">
-    {title}
-</div>
-
-<div class="instruction-description">
-    {description}
-</div>
-</div>
-</div>
-""",
-unsafe_allow_html=True,
+        """
+        <style>
+        /* your CSS here */
+        </style>
+        """,
+        unsafe_allow_html=True,
     )
+
 
 # =============================================================================
 # INSTRUCTION CARD
 # =============================================================================
+
+def render_instruction_card(
+    number: int,
+    title: str,
+    description: str,
+    image_path: str,
+) -> None:
+    """Render a reusable instruction card with an image."""
+
+    safe_title = html.escape(str(title))
+    safe_description = html.escape(str(description))
+
+    image_base64 = image_to_base64(image_path)
+
+    st.markdown(
+        f"""
+<div class="instruction-card">
+
+    <div class="instruction-number">
+        {number}
+    </div>
+
+    <div class="instruction-image-wrap">
+        <img
+            src="data:image/png;base64,{image_base64}"
+            class="instruction-image"
+        >
+    </div>
+
+    <div class="instruction-title">
+        {safe_title}
+    </div>
+
+    <div class="instruction-description">
+        {safe_description}
+    </div>
+
+</div>
+""",
+        unsafe_allow_html=True,
+    )
+
+
+# =============================================================================
+# INSTRUCTION GRID
+# =============================================================================
+
 def render_instruction_grid(
     steps,
     columns_per_row: int = 3,
     row_gap: int = 18,
 ):
-    
-    for row_start in range(0, len(steps), columns_per_row):
+    """Render instruction cards in a grid."""
+
+    for row_start in range(
+        0,
+        len(steps),
+        columns_per_row,
+    ):
         row_steps = steps[
             row_start:row_start + columns_per_row
         ]
 
-        columns = st.columns(columns_per_row)
+        columns = st.columns(
+            columns_per_row,
+            gap="medium",
+        )
 
         for offset, step in enumerate(row_steps):
             with columns[offset]:
@@ -256,6 +295,7 @@ def render_instruction_grid(
                     row_start + offset + 1,
                     *step,
                 )
+
         if row_start + columns_per_row < len(steps):
             st.markdown(
                 f"<div style='height:{row_gap}px'></div>",

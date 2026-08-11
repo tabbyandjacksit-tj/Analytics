@@ -10,7 +10,7 @@ from utils.components.headers import (
     render_section_header,
     render_subsection_header,
 )
-from utils.components.cards import render_instruction_card
+from utils.components.cards import (apply_instruction_styles, render_instruction_grid,)
 from utils.styling.base import (apply_base_styles, render_hero,)
 from utils.styling.components import apply_component_styles
 from utils.styling.mvo import (
@@ -28,6 +28,7 @@ st.set_page_config(
 )
 apply_base_styles()
 apply_component_styles()
+apply_instruction_styles()
 apply_mvo_styles()
 render_breadcrumb(__file__)
 render_hero(
@@ -51,22 +52,23 @@ render_section_header(
 )
 
 steps = [
-    ("images/reports.png", "Reports", "Open REPORTS from the sidebar."),
-    ("images/grouped_sales.png", "Grouped Sales", "Scroll to GROUPED SALES TOTAL."),
-    ("images/item_report.png", "Item Report", "Select ITEM as the report type."),
-    ("images/calendar.png", "Date Filter", "Set DATE RANGE based on report frequency below."),
-    ("images/vendor.png", "Brand Filter", "Choose the desired BRAND."),
-    ("images/export.png", "Export CSV", "Press EXPORT and save the CSV."),
-]
-row1 = st.columns(3)
-for i, step in enumerate(steps[:3]):
-    with row1[i]:
-        render_instruction_card(i + 1, *step)
-st.markdown("<div style='height:12px;'></div>", unsafe_allow_html=True)
-row2 = st.columns(3)
-for i, step in enumerate(steps[3:]):
-    with row2[i]:
-        render_instruction_card(i + 4, *step)
+    (
+    "Reports",
+    "Open REPORTS from the sidebar.",
+    "images/reports.png",
+    ),
+    ("Grouped Sales","Scroll to GROUPED SALES TOTAL.","images/grouped_sales.png",),
+    ("Item Report","Select ITEM as the report type.","images/item_report.png",),
+    ("Date Filter","Set DATE RANGE based on report frequency below.","images/calendar.png",),
+    ("Brand Filter","Choose the desired BRAND.","images/vendor.png",),
+    ("Export CSV","Press EXPORT and save the CSV.","images/export.png",
+    ),
+    ]
+
+render_instruction_grid(
+    steps,
+    columns_per_row=3,
+)
 # =======================================================================================
 # Calculates and creates a box for the dates that are 56 days out, or weekly which is 28 
 # =======================================================================================
