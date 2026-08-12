@@ -270,113 +270,140 @@ def apply_component_styles() -> None:
     )
 
 def apply_instruction_styles() -> None:
+    """Apply styling for reusable instruction cards."""
+
     st.markdown(
         """
         <style>
 
-        /* ================================================================
-           Instruction Cards
-           ================================================================ */
+        /* =========================================================
+           INSTRUCTION CARD
+           ========================================================= */
 
         .instruction-card {
-            background: #FFFFFF;
-            border: 1px solid rgba(29, 90, 62, 0.10);
-            border-radius: 16px;
-            padding: 22px 20px 24px 20px;
+            position: relative;
 
-            min-height: 310px;
-            height: 100%;
+            background: #FFFDF9;
+            border: 1px solid rgba(29, 90, 62, 0.10);
+            border-radius: 18px;
+
+            padding: 22px 22px 24px 22px;
+
+            min-height: 235px;
+            height: 235px;
 
             display: flex;
             flex-direction: column;
             align-items: center;
 
-            text-align: center;
-
             box-shadow:
-                0 4px 14px rgba(29, 90, 62, 0.06);
+                0 4px 12px rgba(29, 90, 62, 0.05),
+                0 1px 3px rgba(29, 90, 62, 0.04);
 
             transition:
-                transform 0.18s ease,
-                box-shadow 0.18s ease;
+                transform 0.15s ease,
+                box-shadow 0.15s ease;
         }
+
+
+        /* =========================================================
+           HOVER
+           ========================================================= */
 
         .instruction-card:hover {
             transform: translateY(-2px);
 
             box-shadow:
-                0 7px 18px rgba(29, 90, 62, 0.10);
+                0 8px 20px rgba(29, 90, 62, 0.09),
+                0 2px 5px rgba(29, 90, 62, 0.05);
         }
 
 
-        /* Step Number */
+        /* =========================================================
+           STEP NUMBER
+           ========================================================= */
 
         .instruction-number {
             width: 34px;
             height: 34px;
 
-            border-radius: 50%;
-
-            background: #EF8B1D;
-            color: #FFFFFF;
-
             display: flex;
             align-items: center;
             justify-content: center;
 
-            font-size: 0.88rem;
+            background: #E58C2F;
+            color: white;
+
+            border-radius: 50%;
+
+            font-size: 13px;
             font-weight: 700;
 
-            margin-bottom: 18px;
+            margin-bottom: 16px;
+
+            flex-shrink: 0;
         }
 
 
-        /* Image */
+        /* =========================================================
+           IMAGE AREA
+           ========================================================= */
 
         .instruction-image-wrapper {
-            height: 110px;
+            height: 82px;
             width: 100%;
 
             display: flex;
             align-items: center;
             justify-content: center;
 
-            margin-bottom: 18px;
+            margin-bottom: 14px;
         }
 
+
         .instruction-image {
-            max-width: 100%;
-            max-height: 100px;
+            max-width: 72px;
+            max-height: 72px;
+
+            width: auto;
+            height: auto;
 
             object-fit: contain;
         }
 
 
-        /* Title */
+        /* =========================================================
+           TITLE
+           ========================================================= */
 
         .instruction-title {
             color: #1D5A3E;
 
-            font-size: 1.05rem;
-            font-weight: 700;
-
+            font-size: 16px;
+            font-weight: 750;
             line-height: 1.25;
 
-            margin-bottom: 9px;
+            text-align: center;
+
+            margin-bottom: 8px;
         }
 
 
-        /* Description */
+        /* =========================================================
+           DESCRIPTION
+           ========================================================= */
 
         .instruction-description {
-            color: #5C665F;
+            color: #56645B;
 
-            font-size: 0.90rem;
-            font-weight: 400;
+            font-size: 13px;
+            line-height: 1.45;
 
-            line-height: 1.5;
+            text-align: center;
 
-            max-width: 270px;
+            max-width: 240px;
+
+            margin: 0 auto;
         }
 
         </style>
