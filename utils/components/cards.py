@@ -1,4 +1,5 @@
 from __future__ import annotations
+import html
 
 import base64
 from datetime import datetime, timedelta
@@ -43,76 +44,59 @@ def _image_to_base64(image_path: str) -> str:
 
 
 # =============================================================================
-# Instruction Card
+# INSTRUCTION CARD
 # =============================================================================
 def render_instruction_card(
     number: int,
     title: str,
     description: str,
-    image_path: str | None = None,
+    image_path: str,
 ) -> None:
-    """
-    Render one instruction card.
-    """
+    """Render a reusable instruction card with an image."""
 
-    image_html = ""
+    safe_title = html.escape(str(title))
+    safe_description = html.escape(str(description))
+    safe_number = html.escape(str(number))
 
-    if image_path:
-        image_data = _image_to_base64(image_path)
+    image_data = _image_to_base64(image_path)
 
-        if image_data:
-            image_html = f"""
-            <div class="instruction-image-wrapper">
-                <img
-                    src="{image_data}"
-                    class="instruction-image"
-                    alt="{title}"
-                >
-            </div>
-            """
+    if image_data:
+        image_html = (
+            '<div class="instruction-image-wrapper">'
+            f'<img src="{image_data}" '
+            f'alt="{safe_title}" '
+            'class="instruction-image">'
+            '</div>'
+        )
+    else:
+        image_html = ""
 
-    card_html = f"""
-    <div class="instruction-card">
-
-        <div class="instruction-number">
-            {number}
-        </div>
-
-        {image_html}
-
-        <div class="instruction-title">
-            {title}
-        </div>
-
-        <div class="instruction-description">
-            {description}
-        </div>
-
-    </div>
-    """
-
-    st.markdown(
-        textwrap.dedent(card_html),
-        unsafe_allow_html=True,
+    card_html = (
+        '<div class="instruction-card">'
+        f'<div class="instruction-number">{safe_number}</div>'
+        f'{image_html}'
+        f'<div class="instruction-title">{safe_title}</div>'
+        f'<div class="instruction-description">{safe_description}</div>'
+        '</div>'
     )
 
-
+    st.markdown(
+        card_html,
+        unsafe_allow_html=True,
+    )
 # =============================================================================
 # Instruction Grid
 # =============================================================================
+# =============================================================================
+# INSTRUCTION GRID
+# =============================================================================
+
 def render_instruction_grid(
     steps,
     columns_per_row: int = 3,
     row_gap: int = 18,
 ) -> None:
-    """
-    Render instruction cards in rows.
-
-    Supports either:
-    - dictionaries
-    - tuples/lists in the format:
-      (title, description, image_path)
-    """
+    """Render instruction cards in rows."""
 
     for row_start in range(
         0,
@@ -124,47 +108,18 @@ def render_instruction_grid(
         ]
 
         columns = st.columns(
-            len(row_steps),
+            columns_per_row,
             gap="medium",
         )
 
-        for index, (column, step) in enumerate(
-            zip(columns, row_steps),
-            start=row_start + 1,
-        ):
-            with column:
-
-                # Dictionary format
-                if isinstance(step, dict):
-                    number = step.get("number", index)
-                    title = step["title"]
-                    description = step["description"]
-                    image_path = step.get("image")
-
-                # Tuple/list format
-                else:
-                    title = step[0]
-                    description = step[1]
-
-                    image_path = (
-                        step[2]
-                        if len(step) > 2
-                        else None
-                    )
-
-                    number = index
-
+        for offset, step in enumerate(row_steps):
+            with columns[offset]:
                 render_instruction_card(
-                    number=number,
-                    title=title,
-                    description=description,
-                    image_path=image_path,
+                    row_start + offset + 1,
+                    *step,
                 )
 
-        if (
-            row_start + columns_per_row
-            < len(steps)
-        ):
+        if row_start + columns_per_row < len(steps):
             st.markdown(
                 f"<div style='height:{row_gap}px'></div>",
                 unsafe_allow_html=True,
