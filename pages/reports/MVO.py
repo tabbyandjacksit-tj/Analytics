@@ -192,96 +192,114 @@ st.markdown(
 def apply_instruction_styles() -> None:
     st.markdown(
         """
-<style>
+        <style>
 
-/* =========================================================
-   INSTRUCTION CARD
-   ========================================================= */
+        /* ================================================================
+           Instruction Cards
+           ================================================================ */
 
-.instruction-card {
-    position: relative;
-    background: #FFFDF8;
-    border: 1px solid rgba(29, 90, 62, 0.14);
-    border-radius: 18px;
-    padding: 22px 22px 24px 22px;
-    min-height: 300px;
-    height: 100%;
-    box-shadow: 0 5px 16px rgba(29, 90, 62, 0.06);
-    overflow: hidden;
-}
+        .instruction-card {
+            background: #FFFFFF;
+            border: 1px solid rgba(29, 90, 62, 0.10);
+            border-radius: 16px;
+            padding: 22px 20px 24px 20px;
 
+            min-height: 310px;
+            height: 100%;
 
-/* Step Number */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
 
-.instruction-number {
-    position: absolute;
-    top: 16px;
-    left: 16px;
+            text-align: center;
 
-    width: 30px;
-    height: 30px;
+            box-shadow:
+                0 4px 14px rgba(29, 90, 62, 0.06);
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+            transition:
+                transform 0.18s ease,
+                box-shadow 0.18s ease;
+        }
 
-    background: #1D5A3E;
-    color: #FFF9EF;
+        .instruction-card:hover {
+            transform: translateY(-2px);
 
-    border-radius: 50%;
-
-    font-size: 13px;
-    font-weight: 700;
-}
+            box-shadow:
+                0 7px 18px rgba(29, 90, 62, 0.10);
+        }
 
 
-/* Image */
+        /* Step Number */
 
-.instruction-image-wrap {
-    height: 145px;
+        .instruction-number {
+            width: 34px;
+            height: 34px;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+            border-radius: 50%;
 
-    margin: 24px 0 16px 0;
+            background: #EF8B1D;
+            color: #FFFFFF;
 
-    overflow: hidden;
-}
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
+            font-size: 0.88rem;
+            font-weight: 700;
 
-.instruction-image {
-    max-width: 100%;
-    max-height: 135px;
-    object-fit: contain;
-    border-radius: 9px;
-}
-
-
-/* Card Title */
-
-.instruction-title {
-    color: #1D5A3E;
-
-    font-size: 18px;
-    font-weight: 750;
-
-    line-height: 1.25;
-
-    margin-bottom: 7px;
-}
+            margin-bottom: 18px;
+        }
 
 
-/* Card Description */
+        /* Image */
 
-.instruction-description {
-    color: #4F6157;
+        .instruction-image-wrapper {
+            height: 110px;
+            width: 100%;
 
-    font-size: 14px;
-    line-height: 1.5;
-}
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
-</style>
-""",
+            margin-bottom: 18px;
+        }
+
+        .instruction-image {
+            max-width: 100%;
+            max-height: 100px;
+
+            object-fit: contain;
+        }
+
+
+        /* Title */
+
+        .instruction-title {
+            color: #1D5A3E;
+
+            font-size: 1.05rem;
+            font-weight: 700;
+
+            line-height: 1.25;
+
+            margin-bottom: 9px;
+        }
+
+
+        /* Description */
+
+        .instruction-description {
+            color: #5C665F;
+
+            font-size: 0.90rem;
+            font-weight: 400;
+
+            line-height: 1.5;
+
+            max-width: 270px;
+        }
+
+        </style>
+        """,
         unsafe_allow_html=True,
     )
