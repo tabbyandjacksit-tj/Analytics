@@ -10,43 +10,44 @@ import streamlit as st
 # =============================================================================
 # STANDARD SECTION HEADER
 # =============================================================================
-
 def render_section_header(
     title: str,
     subtitle: str = "",
     label: str = "",
     hide_label: bool = False,
 ) -> None:
-    """Render a standard section heading."""
+    """Render a reusable section header."""
 
     safe_title = html.escape(str(title))
     safe_subtitle = html.escape(str(subtitle))
     safe_label = html.escape(str(label))
 
-    label_html = (
-        f'<div class="tj-section-label">{safe_label}</div>'
-        if safe_label and not hide_label
-        else ""
-    )
+    label_html = ""
 
-    subtitle_html = (
-        f'<div class="tj-section-subtitle">{safe_subtitle}</div>'
-        if safe_subtitle
-        else ""
+    if safe_label and not hide_label:
+        label_html = (
+            f'<div class="tj-section-label">{safe_label}</div>'
+        )
+
+    subtitle_html = ""
+
+    if safe_subtitle:
+        subtitle_html = (
+            f'<div class="tj-section-subtitle">{safe_subtitle}</div>'
+        )
+
+    section_html = (
+        '<div class="tj-section-header">'
+        f'{label_html}'
+        f'<div class="tj-section-title">{safe_title}</div>'
+        f'{subtitle_html}'
+        '</div>'
     )
 
     st.markdown(
-        f"""
-        <div class="tj-section-header">
-            {label_html}
-            <div class="tj-section-title">{safe_title}</div>
-            {subtitle_html}
-        </div>
-        """,
+        section_html,
         unsafe_allow_html=True,
     )
-
-
 # =============================================================================
 # SMALLER SUBSECTION HEADER
 # =============================================================================
