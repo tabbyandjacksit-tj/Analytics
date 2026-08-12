@@ -3,9 +3,7 @@ import html
 
 import base64
 from datetime import datetime, timedelta
-import textwrap
 from pathlib import Path
-
 import streamlit as st
 
 
@@ -153,10 +151,6 @@ def render_upload_date_card(
             vertical_alignment="top",
         )
 
-        # ---------------------------------------------------------------------
-        # File Upload
-        # ---------------------------------------------------------------------
-
         with upload_col:
             st.markdown(
                 '<div class="tj-helper-label">Report File</div>',
@@ -168,10 +162,6 @@ def render_upload_date_card(
                 type=file_types,
                 label_visibility="collapsed",
             )
-
-        # ---------------------------------------------------------------------
-        # Date Range
-        # ---------------------------------------------------------------------
 
         with date_col:
             days_ago = st.number_input(
@@ -186,18 +176,19 @@ def render_upload_date_card(
                 - timedelta(days=days_ago)
             )
 
-            st.markdown(
-                f"""
-                <div class="tj-date-result">
-                    <span class="tj-date-result-label">
-                        {start_label}:
-                    </span>
+            date_html = (
+                '<div class="tj-date-result">'
+                f'<span class="tj-date-result-label">'
+                f'{html.escape(str(start_label))}:'
+                f'</span>'
+                f'<span class="tj-date-result-value">'
+                f'{calculated_date:%B %d, %Y}'
+                f'</span>'
+                '</div>'
+            )
 
-                    <span class="tj-date-result-value">
-                        {calculated_date:%B %d, %Y}
-                    </span>
-                </div>
-                """,
+            st.markdown(
+                date_html,
                 unsafe_allow_html=True,
             )
 
