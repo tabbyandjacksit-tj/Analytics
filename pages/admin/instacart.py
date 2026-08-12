@@ -13,7 +13,7 @@ from utils.styling.base import (
     apply_base_styles,
     render_hero,
 )
-from utils.styling.components import apply_component_styles
+from utils.styling.components import (apply_component_styles, apply_instruction_styles,)
 from utils.styling.instacart import (
     apply_instacart_styles,
     render_instacart_link,
@@ -33,6 +33,7 @@ st.set_page_config(
 )
 apply_base_styles()
 apply_component_styles()
+apply_instruction_styles()
 apply_instacart_styles() 
 render_breadcrumb(__file__)
 render_hero(

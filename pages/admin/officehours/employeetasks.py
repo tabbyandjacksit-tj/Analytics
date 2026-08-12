@@ -37,7 +37,7 @@ from utils.components.headers import (
     render_section_header,
     render_subsection_header,
 )
-from utils.styling.components import apply_component_styles
+from utils.styling.components import (apply_component_styles, apply_instruction_styles,)
 from utils.tools.secrets import get_secret
 from utils.tools.navigation import render_breadcrumb
 SHEET_ID = get_secret("OFFICE_HOURS_SHEET_ID")
@@ -53,6 +53,7 @@ st.set_page_config(
 apply_base_styles(max_width=1100)
 apply_component_styles()
 apply_officehour_styles()
+apply_instruction_styles()
 render_breadcrumb(__file__)
 
 

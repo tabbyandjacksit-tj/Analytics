@@ -13,11 +13,9 @@ from utils.styling.base import (
     apply_base_styles,
     render_hero,
 )
-from utils.components.cards import (
-    apply_instruction_styles,
-    render_instruction_grid,
-)
-from utils.styling.components import apply_component_styles
+from utils.components.cards import (render_instruction_card, render_instruction_grid,)
+
+from utils.styling.components import (apply_component_styles, apply_instruction_styles,)
 from utils.tools.navigation import render_breadcrumb
 from utils.styling.mvo import (
     apply_mvo_styles,
@@ -189,117 +187,3 @@ st.markdown(
 )
 
 
-def apply_instruction_styles() -> None:
-    st.markdown(
-        """
-        <style>
-
-        /* ================================================================
-           Instruction Cards
-           ================================================================ */
-
-        .instruction-card {
-            background: #FFFFFF;
-            border: 1px solid rgba(29, 90, 62, 0.10);
-            border-radius: 16px;
-            padding: 22px 20px 24px 20px;
-
-            min-height: 310px;
-            height: 100%;
-
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-
-            text-align: center;
-
-            box-shadow:
-                0 4px 14px rgba(29, 90, 62, 0.06);
-
-            transition:
-                transform 0.18s ease,
-                box-shadow 0.18s ease;
-        }
-
-        .instruction-card:hover {
-            transform: translateY(-2px);
-
-            box-shadow:
-                0 7px 18px rgba(29, 90, 62, 0.10);
-        }
-
-
-        /* Step Number */
-
-        .instruction-number {
-            width: 34px;
-            height: 34px;
-
-            border-radius: 50%;
-
-            background: #EF8B1D;
-            color: #FFFFFF;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            font-size: 0.88rem;
-            font-weight: 700;
-
-            margin-bottom: 18px;
-        }
-
-
-        /* Image */
-
-        .instruction-image-wrapper {
-            height: 110px;
-            width: 100%;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            margin-bottom: 18px;
-        }
-
-        .instruction-image {
-            max-width: 100%;
-            max-height: 100px;
-
-            object-fit: contain;
-        }
-
-
-        /* Title */
-
-        .instruction-title {
-            color: #1D5A3E;
-
-            font-size: 1.05rem;
-            font-weight: 700;
-
-            line-height: 1.25;
-
-            margin-bottom: 9px;
-        }
-
-
-        /* Description */
-
-        .instruction-description {
-            color: #5C665F;
-
-            font-size: 0.90rem;
-            font-weight: 400;
-
-            line-height: 1.5;
-
-            max-width: 270px;
-        }
-
-        </style>
-        """,
-        unsafe_allow_html=True,
-    )

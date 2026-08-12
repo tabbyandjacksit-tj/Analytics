@@ -16,7 +16,7 @@ from utils.styling.base import (
     apply_base_styles,
     render_hero,
 )
-from utils.styling.components import apply_component_styles
+from utils.styling.components import (apply_component_styles, apply_instruction_styles,)
 from utils.styling.officehours import (
     apply_officehour_styles,
     render_active_employee,
@@ -38,6 +38,7 @@ st.set_page_config(
 )
 apply_base_styles(max_width=1160)
 apply_component_styles()
+apply_instruction_styles()
 apply_officehour_styles()
 render_hero(
     "Office Hour Tracker",
