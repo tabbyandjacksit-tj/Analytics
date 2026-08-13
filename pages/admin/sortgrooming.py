@@ -5,19 +5,30 @@ from io import BytesIO
 from utils.styling.base import apply_base_styles, render_hero
 from utils.components.headers import render_section_header
 from utils.tools.navigation import render_breadcrumb
-
+from utils.styling.components import (
+    apply_component_styles,
+    apply_instruction_styles,
+)
+from utils.components.cards import (
+    render_instruction_grid,
+    render_upload_date_card,
+)
+from utils.styling.mvo import (apply_mvo_styles)
 
 # =============================================================================
 # Page Configuration
 # =============================================================================
 
 st.set_page_config(
-    page_title="Grooming Sort",
-    page_icon="✂️",
+    page_title="Sort Grooming",
+    page_icon="images/logo.png",
     layout="wide",
 )
 
 apply_base_styles()
+apply_instruction_styles()
+apply_component_styles()
+apply_mvo_styles()
 render_breadcrumb(__file__)
 
 render_hero(
@@ -30,21 +41,42 @@ render_hero(
 
 
 # =============================================================================
-# Step 1: Upload Report
+# INSTRUCTION CARDS
 # =============================================================================
 
-render_section_header(
-    label="Step 1",
-    title="Upload MoeGo Report",
+render_section_header( # Creates the seciton titling for where you upload the report
+    hide_label=True,
+    title="Obtain the Grooming Report from MoeGo",
+    subtitle=(
+        "Access this link to export the appointments booked report from MoeGo!"
+    ),
 )
 
-uploaded_file = st.file_uploader(
-    "Upload Appointment Schedule",
-    type=["csv"],
+st.link_button(
+     ":material/calendar_check:  Open MoeGo Report",
+     "https://go.moego.pet/report/insights/reports?diagramId=reports_appointment_list&active=6&%7Ec=611&%7Eb=114082",
+     use_container_width=True,
+ )
+
+# =============================================================================
+# Step 1: Upload Report
+# =============================================================================
+# UPLOAD REPORT: Change the date range to be as many days ago as you want it to start TO 180 days from now. Than select download!
+
+render_section_header( # Creates the seciton titling for where you upload the report
+    hide_label=True,
+    title="Upload Grooming Report",
+    subtitle=(
+        "Upload the appointments booked report exported from MoeGo."
+    ),
 )
 
-if uploaded_file is None:
-    st.stop()
+uploaded_file, days_ago, calculated_date = render_upload_date_card( 
+    upload_label="Upload Grooming Report",
+    file_types=["csv"],
+    default_days=90,
+)
+
 
 
 # =============================================================================
