@@ -50,6 +50,35 @@ render_section_header(
     subtitle="Access MoeGo and export the appointments booked report.",
 )
 
+with st.popover(
+    "ⓘ Report Help",
+    use_container_width=False,
+):
+    st.markdown(
+        """
+        **Where else to access report: **
+
+        Certain accounts on MoeGo have access to "REPORTS" in the sidebar. If you do not see "REPORTS" in the sidebar, please contact Maria or Leah for access"
+
+        **Filters to Set:**
+
+        You must click on settings and select thesse filters to get the correct report:
+            - Client Name
+            - Pet Name
+            - Pet Breed
+            - Services
+            - Created date
+            - Created time
+            - Created by
+            - Primary number
+            - Email
+            - Estimate duration
+            - Pet type
+
+        Once your filters are set, select **Download** in MoeGo.
+        """
+    )
+
 number_of_days = 90  # Default number of days to look back for the report
 render_upload_report_button(
     report_url="https://go.moego.pet/report/insights/reports?diagramId=reports_appointment_list&active=6&%7Ec=611&%7Eb=114082",
@@ -60,23 +89,26 @@ render_upload_report_button(
 
 # =============================================================================
 # Step 1: Upload Report
+# ================================================================
+
 # =============================================================================
-# UPLOAD REPORT: Change the date range to be as many days ago as you want it to start TO 180 days from now. Than select download!
+# Step 1: Upload Report
+# =============================================================================
 
-render_section_header( # Creates the seciton titling for where you upload the report
-    hide_label=True,
+render_section_header(
+    label="Step 1",
     title="Upload Grooming Report",
-    subtitle=(
-        "Upload the appointments booked report exported from MoeGo."
-    ),
+    subtitle="Upload the Excel report downloaded from MoeGo.",
 )
 
-uploaded_file, days_ago, calculated_date = render_upload_date_card( 
-    upload_label="Upload Grooming Report",
-    file_types=["csv"],
-    default_days=90,
+uploaded_file = st.file_uploader(
+    "Upload Grooming Report",
+    type=["xlsx"],
+    label_visibility="collapsed",
 )
 
+if uploaded_file is None:
+    st.stop()
 
 
 # =============================================================================
@@ -84,21 +116,24 @@ uploaded_file, days_ago, calculated_date = render_upload_date_card(
 # =============================================================================
 
 try:
-    df = pd.read_csv(uploaded_file)
-except Exception as error:
-    st.error(f"Unable to read the uploaded CSV file: {error}")
-    st.stop()
+    df = pd.read_excel(
+        uploaded_file,
+        engine="openpyxl",
+    )
 
+except Exception as error:
+    st.error(
+        f"Unable to read the uploaded Excel file: {error}"
+    )
+    st.stop()
 
 # =============================================================================
 # Validate Required Columns
 # =============================================================================
 
 required_columns = [
-    "Create date",
-    "Create by",
-    "First name",
-    "Last name",
+    "Created date",
+    "Client name",
 ]
 
 missing_columns = [
@@ -114,58 +149,14 @@ if missing_columns:
     )
     st.stop()
 
-
-# =============================================================================
-# Remove Unneeded Columns
-# =============================================================================
-
-remove_columns = [
-    "Invoice ID",
-    "Booking ID",
-    "Client ID",
-    "Pet name",
-    "Service",
-    "Full address",
-    "Add ons",
-    "Pets & services",
-    "Service charges",
-    "Expected revenue",
-    "Collected service price",
-    "Collected service charge",
-    "Collected product price",
-    "Collected tips",
-    "Collected tax",
-    "Unpaid revenue",
-    "Tips",
-    "Taxes",
-    "Discount",
-    "Payment",
-    "Refund",
-    "Net sale",
-    "Alert note",
-    "Status",
-    "Payment status",
-    "Time",
-    "Staffs",
-]
-
-df = df.drop(
-    columns=[
-        column
-        for column in remove_columns
-        if column in df.columns
-    ]
-)
-
-
 # =============================================================================
 # Rename Booking Information
 # =============================================================================
 
 df = df.rename(
     columns={
-        "Create date": "Booking Date",
-        "Create by": "Booking Location",
+        "Created date": "Booking Date",
+        "Created by": "Booking Location",
     }
 )
 
