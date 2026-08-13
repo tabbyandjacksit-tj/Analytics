@@ -91,37 +91,50 @@ def render_instruction_card(
 
 def render_instruction_grid(
     steps,
-    columns_per_row: int = 3,
-    row_gap: int = 18,
 ) -> None:
-    """Render instruction cards in rows."""
+    """Render instruction cards in a responsive grid."""
 
-    for row_start in range(
-        0,
-        len(steps),
-        columns_per_row,
-    ):
-        row_steps = steps[
-            row_start:row_start + columns_per_row
-        ]
+    cards_html = ""
 
-        columns = st.columns(
-            columns_per_row,
-            gap="medium",
+    for index, step in enumerate(steps, start=1):
+        title, description, image_path = step
+
+        safe_title = html.escape(str(title))
+        safe_description = html.escape(str(description))
+        safe_number = html.escape(str(index))
+
+        image_data = _image_to_base64(image_path)
+
+        if image_data:
+            image_html = (
+                '<div class="instruction-image-wrapper">'
+                f'<img src="{image_data}" '
+                f'alt="{safe_title}" '
+                'class="instruction-image">'
+                '</div>'
+            )
+        else:
+            image_html = ""
+
+        cards_html += (
+            '<div class="instruction-card">'
+            f'<div class="instruction-number">{safe_number}</div>'
+            f'{image_html}'
+            f'<div class="instruction-title">{safe_title}</div>'
+            f'<div class="instruction-description">{safe_description}</div>'
+            '</div>'
         )
 
-        for offset, step in enumerate(row_steps):
-            with columns[offset]:
-                render_instruction_card(
-                    row_start + offset + 1,
-                    *step,
-                )
+    grid_html = (
+        '<div class="instruction-grid">'
+        f'{cards_html}'
+        '</div>'
+    )
 
-        if row_start + columns_per_row < len(steps):
-            st.markdown(
-                f"<div style='height:{row_gap}px'></div>",
-                unsafe_allow_html=True,
-            )
+    st.markdown(
+        grid_html,
+        unsafe_allow_html=True,
+    )
 
 def render_upload_date_card(
     *,
@@ -179,7 +192,7 @@ def render_upload_date_card(
             date_html = (
                 '<div class="tj-date-result">'
                 f'<span class="tj-date-result-label">'
-                f'{html.escape(str(start_label))}:'
+                f'{html.escape(str(start_label))} : '
                 f'</span>'
                 f'<span class="tj-date-result-value">'
                 f'{calculated_date:%B %d, %Y}'

@@ -10,6 +10,9 @@ from utils.components.headers import (
     render_section_header,
     render_subsection_header,
 )
+from utils.components.cards import (
+    render_instruction_card,
+    render_upload_date_card,)
 from utils.components.cards import (render_instruction_card, render_instruction_grid,)
 from utils.styling.base import (apply_base_styles, render_hero,)
 from utils.styling.components import (apply_component_styles, apply_instruction_styles,)
@@ -50,6 +53,12 @@ render_section_header(
         "report for analysis."
     ),
 )
+uploaded_file, days_ago, calculated_date = render_upload_date_card( 
+    upload_label="Upload Employee Report",
+    file_types=["csv"],
+    default_days=90,
+)
+
 
 steps = [
     (

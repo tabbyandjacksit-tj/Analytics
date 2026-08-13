@@ -283,14 +283,14 @@ def apply_instruction_styles() -> None:
         .instruction-card {
             position: relative;
 
-            background: #FFFDF9;
+            background: #FFFCF7;
             border: 1px solid rgba(29, 90, 62, 0.10);
             border-radius: 18px;
 
             padding: 22px 22px 24px 22px;
 
-            min-height: 235px;
-            height: 235px;
+            min-height: 220px;
+            height: auto;
 
             display: flex;
             flex-direction: column;
@@ -304,6 +304,28 @@ def apply_instruction_styles() -> None:
                 transform 0.15s ease,
                 box-shadow 0.15s ease;
         }
+
+        .instruction-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+            width: 100%;
+        }
+
+        /* Medium screens */
+        @media (max-width: 900px) {
+            .instruction-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+
+        /* Small screens */
+        @media (max-width: 600px) {
+            .instruction-grid {
+            grid-template-columns: 1fr;
+        }
+    }
 
 
         /* =========================================================
