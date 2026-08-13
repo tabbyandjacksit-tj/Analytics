@@ -5,7 +5,7 @@ import base64
 from datetime import datetime, timedelta
 from pathlib import Path
 import streamlit as st
-
+import textwrap
 
 # =============================================================================
 # Image Helper
@@ -234,12 +234,12 @@ def render_upload_report_button(
     button_label: str = "Open Report",
 ) -> None:
     """
-    Display instructions for exporting a report and a button
-    that opens the report page.
+    Display instructions for downloading a report.
 
-    The start date is calculated using `days_ago`.
-    The end date is always 180 days from today.
+    Start date = today minus days_ago
+    End date = today plus 180 days
     """
+
     today = datetime.now().date()
 
     start_date = today - timedelta(days=days_ago)
@@ -249,27 +249,25 @@ def render_upload_report_button(
     end_display = end_date.strftime("%B %d, %Y")
 
     st.markdown(
-        f"""
-        <div class="upload-report-instructions">
-            <div class="upload-report-title">
-                Upload Report
-            </div>
+        textwrap.dedent(
+            f"""
+            <div class="upload-report-instructions">
+                <div class="upload-report-text">
+                    Change the report date range to:
+                </div>
 
-            <div class="upload-report-text">
-                Change the report date range to:
-            </div>
+                <div class="upload-report-dates">
+                    <strong>Start:</strong> {start_display}
+                    <span class="upload-report-arrow">→</span>
+                    <strong>End:</strong> {end_display}
+                </div>
 
-            <div class="upload-report-dates">
-                <strong>Start:</strong> {start_display}
-                <span>→</span>
-                <strong>End:</strong> {end_display}
+                <div class="upload-report-text">
+                    Then select <strong>Download</strong> in MoeGo.
+                </div>
             </div>
-
-            <div class="upload-report-text">
-                Then select <strong>Download</strong> in MoeGo.
-            </div>
-        </div>
-        """,
+            """
+        ),
         unsafe_allow_html=True,
     )
 

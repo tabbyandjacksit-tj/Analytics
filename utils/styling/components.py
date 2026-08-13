@@ -409,6 +409,32 @@ def apply_instruction_styles() -> None:
 
             margin-bottom: 8px;
         }
+        .upload-report-instructions {
+            background-color: #F6F1E5;
+            border: 1px solid #D7C8A4;
+            border-radius: 10px;
+            padding: 14px 16px;
+            margin-top: 6px;
+            margin-bottom: 12px;
+        }
+
+        .upload-report-text {
+            color: #5C5C4A;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .upload-report-dates {
+            color: #1D5A3E;
+            font-size: 1rem;
+            margin: 7px 0;
+        }
+
+        .upload-report-arrow {
+            color: #C97822;
+            font-weight: 700;
+            padding: 0 8px;
+        }
 
 
         /* =========================================================
