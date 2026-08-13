@@ -5,7 +5,6 @@ import base64
 from datetime import datetime, timedelta
 from pathlib import Path
 import streamlit as st
-import textwrap
 
 # =============================================================================
 # Image Helper
@@ -234,7 +233,8 @@ def render_upload_report_button(
     button_label: str = "Open Report",
 ) -> None:
     """
-    Display instructions for downloading a report.
+    Display the exact date range needed for a report
+    and provide a button to open the report.
 
     Start date = today minus days_ago
     End date = today plus 180 days
@@ -248,26 +248,24 @@ def render_upload_report_button(
     start_display = start_date.strftime("%B %d, %Y")
     end_display = end_date.strftime("%B %d, %Y")
 
+    report_html = (
+        '<div class="upload-report-instructions">'
+        '<div class="upload-report-text">'
+        'Change the report date range to:'
+        '</div>'
+        '<div class="upload-report-dates">'
+        f'<strong>Start:</strong> {start_display}'
+        '<span class="upload-report-arrow">→</span>'
+        f'<strong>End:</strong> {end_display}'
+        '</div>'
+        '<div class="upload-report-text">'
+        'Then select <strong>Download</strong> in MoeGo.'
+        '</div>'
+        '</div>'
+    )
+
     st.markdown(
-        textwrap.dedent(
-            f"""
-            <div class="upload-report-instructions">
-                <div class="upload-report-text">
-                    Change the report date range to:
-                </div>
-
-                <div class="upload-report-dates">
-                    <strong>Start:</strong> {start_display}
-                    <span class="upload-report-arrow">→</span>
-                    <strong>End:</strong> {end_display}
-                </div>
-
-                <div class="upload-report-text">
-                    Then select <strong>Download</strong> in MoeGo.
-                </div>
-            </div>
-            """
-        ),
+        report_html,
         unsafe_allow_html=True,
     )
 
