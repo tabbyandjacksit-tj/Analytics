@@ -12,6 +12,7 @@ from utils.styling.components import (
 from utils.components.cards import (
     render_instruction_grid,
     render_upload_date_card,
+    render_upload_report_button,
 )
 from utils.styling.mvo import (apply_mvo_styles)
 
@@ -44,19 +45,18 @@ render_hero(
 # INSTRUCTION CARDS
 # =============================================================================
 
-render_section_header( # Creates the seciton titling for where you upload the report
-    hide_label=True,
+render_section_header(
     title="Obtain the Grooming Report from MoeGo",
-    subtitle=(
-        "Access this link to export the appointments booked report from MoeGo!"
-    ),
+    subtitle="Access MoeGo and export the appointments booked report.",
 )
 
-st.link_button(
-     ":material/calendar_check:  Open MoeGo Report",
-     "https://go.moego.pet/report/insights/reports?diagramId=reports_appointment_list&active=6&%7Ec=611&%7Eb=114082",
-     use_container_width=True,
- )
+number_of_days = 90  # Default number of days to look back for the report
+render_upload_report_button(
+    report_url="https://go.moego.pet/report/insights/reports?diagramId=reports_appointment_list&active=6&%7Ec=611&%7Eb=114082",
+    days_ago=number_of_days,
+    button_label="Open MoeGo Report",
+)
+
 
 # =============================================================================
 # Step 1: Upload Report

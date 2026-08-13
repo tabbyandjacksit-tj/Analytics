@@ -57,7 +57,6 @@ uploaded_file, days_ago, calculated_date = render_upload_date_card(
 if uploaded_file is None:
     steps = [
         (
-            
             "Reports",
             "Open REPORTS from the sidebar.",
             "images/reports.png",

@@ -225,3 +225,57 @@ def render_upload_date_card(
             )
 
     return uploaded_file, days_ago, calculated_date
+
+
+
+def render_upload_report_button(
+    report_url: str,
+    days_ago: int,
+    button_label: str = "Open Report",
+) -> None:
+    """
+    Display instructions for exporting a report and a button
+    that opens the report page.
+
+    The start date is calculated using `days_ago`.
+    The end date is always 180 days from today.
+    """
+    today = datetime.now().date()
+
+    start_date = today - timedelta(days=days_ago)
+    end_date = today + timedelta(days=180)
+
+    start_display = start_date.strftime("%B %d, %Y")
+    end_display = end_date.strftime("%B %d, %Y")
+
+    st.markdown(
+        f"""
+        <div class="upload-report-instructions">
+            <div class="upload-report-title">
+                Upload Report
+            </div>
+
+            <div class="upload-report-text">
+                Change the report date range to:
+            </div>
+
+            <div class="upload-report-dates">
+                <strong>Start:</strong> {start_display}
+                <span>→</span>
+                <strong>End:</strong> {end_display}
+            </div>
+
+            <div class="upload-report-text">
+                Then select <strong>Download</strong> in MoeGo.
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    st.link_button(
+        button_label,
+        report_url,
+        icon=":material/open_in_new:",
+        use_container_width=True,
+    )
