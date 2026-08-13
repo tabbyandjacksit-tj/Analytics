@@ -59,7 +59,7 @@ steps = [
     ),
     ("Grouped Sales","Scroll to GROUPED SALES TOTAL.","images/grouped_sales.png",),
     ("Item Report","Select ITEM as the report type.","images/item_report.png",),
-    ("Date Filter","Set DATE RANGE based on report frequency below.","images/calendar.png",),
+    ("Date Filter","Set DATE RANGE based on report frequency.","images/calendar.png",),
     ("Brand Filter","Choose the desired BRAND.","images/vendor.png",),
     ("Export CSV","Press EXPORT and save the CSV.","images/export.png",
     ),
