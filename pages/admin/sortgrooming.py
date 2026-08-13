@@ -45,16 +45,25 @@ render_hero(
 # INSTRUCTION CARDS
 # =============================================================================
 
-render_section_header(
-    title="Obtain the Grooming Report from MoeGo",
-    subtitle="Access MoeGo and export the appointments booked report.",
+header_col, help_col = st.columns(
+    [6, 1],
+    vertical_alignment="center",
 )
 
-with st.popover(
-    "ⓘ Report Help",
-    use_container_width=False,
-):
-    st.markdown(
+with header_col:
+    render_section_header(
+        title="Obtain the Grooming Report from MoeGo",
+        subtitle=(
+            "Access MoeGo and export the appointments booked report."
+        ),
+    )
+
+with help_col:
+    with st.popover(
+        "ⓘ Help",
+        use_container_width=False,
+    ):
+        st.markdown(
         """
         **Where else to access report: **
 
