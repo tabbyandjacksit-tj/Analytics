@@ -2,13 +2,15 @@
 # IMPORTS
 # =============================================================================
 from __future__ import annotations
+
 import streamlit as st
+
 from utils.styling.base import apply_extra_css
+
 
 # =============================================================================
 # SHARED COMPONENT STYLES
 # =============================================================================
-
 def apply_component_styles() -> None:
     """Apply reusable component styles across the application."""
 
@@ -39,6 +41,28 @@ def apply_component_styles() -> None:
     font-size: 17px;
     margin: 12px 0 0;
     text-align: center;
+}
+
+
+/* ==========================================================================
+   FILE UPLOADER
+   ========================================================================== */
+
+[data-testid="stFileUploaderDropzone"] button {
+    background-color: #1D5A3E !important;
+    color: #FFFFFF !important;
+    border: 1px solid #1D5A3E !important;
+    border-radius: 8px !important;
+}
+
+[data-testid="stFileUploaderDropzone"] button:hover {
+    background-color: #174A33 !important;
+    color: #FFFFFF !important;
+    border-color: #174A33 !important;
+}
+
+[data-testid="stFileUploaderDropzone"] button * {
+    color: #FFFFFF !important;
 }
 
 
@@ -223,8 +247,10 @@ def apply_component_styles() -> None:
     line-height: 1.55;
     margin-top: 5px;
 }
+
+
 /* ==========================================================================
-   Upload + Date Helper
+   UPLOAD + DATE HELPER
    ========================================================================== */
 
 .tj-helper-label {
@@ -249,6 +275,39 @@ def apply_component_styles() -> None:
     font-weight: 600;
 }
 
+
+/* ==========================================================================
+   REPORT DOWNLOAD HELPER
+   ========================================================================== */
+
+.upload-report-instructions {
+    background-color: #F6F1E5;
+    border: 1px solid #D7C8A4;
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-top: 6px;
+    margin-bottom: 12px;
+}
+
+.upload-report-text {
+    color: #5C5C4A;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.upload-report-dates {
+    color: #1D5A3E;
+    font-size: 1rem;
+    margin: 7px 0;
+}
+
+.upload-report-arrow {
+    color: #C97822;
+    font-weight: 700;
+    padding: 0 8px;
+}
+
+
 /* ==========================================================================
    RESPONSIVE STYLES
    ========================================================================== */
@@ -269,6 +328,10 @@ def apply_component_styles() -> None:
 """
     )
 
+
+# =============================================================================
+# INSTRUCTION CARD STYLES
+# =============================================================================
 def apply_instruction_styles() -> None:
     """Apply styling for reusable instruction cards."""
 
@@ -305,12 +368,18 @@ def apply_instruction_styles() -> None:
                 box-shadow 0.15s ease;
         }
 
+
+        /* =========================================================
+           INSTRUCTION GRID
+           ========================================================= */
+
         .instruction-grid {
             display: grid;
             grid-template-columns: repeat(3, minmax(0, 1fr));
             gap: 18px;
             width: 100%;
         }
+
 
         /* Medium screens */
         @media (max-width: 900px) {
@@ -323,9 +392,9 @@ def apply_instruction_styles() -> None:
         /* Small screens */
         @media (max-width: 600px) {
             .instruction-grid {
-            grid-template-columns: 1fr;
+                grid-template-columns: 1fr;
+            }
         }
-    }
 
 
         /* =========================================================
@@ -408,32 +477,6 @@ def apply_instruction_styles() -> None:
             text-align: center;
 
             margin-bottom: 8px;
-        }
-        .upload-report-instructions {
-            background-color: #F6F1E5;
-            border: 1px solid #D7C8A4;
-            border-radius: 10px;
-            padding: 14px 16px;
-            margin-top: 6px;
-            margin-bottom: 12px;
-        }
-
-        .upload-report-text {
-            color: #5C5C4A;
-            font-size: 0.95rem;
-            line-height: 1.5;
-        }
-
-        .upload-report-dates {
-            color: #1D5A3E;
-            font-size: 1rem;
-            margin: 7px 0;
-        }
-
-        .upload-report-arrow {
-            color: #C97822;
-            font-weight: 700;
-            padding: 0 8px;
         }
 
 
