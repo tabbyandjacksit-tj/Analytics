@@ -91,50 +91,69 @@ def render_instruction_card(
 
 def render_instruction_grid(
     steps,
-) -> None:
-    """Render instruction cards in a responsive grid."""
+    columns_per_row: int = 3,
+    row_gap: int = 18,
+):
+    """
+    Render instruction cards in rows.
 
-    cards_html = ""
+    Supports:
+    - tuples/lists containing:
+        (title, description, image_path)
 
-    for index, step in enumerate(steps, start=1):
-        title, description, image_path = step
+    - dictionaries containing:
+        title, description, image_path
 
-        safe_title = html.escape(str(title))
-        safe_description = html.escape(str(description))
-        safe_number = html.escape(str(index))
+    Step numbers are generated automatically.
+    """
 
-        image_data = _image_to_base64(image_path)
+    for start in range(0, len(steps), columns_per_row):
+        row_steps = steps[
+            start:start + columns_per_row
+        ]
 
-        if image_data:
-            image_html = (
-                '<div class="instruction-image-wrapper">'
-                f'<img src="{image_data}" '
-                f'alt="{safe_title}" '
-                'class="instruction-image">'
-                '</div>'
-            )
-        else:
-            image_html = ""
-
-        cards_html += (
-            '<div class="instruction-card">'
-            f'<div class="instruction-number">{safe_number}</div>'
-            f'{image_html}'
-            f'<div class="instruction-title">{safe_title}</div>'
-            f'<div class="instruction-description">{safe_description}</div>'
-            '</div>'
+        columns = st.columns(
+            len(row_steps)
         )
 
-    grid_html = (
-        '<div class="instruction-grid">'
-        f'{cards_html}'
-        '</div>'
-    )
+        for offset, (column, step) in enumerate(
+            zip(columns, row_steps)
+        ):
+            step_number = start + offset + 1
 
-    st.markdown(
-        grid_html,
-        unsafe_allow_html=True,
-    )
+            with column:
+
+                # Dictionary-style step
+                if isinstance(step, dict):
+                    render_instruction_card(
+                        number=step.get(
+                            "number",
+                            step_number,
+                        ),
+                        title=step["title"],
+                        description=step["description"],
+                        image_path=step["image_path"],
+                    )
+
+                # Tuple/list-style step
+                else:
+                    title, description, image_path = step
+
+                    render_instruction_card(
+                        number=step_number,
+                        title=title,
+                        description=description,
+                        image_path=image_path,
+                    )
+
+        # Add spacing between rows
+        if start + columns_per_row < len(steps):
+            st.markdown(
+                f"""
+                <div style="height:{row_gap}px;"></div>
+                """,
+                unsafe_allow_html=True,
+            )
 
 def render_upload_date_card(
     *,
