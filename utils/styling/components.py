@@ -48,11 +48,23 @@ def apply_component_styles() -> None:
    FILE UPLOADER
    ========================================================================== */
 
+/* ==========================================================================
+   FILE UPLOADER
+   ========================================================================== */
+
+[data-testid="stFileUploaderDropzone"] {
+    background-color: #FFFDF8 !important;
+    border: 1px dashed #D7C8A4 !important;
+    border-radius: 12px !important;
+    padding: 12px !important;
+}
+
 [data-testid="stFileUploaderDropzone"] button {
     background-color: #1D5A3E !important;
     color: #FFFFFF !important;
     border: 1px solid #1D5A3E !important;
     border-radius: 8px !important;
+    font-weight: 600 !important;
 }
 
 [data-testid="stFileUploaderDropzone"] button:hover {
@@ -276,35 +288,80 @@ def apply_component_styles() -> None:
 }
 
 
-/* ==========================================================================
+/*  ==========================================================================
    REPORT DOWNLOAD HELPER
    ========================================================================== */
 
 .upload-report-instructions {
-    background-color: #F6F1E5;
+    background-color: #FFFDF8;
     border: 1px solid #D7C8A4;
-    border-radius: 10px;
-    padding: 14px 16px;
+    border-radius: 14px;
+    padding: 18px 20px;
     margin-top: 6px;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
 }
 
-.upload-report-text {
-    color: #5C5C4A;
-    font-size: 0.95rem;
-    line-height: 1.5;
+.upload-report-row {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 22px;
+}
+
+.upload-report-section {
+    min-width: 0;
+}
+
+.upload-report-label {
+    color: #1D5A3E;
+    font-size: 15px;
+    font-weight: 800;
+    margin-bottom: 5px;
+}
+
+.upload-report-description {
+    color: #5C7A58;
+    font-size: 14px;
+    line-height: 1.45;
 }
 
 .upload-report-dates {
     color: #1D5A3E;
-    font-size: 1rem;
-    margin: 7px 0;
+    font-size: 14px;
+    margin-top: 8px;
 }
 
 .upload-report-arrow {
     color: #C97822;
-    font-weight: 700;
+    font-weight: 800;
     padding: 0 8px;
+}
+
+.upload-report-divider {
+    width: 1px;
+    height: 58px;
+    background-color: #D7C8A4;
+}
+
+
+/* Report link button */
+
+div[data-testid="stLinkButton"] a {
+    background-color: #FFFDF8 !important;
+    color: #1D5A3E !important;
+    border: 1px solid #1D5A3E !important;
+    border-radius: 10px !important;
+    font-weight: 700 !important;
+}
+
+div[data-testid="stLinkButton"] a:hover {
+    background-color: #F6F1E5 !important;
+    color: #174A33 !important;
+    border-color: #174A33 !important;
+}
+
+div[data-testid="stLinkButton"] a * {
+    color: inherit !important;
 }
 
 
@@ -313,6 +370,16 @@ def apply_component_styles() -> None:
    ========================================================================== */
 
 @media (max-width: 750px) {
+    .upload-report-row {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .upload-report-divider {
+        width: 100%;
+        height: 1px;
+    }
+
     .tj-hero h1 {
         font-size: 34px;
     }

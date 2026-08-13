@@ -233,11 +233,8 @@ def render_upload_report_button(
     button_label: str = "Open Report",
 ) -> None:
     """
-    Display the exact date range needed for a report
-    and provide a button to open the report.
-
-    Start date = today minus days_ago
-    End date = today plus 180 days
+    Display the required report date range and a link
+    to open the source report.
     """
 
     today = datetime.now().date()
@@ -250,17 +247,40 @@ def render_upload_report_button(
 
     report_html = (
         '<div class="upload-report-instructions">'
-        '<div class="upload-report-text">'
-        'Change the report date range to:'
-        '</div>'
-        '<div class="upload-report-dates">'
-        f'<strong>Start:</strong> {start_display}'
-        '<span class="upload-report-arrow">→</span>'
-        f'<strong>End:</strong> {end_display}'
-        '</div>'
-        '<div class="upload-report-text">'
-        'Then select <strong>Download</strong> in MoeGo.'
-        '</div>'
+
+            '<div class="upload-report-row">'
+
+                '<div class="upload-report-section">'
+                    '<div class="upload-report-label">'
+                        'Date Range'
+                    '</div>'
+
+                    '<div class="upload-report-description">'
+                        'Set the report date range to:'
+                    '</div>'
+
+                    '<div class="upload-report-dates">'
+                        f'<strong>Start:</strong> {start_display}'
+                        '<span class="upload-report-arrow">→</span>'
+                        f'<strong>End:</strong> {end_display}'
+                    '</div>'
+                '</div>'
+
+                '<div class="upload-report-divider"></div>'
+
+                '<div class="upload-report-section">'
+                    '<div class="upload-report-label">'
+                        'Next Step'
+                    '</div>'
+
+                    '<div class="upload-report-description">'
+                        'Once the date range and filters are set, '
+                        'select <strong>Download</strong> in MoeGo.'
+                    '</div>'
+                '</div>'
+
+            '</div>'
+
         '</div>'
     )
 
@@ -274,4 +294,5 @@ def render_upload_report_button(
         report_url,
         icon=":material/open_in_new:",
         use_container_width=True,
+        type="secondary",
     )
