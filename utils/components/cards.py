@@ -211,7 +211,7 @@ def render_upload_date_card(
             date_html = (
                 '<div class="tj-date-result">'
                 f'<span class="tj-date-result-label">'
-                f'{html.escape(str(start_label))} : '
+                f'{html.escape(str(start_label))}: '
                 f'</span>'
                 f'<span class="tj-date-result-value">'
                 f'{calculated_date:%B %d, %Y}'

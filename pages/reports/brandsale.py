@@ -6,16 +6,12 @@
 # =======================================================================================
 import streamlit as st
 from utils.components.headers import render_section_header
-from utils.components.cards import (render_instruction_grid, render_upload_date_card,
-)
+from utils.components.cards import (render_instruction_grid, render_upload_date_card,)
 from utils.styling.base import (apply_base_styles, render_hero,)
-from utils.styling.components import (
-    apply_component_styles,
-    apply_instruction_styles,
-)
+from utils.styling.components import (apply_component_styles, apply_instruction_styles,)
 from utils.styling.mvo import apply_mvo_styles
 from utils.tools.navigation import render_breadcrumb
-# =======================================================================================
+#=======================================================================================
 # Page Configuration (sets title, icon, and layout of page)
 # CSS Styles also imported/applied
 # =======================================================================================
@@ -36,7 +32,7 @@ render_hero(
         "and date range."
     ),
 )
-# =======================================================================================
+#======================================================================================
 # Creates the instructions for exporting the report from Lightspeed in step 1.
 # Each step has an image, title, and description.
 # =======================================================================================
@@ -73,9 +69,6 @@ render_instruction_grid(
     steps,
     columns_per_row=3,
 )
-# =======================================================================================
-# Calculates and creates a box for the dates that are 56 days out, or weekly which is 28 
-# =======================================================================================
 
 
 
