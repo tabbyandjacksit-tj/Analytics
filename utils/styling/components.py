@@ -261,14 +261,19 @@ def apply_component_styles() -> None:
 }
 
 
-/* ==========================================================================
-   UPLOAD + DATE HELPER
+/* /* /* ==========================================================================
+   UPLOAD + DATE HELPERS
    ========================================================================== */
 
-.tj-helper-label {
+.tj-helper-label,
+.report-card-label {
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 600;
     margin-bottom: 8px;
+}
+
+.tj-helper-label {
+    color: #1D2A23;
 }
 
 .tj-date-result {
@@ -277,14 +282,69 @@ def apply_component_styles() -> None:
     line-height: 1.2;
 }
 
-.tj-date-result-label {
+.tj-date-result-label,
+.report-date-box-label {
     color: #C97822;
-    font-weight: 600;
+    font-weight: 700;
 }
 
-.tj-date-result-value {
+.tj-date-result-value,
+.report-date-box-value {
     color: #1D5A3E;
-    font-weight: 600;
+    font-weight: 700;
+}
+
+
+/* ==========================================================================
+   REPORT CARD
+   ========================================================================== */
+
+.report-card-help {
+    color: #8A806E;
+    font-size: 13px;
+    line-height: 1.45;
+    margin-top: 10px;
+}
+
+.report-date-box {
+    background-color: #FFFDF8;
+    border: 1px solid #D7C8A4;
+    border-radius: 11px;
+    box-shadow: 0 2px 5px rgba(35, 45, 38, 0.04);
+    margin-bottom: 11px;
+    padding: 11px 13px;
+}
+
+.report-date-box-label {
+    font-size: 12px;
+    margin-bottom: 2px;
+}
+
+.report-date-box-value {
+    font-size: 14px;
+    line-height: 1.25;
+}
+
+
+/* ==========================================================================
+   REPORT LINK BUTTON
+   ========================================================================== */
+
+[data-testid="stLinkButton"] a {
+    background-color: #1D5A3E !important;
+    border: 1px solid #1D5A3E !important;
+    border-radius: 8px !important;
+    color: #FFFFFF !important;
+    font-weight: 600 !important;
+}
+
+[data-testid="stLinkButton"] a:hover {
+    background-color: #174A33 !important;
+    border-color: #174A33 !important;
+}
+
+[data-testid="stLinkButton"] a * {
+    color: inherit !important;
 }
 
 

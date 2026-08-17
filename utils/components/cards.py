@@ -233,8 +233,12 @@ def render_upload_report_button(
     button_label: str = "Open Report",
 ) -> None:
     """
-    Display the required report date range and a link
+    Display the required report date range and provide a button
     to open the source report.
+
+    Date range:
+        Start = today - days_ago
+        End   = today + 180 days
     """
 
     today = datetime.now().date()
@@ -242,57 +246,87 @@ def render_upload_report_button(
     start_date = today - timedelta(days=days_ago)
     end_date = today + timedelta(days=180)
 
-    start_display = start_date.strftime("%B %d, %Y")
-    end_display = end_date.strftime("%B %d, %Y")
+    start_display = start_date.strftime("%b %d, %Y")
+    end_display = end_date.strftime("%b %d, %Y")
 
-    report_html = (
-        '<div class="upload-report-instructions">'
+    with st.container(
+        border=True,
+        key="upload_report_card",
+    ):
+        report_col, date_col = st.columns(
+            [3.2, 1],
+            gap="medium",
+        )
 
-            '<div class="upload-report-row">'
+        # =====================================================================
+        # LEFT SIDE — OPEN REPORT
+        # =====================================================================
+        with report_col:
+            st.markdown(
+                """
+                <div class="report-card-label">
+                    Source Report
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
 
-                '<div class="upload-report-section">'
-                    '<div class="upload-report-label">'
-                        'Date Range'
-                    '</div>'
+            with st.container(
+                border=True,
+                key="report_open_box",
+            ):
+                st.link_button(
+                    button_label,
+                    report_url,
+                    icon=":material/open_in_new:",
+                    use_container_width=False,
+                    type="primary",
+                )
 
-                    '<div class="upload-report-description">'
-                        'Set the report date range to:'
-                    '</div>'
+                st.markdown(
+                    """
+                    <div class="report-card-help">
+                        Open the report, enter the dates shown,
+                        then download the completed report.
+                    </div>
+                    """,
+                    unsafe_allow_html=True,
+                )
 
-                    '<div class="upload-report-dates">'
-                        f'<strong>Start:</strong> {start_display}'
-                        '<span class="upload-report-arrow">→</span>'
-                        f'<strong>End:</strong> {end_display}'
-                    '</div>'
-                '</div>'
+        # =====================================================================
+        # RIGHT SIDE — REQUIRED DATES
+        # =====================================================================
+        with date_col:
+            st.markdown(
+                """
+                <div class="report-card-label">
+                    Date Range
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
 
-                '<div class="upload-report-divider"></div>'
+            st.markdown(
+                f"""
+                <div class="report-date-box">
+                    <div class="report-date-box-label">
+                        Start Date
+                    </div>
 
-                '<div class="upload-report-section">'
-                    '<div class="upload-report-label">'
-                        'Next Step'
-                    '</div>'
+                    <div class="report-date-box-value">
+                        {start_display}
+                    </div>
+                </div>
 
-                    '<div class="upload-report-description">'
-                        'Once the date range and filters are set, '
-                        'select <strong>Download</strong> in MoeGo.'
-                    '</div>'
-                '</div>'
+                <div class="report-date-box">
+                    <div class="report-date-box-label">
+                        End Date
+                    </div>
 
-            '</div>'
-
-        '</div>'
-    )
-
-    st.markdown(
-        report_html,
-        unsafe_allow_html=True,
-    )
-
-    st.link_button(
-        button_label,
-        report_url,
-        icon=":material/open_in_new:",
-        use_container_width=True,
-        type="secondary",
-    )
+                    <div class="report-date-box-value">
+                        {end_display}
+                    </div>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
