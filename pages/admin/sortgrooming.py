@@ -9,11 +9,7 @@ from utils.styling.components import (
     apply_component_styles,
     apply_instruction_styles,
 )
-from utils.components.cards import (
-    render_instruction_grid,
-    render_upload_date_card,
-    render_upload_report_button,
-)
+from utils.components.cards import render_upload_report_button
 from utils.styling.mvo import (apply_mvo_styles)
 
 # =============================================================================
