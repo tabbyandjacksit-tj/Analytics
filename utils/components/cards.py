@@ -233,21 +233,21 @@ def render_upload_report_button(
     button_label: str = "Open Report",
 ) -> None:
     """
-    Display the required report date range and provide a button
-    to open the source report.
+    Display a source report button and the required report date range.
 
-    Date range:
-        Start = today - days_ago
-        End   = today + 180 days
+    Start date = today - days_ago
+    End date = today + 180 days
     """
 
     today = datetime.now().date()
 
-    start_date = today - timedelta(days=days_ago)
-    end_date = today + timedelta(days=180)
+    start_display = (
+        today - timedelta(days=days_ago)
+    ).strftime("%b %d, %Y")
 
-    start_display = start_date.strftime("%b %d, %Y")
-    end_display = end_date.strftime("%b %d, %Y")
+    end_display = (
+        today + timedelta(days=180)
+    ).strftime("%b %d, %Y")
 
     with st.container(
         border=True,
@@ -259,15 +259,11 @@ def render_upload_report_button(
         )
 
         # =====================================================================
-        # LEFT SIDE — OPEN REPORT
+        # SOURCE REPORT
         # =====================================================================
         with report_col:
             st.markdown(
-                """
-                <div class="report-card-label">
-                    Source Report
-                </div>
-                """,
+                '<div class="report-card-label">Source Report</div>',
                 unsafe_allow_html=True,
             )
 
@@ -280,53 +276,47 @@ def render_upload_report_button(
                     report_url,
                     icon=":material/open_in_new:",
                     use_container_width=False,
-                    type="primary",
                 )
 
                 st.markdown(
-                    """
-                    <div class="report-card-help">
-                        Open the report, enter the dates shown,
-                        then download the completed report.
-                    </div>
-                    """,
+                    (
+                        '<div class="report-card-help">'
+                        'Open the report, enter the dates shown, '
+                        'then download the completed report.'
+                        '</div>'
+                    ),
                     unsafe_allow_html=True,
                 )
 
         # =====================================================================
-        # RIGHT SIDE — REQUIRED DATES
+        # DATE RANGE
         # =====================================================================
         with date_col:
             st.markdown(
-                """
-                <div class="report-card-label">
-                    Date Range
-                </div>
-                """,
+                '<div class="report-card-label">Date Range</div>',
+                unsafe_allow_html=True,
+            )
+
+            start_html = (
+                '<div class="report-date-box">'
+                '<div class="report-date-box-label">Start Date</div>'
+                f'<div class="report-date-box-value">{start_display}</div>'
+                '</div>'
+            )
+
+            end_html = (
+                '<div class="report-date-box">'
+                '<div class="report-date-box-label">End Date</div>'
+                f'<div class="report-date-box-value">{end_display}</div>'
+                '</div>'
+            )
+
+            st.markdown(
+                start_html,
                 unsafe_allow_html=True,
             )
 
             st.markdown(
-                f"""
-                <div class="report-date-box">
-                    <div class="report-date-box-label">
-                        Start Date
-                    </div>
-
-                    <div class="report-date-box-value">
-                        {start_display}
-                    </div>
-                </div>
-
-                <div class="report-date-box">
-                    <div class="report-date-box-label">
-                        End Date
-                    </div>
-
-                    <div class="report-date-box-value">
-                        {end_display}
-                    </div>
-                </div>
-                """,
+                end_html,
                 unsafe_allow_html=True,
             )
