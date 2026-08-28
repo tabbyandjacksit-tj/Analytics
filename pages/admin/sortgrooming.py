@@ -9,7 +9,7 @@ from utils.styling.components import (
     apply_component_styles,
     apply_instruction_styles,
 )
-from utils.components.cards import render_upload_report_button
+from utils.components.cards import link_report_button
 from utils.styling.mvo import (apply_mvo_styles)
 
 # =============================================================================
@@ -85,7 +85,7 @@ with help_col:
     )
 
 number_of_days = 90  # Default number of days to look back for the report
-render_upload_report_button(
+link_report_button(
     report_url="https://go.moego.pet/report/insights/reports?diagramId=reports_appointment_list&active=6&%7Ec=611&%7Eb=114082",
     days_ago=number_of_days,
     button_label="Open MoeGo Report",

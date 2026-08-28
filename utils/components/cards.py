@@ -227,7 +227,7 @@ def render_upload_date_card(
 
 
 
-def render_upload_report_button(
+def link_report_button(
     report_url: str,
     days_ago: int,
     button_label: str = "Open Report",
